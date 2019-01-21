@@ -1,13 +1,14 @@
 package com.lloyds.test;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+public class App {
+
+    private String str;
+
+    public App(String str) {
+        this.str = str;
+    }
+
+    public String getStr() {
+        return str;
     }
 }

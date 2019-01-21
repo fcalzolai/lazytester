@@ -3,18 +3,20 @@ package com.lloyds.test;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-{
-    /**
-     * Rigorous Test :-)
-     */
+@RunWith(LazyTesterRunner.class)
+public class AppTest {
+
     @Test
-    public void shouldAnswerWithTrue()
-    {
+    public void shouldAnswerWithTrue(){
         assertTrue( true );
+    }
+
+
+    @Test
+    @JsonTestCase("simple_test.json")
+    public void testGet() throws Exception {
+
     }
 }
