@@ -30,7 +30,7 @@ public class LazyTesterRunner extends BlockJUnit4ClassRunner {
         objectMapper = new ObjectMapper();
         objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         objectMapper.registerModule(new Jdk8Module());
-        multiStepsRunner = new LazyTesterMultiStepsScenarioRunner();
+        multiStepsRunner = new LazyTesterMultiStepsScenarioRunner(objectMapper);
     }
 
     @Override

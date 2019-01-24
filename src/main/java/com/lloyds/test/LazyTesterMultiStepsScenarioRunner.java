@@ -1,5 +1,6 @@
 package com.lloyds.test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.slf4j.Logger;
@@ -10,7 +11,13 @@ public class LazyTesterMultiStepsScenarioRunner {
 
     private static final Logger LOGGER = getLogger(LazyTesterMultiStepsScenarioRunner.class);
 
-    public synchronized boolean runScenario(ScenarioSpec scenario, RunNotifier notifier, Description description) {
+    private JsonServiceExecutor serviceExecutor;
+
+    LazyTesterMultiStepsScenarioRunner(ObjectMapper objectMapper) {
+        this.serviceExecutor = new JsonServiceExecutor(objectMapper);
+    }
+
+    synchronized boolean runScenario(ScenarioSpec scenario, RunNotifier notifier, Description description) {
         LOGGER.info("\n-------------------------- BDD: Scenario:{} -------------------------\n", scenario.getScenarioName());
 
         final int scenarioLoopTimes = scenario.getLoop().orElse(1);
@@ -20,9 +27,19 @@ public class LazyTesterMultiStepsScenarioRunner {
             LOGGER.info("### Executing Scenario -->> Count No: {}", k);
 
             for (Step thisStep : scenario.getSteps()) {
-                final int stepLoopTimes = thisStep.getLoop().orElse(1);
+                int stepLoopTimes = thisStep.getLoop().orElse(1);
                 for (int i = 0; i < stepLoopTimes; i++) {
                     LOGGER.info("### Executing Step [{}]-->> Count No: {}", thisStep, i);
+
+                    try {
+                        String url = thisStep.getUrl();
+                        String operation = thisStep.getOperation();
+                        String response = serviceExecutor.executeRESTService(url, operation, thisStep.getRequest().toString());
+                        LOGGER.info(response);
+                    } catch(Exception ex){
+                        ex.printStackTrace();
+                        LOGGER.info("###Exception while executing a step in the zerocode dsl.");
+                    }
                 }
             }
         }

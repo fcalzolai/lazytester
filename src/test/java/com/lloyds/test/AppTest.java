@@ -14,14 +14,14 @@ public class AppTest {
     }
 
     @Test
-    @JsonTestCase("simple_test.json")
-    public void testGet() throws Exception {
+    @JsonTestCase("empty_test.json")
+    public void testEmptyJson() throws Exception {
 
     }
 
     @Test
-    @JsonTestCase("extFileDependency.json")
-    public void testExtFileDependency() throws Exception {
+    @JsonTestCase("google.json")
+    public void testGoogle() throws Exception {
 
     }
 }

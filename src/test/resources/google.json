@@ -1,0 +1,15 @@
+{
+    "scenarioName": "Test Google",
+    "steps": [
+        {
+            "name": "get google",
+            "url": "http://www.google.com",
+            "operation": "GET",
+            "request": {
+            },
+            "assertions": {
+                "status": 200
+            }
+        }
+    ]
+}
