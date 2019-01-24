@@ -21,7 +21,8 @@ public class LazyTesterRunner extends BlockJUnit4ClassRunner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LazyTesterRunner.class);
 
-    private static ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
+
     private LazyTesterMultiStepsScenarioRunner multiStepsRunner;
 
     public LazyTesterRunner(Class<?> klass) throws InitializationError {
@@ -29,7 +30,7 @@ public class LazyTesterRunner extends BlockJUnit4ClassRunner {
         objectMapper = new ObjectMapper();
         objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         objectMapper.registerModule(new Jdk8Module());
-        multiStepsRunner = new LazyTesterMultiStepsScenarioRunner(objectMapper);
+        multiStepsRunner = new LazyTesterMultiStepsScenarioRunner();
     }
 
     @Override
