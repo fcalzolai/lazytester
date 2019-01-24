@@ -2,6 +2,7 @@ package com.lloyds.test;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.junit.internal.AssumptionViolatedException;
 import org.junit.internal.runners.model.EachTestNotifier;
 import org.junit.runner.Description;
@@ -27,6 +28,7 @@ public class LazyTesterRunner extends BlockJUnit4ClassRunner {
         super(klass);
         objectMapper = new ObjectMapper();
         objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+        objectMapper.registerModule(new Jdk8Module());
         multiStepsRunner = new LazyTesterMultiStepsScenarioRunner(objectMapper);
     }
 
@@ -62,6 +64,7 @@ public class LazyTesterRunner extends BlockJUnit4ClassRunner {
 
         try {
             ScenarioSpec scenarioSpec = jsonFileToJava(currentTestCase, ScenarioSpec.class);
+            multiStepsRunner.runScenario(scenarioSpec, notifier, description);
         } catch (Exception ioEx) {
             ioEx.printStackTrace();
             notifier.fireTestFailure(new Failure(description, ioEx));

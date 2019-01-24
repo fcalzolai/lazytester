@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.Optional;
+
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class Step {
 
-    private final Integer loop;
+    private final Optional<Integer> loop;
     private final String name;
     private final String operation;
     private final String url;
@@ -16,7 +18,7 @@ public class Step {
     private JsonNode assertions;
 
 
-    public Integer getLoop() {
+    public Optional<Integer> getLoop() {
         return loop;
     }
 
@@ -48,7 +50,7 @@ public class Step {
             @JsonProperty("url") String url,
             @JsonProperty("request") JsonNode request,
             @JsonProperty("assertions") JsonNode assertions) {
-        this.loop = loop;
+        this.loop = Optional.ofNullable(loop);
         this.name = name;
         this.operation = operation;
         this.request = request;

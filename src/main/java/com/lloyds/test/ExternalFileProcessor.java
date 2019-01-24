@@ -11,27 +11,18 @@ import java.util.Map;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class ZeroCodeExternalFileProcessor {
+public class ExternalFileProcessor {
 
-    private static final Logger LOGGER = getLogger(ZeroCodeExternalFileProcessor.class);
+    private static final Logger LOGGER = getLogger(ExternalFileProcessor.class);
     private static final String JSON_PAYLOAD_FILE = "JSON.FILE:";
 
     private final ObjectMapper objectMapper;
 
-    ZeroCodeExternalFileProcessor(ObjectMapper objectMapper) {
+    ExternalFileProcessor(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
-    /**
-     * Resolves the external file content for a place holder against a key e.g. in the payload or assertions.
-     *
-     * First the logic checks if dig-deep needed to avoid unwanted recursions. If not needed, the step definition is
-     * returned intact. Otherwise calls the dig deep method to perform the operation.
-     *
-     * @param thisStep A step, defining the API call and validation
-     * @return The effective step definition
-     */
-    Step resolveExtJsonFile(Step thisStep) {
+     Step resolveExtJsonFile(Step thisStep) {
         try {
             if (!checkDigNeeded(thisStep)) {
                 return thisStep;
@@ -47,13 +38,7 @@ public class ZeroCodeExternalFileProcessor {
         }
     }
 
-    /**
-     * Digs deep into the nested map and looks for external file reference,if found, replaces the place holder with
-     * the file content. This is handy when the engineers wants to drive the common contents from a central place.
-     *
-     * @param map A map representing the key-value pairs, can be nested
-     */
-    void digReplaceContent(Map<String, Object> map) {
+    private void digReplaceContent(Map<String, Object> map) {
         map.entrySet().forEach(entry -> {
 
             Object value = entry.getValue();

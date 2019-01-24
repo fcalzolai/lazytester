@@ -13,10 +13,15 @@ public class AppTest {
         assertTrue( true );
     }
 
-
     @Test
     @JsonTestCase("simple_test.json")
     public void testGet() throws Exception {
+
+    }
+
+    @Test
+    @JsonTestCase("extFileDependency.json")
+    public void testExtFileDependency() throws Exception {
 
     }
 }

@@ -6,11 +6,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class ScenarioSpec {
 
-    private final Integer loop;
+    private final Optional<Integer> loop;
     private final Boolean ignoreStepFailures;
     private final String scenarioName;
     private final List<Step> steps;
@@ -21,13 +22,13 @@ public class ScenarioSpec {
             @JsonProperty("ignoreStepFailures") Boolean ignoreStepFailures,
             @JsonProperty("scenarioName") String scenarioName,
             @JsonProperty("steps") List<Step> steps) {
-        this.loop = loop;
+        this.loop = Optional.ofNullable(loop);
         this.ignoreStepFailures = ignoreStepFailures;
         this.scenarioName = scenarioName;
         this.steps = steps;
     }
 
-    public Integer getLoop() {
+    public Optional<Integer> getLoop() {
         return loop;
     }
 

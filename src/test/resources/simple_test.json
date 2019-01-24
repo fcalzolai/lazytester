@@ -1,24 +1,14 @@
 {
     "scenarioName": "As simple GET request response",
+    "stepLoop": 2,
     "steps": [
         {
-            "name": "find_match",
-            "url": "/api/v1/search/persons",
+            "name": "get google",
+            "stepLoop": 3,
+            "url": "/",
             "operation": "GET",
-            "request": {
-                "queryParams": {
-                    "lang": "Amazing",
-                    "city": "Lon"
-                }
-            },
             "assertions": {
-                "status": 200,
-                "body": {
-                    "exactMatches": true,
-                    "name": "Mr Bean",
-                    "lang": "Amazing",
-                    "city": "Lon"
-                }
+                "status": 200
             }
         }
     ]

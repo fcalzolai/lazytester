@@ -1,0 +1,16 @@
+{
+  "scenarioName": "POST API - File json as response content - Reuse body",
+  "steps": [
+    {
+      "name": "create_emp",
+      "url": "/api/v1/employees",
+      "operation": "POST",
+      "request": {
+        "body" : "${JSON.FILE:reusable_content/request/request_body.json}"
+      },
+      "assertions": {
+        "status": 201
+      }
+    }
+  ]
+}
