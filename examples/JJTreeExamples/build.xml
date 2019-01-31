@@ -1,6 +1,6 @@
 <project name="examples" default="eg1" basedir=".">
 
-  <property name="javacc.home" value="/usr/local/javacc/"/>
+  <property name="javacc.home" value="/Users/a9888881/bin/javacc-6.0/"/>
 
   <target name="eg1" description="Builds example 'eg1'">
     <delete dir="eg1"/>
