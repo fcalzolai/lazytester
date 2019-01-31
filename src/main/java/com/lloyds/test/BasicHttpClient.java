@@ -55,7 +55,7 @@ public class BasicHttpClient {
         this.objectMapper = objectMapper;
     }
 
-    private CloseableHttpClient createHttpClient() { //throws Exception {
+    private CloseableHttpClient createHttpClient() {
         LOGGER.info("###Creating SSL Enabled Http Client for both http/https/TLS connections");
 
 //        SSLContext sslContext = new SSLContextBuilder()

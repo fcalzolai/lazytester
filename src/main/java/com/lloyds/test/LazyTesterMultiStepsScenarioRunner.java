@@ -26,7 +26,7 @@ public class LazyTesterMultiStepsScenarioRunner {
 
             LOGGER.info("### Executing Scenario -->> Count No: {}", k);
 
-            for (Step thisStep : scenario.getSteps()) {
+            for (OldStep thisStep : scenario.getSteps()) {
                 int stepLoopTimes = thisStep.getLoop().orElse(1);
                 for (int i = 0; i < stepLoopTimes; i++) {
                     LOGGER.info("### Executing Step [{}]-->> Count No: {}", thisStep, i);

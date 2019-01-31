@@ -14,14 +14,14 @@ public class ScenarioSpec {
     private final Optional<Integer> loop;
     private final Boolean ignoreStepFailures;
     private final String scenarioName;
-    private final List<Step> steps;
+    private final List<OldStep> steps;
 
     @JsonCreator
     public ScenarioSpec(
             @JsonProperty("stepLoop") Integer loop,
             @JsonProperty("ignoreStepFailures") Boolean ignoreStepFailures,
             @JsonProperty("scenarioName") String scenarioName,
-            @JsonProperty("steps") List<Step> steps) {
+            @JsonProperty("steps") List<OldStep> steps) {
         this.loop = Optional.ofNullable(loop);
         this.ignoreStepFailures = ignoreStepFailures;
         this.scenarioName = scenarioName;
@@ -40,13 +40,13 @@ public class ScenarioSpec {
         return scenarioName;
     }
 
-    public List<Step> getSteps() {
-        return steps == null? (new ArrayList<Step>()) : steps;
+    public List<OldStep> getSteps() {
+        return steps == null? (new ArrayList<OldStep>()) : steps;
     }
 
     @Override
     public String toString() {
-        return "ScenarioSpec{" +
+        return "Scenario{" +
                 "loop=" + loop +
                 ", ignoreStepFailures=" + ignoreStepFailures +
                 ", scenarioName='" + scenarioName + '\'' +

@@ -52,7 +52,7 @@ public class LazyTesterRunner extends BlockJUnit4ClassRunner {
 
     }
 
-    public <T> T jsonFileToJava(String jsonFileName, Class<T> clazz) throws IOException {
+    private <T> T jsonFileToJava(String jsonFileName, Class<T> clazz) throws IOException {
         String string = Utils.readJsonAsString(jsonFileName);
         return objectMapper.readValue(string, clazz);
     }
@@ -74,7 +74,7 @@ public class LazyTesterRunner extends BlockJUnit4ClassRunner {
         notifier.fireTestFinished(description);
     }
 
-    private final void runLeafJUnitTest(Statement statement, Description description, RunNotifier notifier) {
+    private void runLeafJUnitTest(Statement statement, Description description, RunNotifier notifier) {
         LOGGER.trace("Running a pure JUnit test...");
 
         EachTestNotifier eachNotifier = new EachTestNotifier(notifier, description);

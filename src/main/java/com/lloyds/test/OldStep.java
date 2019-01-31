@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Optional;
 
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class Step {
+public class OldStep {
 
     private final Optional<Integer> loop;
     private final String name;
@@ -43,7 +43,7 @@ public class Step {
     }
 
     @JsonCreator
-    public Step(
+    public OldStep(
             @JsonProperty("stepLoop") Integer loop,
             @JsonProperty("name") String name,
             @JsonProperty("operation") String operation,
