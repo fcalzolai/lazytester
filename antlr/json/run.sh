@@ -16,6 +16,5 @@ javac -d ./target/ LazyTester*.java
 
 cd ./target/
 echo -e "{ \n
-            \"scenarioName\": \"test\" ,
-            \"stepLoop\": 13
-         }" | java org.antlr.v4.gui.TestRig LazyTester scenario_file -gui
+            scenarioName :\"test\"
+         }" | java org.antlr.v4.gui.TestRig LazyTester scenario -gui

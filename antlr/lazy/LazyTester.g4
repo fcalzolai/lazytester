@@ -1,19 +1,15 @@
 grammar LazyTester;
 
-scenario: LB SCENARIO RB ;
+scenario_file : '{' scenario '}' ;
 
-SCENARIO      : SCENARIO_DEF (STEP_LOOP_DEF)*;
+scenario     : scenario_def (step_loop_def)*;
 
-SCENARIO_DEF  : SCENARIO_NAME ':' STRING ;
-STEP_LOOP_DEF : COMMA STEP_LOOP ':' INT ;
+scenario_def  : SCENARIO_NAME ':' STRING ;
+step_loop_def : ',' STEP_LOOP ':' INT ;
 
 SCENARIO_NAME : '"scenarioName"' ;
 STEP_LOOP     : '"stepLoop"' ;
-
-STRING : '"'[a-zA-Z0-9]+'"';
-LB       : '{' ;
-RB       : '}' ;
-COMMA    : ',' ;
+STRING : '"' ~('"')+ '"';
 INT      : [0-9]+ ;
 WS       :  [ \t\r\n\f]+ -> skip;
 

@@ -1,0 +1,14 @@
+T__0=1
+T__1=2
+SCENARIO=3
+SCENARIO_DEF=4
+STEP_LOOP_DEF=5
+SCENARIO_NAME=6
+STEP_LOOP=7
+STRING=8
+INT=9
+WS=10
+'{'=1
+'}'=2
+'scenarioName'=6
+'"stepLoop"'=7
