@@ -17,5 +17,10 @@ javac -d ./target/ LazyTester*.java
 cd ./target/
 echo -e "{ \n
             \"scenarioName\": \"test\" ,
-            \"stepLoop\": 13
+            \"stepLoop\": 13 ,
+            \"steps\": [
+                {
+                  step
+                }
+             ]
          }" | java org.antlr.v4.gui.TestRig LazyTester scenario_file -gui
