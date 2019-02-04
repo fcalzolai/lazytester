@@ -1,5 +1,5 @@
 {
-    "scenarioName": "As simple GET request response",
+    "name": "As simple GET request response",
     "stepLoop": 2,
     "steps": [
         {
