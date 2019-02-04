@@ -3,6 +3,7 @@ package antlr.lazytester.buider;
 import antlr.lazytester.autogen.LazyTesterLexer;
 import antlr.lazytester.autogen.LazyTesterParser;
 import com.lloyds.composite.Scenario;
+import com.lloyds.composite.ScenarioListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
