@@ -21,8 +21,12 @@ echo -e "{ \n
             \"steps\": [
                 {
                   \"name\": \"step 1\" ,
+                  \"operation\": \"GET\",
                   \"loop\": 13,
-                  \"url\": \"www.google.com\"
+                  \"url\": \"www.google.com\",
+                  \"assertions\": {
+                     \"status\": 200
+                    }
                 }
              ]
          }" | java org.antlr.v4.gui.TestRig LazyTester scenario_file -gui
