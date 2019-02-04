@@ -73,7 +73,7 @@ public class Step {
         private Optional<String> request;
         private Optional<String> assertions;
 
-        public StepBuilder() {
+        private StepBuilder() {
             this.name = null;
             this.extend = Optional.empty();
             this.loop = Optional.empty();

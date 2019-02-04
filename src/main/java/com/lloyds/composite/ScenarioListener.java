@@ -37,8 +37,8 @@ public class ScenarioListener extends LazyTesterBaseListener {
     @Override
     public void enterLoop_def(LazyTesterParser.Loop_defContext ctx) {
         int loop = Integer.valueOf(ctx.getChild(2).getText());
-        if (isInStep){
-            //TODO
+        if (isInStep) {
+            stepBuilder.setLoop(loop);
         } else {
             scenarioBuilder.setLoop(loop);
         }
@@ -57,7 +57,7 @@ public class ScenarioListener extends LazyTesterBaseListener {
     }
 
     @Override
-    public void enterStep_def(LazyTesterParser.Step_defContext ctx) {
+    public void enterSteps(LazyTesterParser.StepsContext ctx) {
         stepBuilder = Step.getStepBuilder();
     }
 
@@ -65,6 +65,27 @@ public class ScenarioListener extends LazyTesterBaseListener {
     public void exitSteps_def(LazyTesterParser.Steps_defContext ctx) {
         Step step = stepBuilder.build();
         steps.add(step);
+        stepBuilder = Step.getStepBuilder();
+    }
+
+    @Override
+    public void enterStep_name(LazyTesterParser.Step_nameContext ctx) {
+        stepBuilder.setName(ctx.getChild(2).getText());
+    }
+
+    @Override
+    public void enterOperation(LazyTesterParser.OperationContext ctx) {
+        stepBuilder.setOperation(ctx.getChild(2).getText());
+    }
+
+    @Override
+    public void enterUrl_def(LazyTesterParser.Url_defContext ctx) {
+        stepBuilder.setUrl(ctx.getChild(2).getText());
+    }
+
+    @Override
+    public void enterAssertions(LazyTesterParser.AssertionsContext ctx) {
+        stepBuilder.setAssertions(ctx.getChild(2).getText());
     }
 
     public Scenario getScenario() {
