@@ -7,6 +7,10 @@ mkdir -p ./autogen/target
 
 java -jar /usr/local/lib/antlr-4.7.2-complete.jar LazyTester.g4
 
+rm -rf ../../src/main/java/antlr/lazytester/autogen
+mkdir -p ../../src/main/java/antlr/lazytester/autogen
+cp LazyTester*.java ../../src/main/java/antlr/lazytester/autogen
+
 mv LazyTester*.java ./autogen
 mv LazyTester*.tokens ./autogen
 mv LazyTester*.interp ./autogen
@@ -29,4 +33,4 @@ echo -e "{ \n
                     }
                 }
              ]
-         }" | java org.antlr.v4.gui.TestRig LazyTester scenario_file -gui
+         }" | java org.antlr.v4.gui.TestRig antlr.lazytester.autogen.LazyTester scenario_file -gui

@@ -1,5 +1,9 @@
 grammar LazyTester;
 
+@header {
+package antlr.lazytester.autogen;
+}
+
 scenario_file : '{' scenario '}' ;
 
 scenario     : (scenario_name | loop_def | steps_def) (',' scenario)*;
