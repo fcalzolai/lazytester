@@ -1,7 +1,5 @@
 package com.lloyds.composite;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -18,17 +16,23 @@ public class Step {
     private Optional<Integer> loop;
     private Optional<String> operation;
     private Optional<String> url;
-    private Optional<JsonNode> request;
-    private Optional<JsonNode> assertions;
+    private Optional<String> request;
+    private Optional<String> assertions;
 
-    public Step(String name) {
+    private Step(String name,
+                Optional<Step> extend,
+                Optional<Integer> loop,
+                Optional<String> operation,
+                Optional<String> url,
+                Optional<String> request,
+                Optional<String> assertions) {
         this.name = name;
-        this.extend = Optional.empty();
-        this.loop = Optional.empty();
-        this.operation = Optional.empty();
-        this.url = Optional.empty();
-        this.request = Optional.empty();
-        this.assertions = Optional.empty();
+        this.extend = extend;
+        this.loop = loop;
+        this.operation = operation;
+        this.url = url;
+        this.request = request;
+        this.assertions = assertions;
     }
 
     public String getName() {
@@ -47,39 +51,75 @@ public class Step {
         return this.url.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "url")).getUrl());
     }
 
-    public JsonNode getRequest() {
+    public String getRequest() {
         return this.request.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "request")).getRequest());
     }
 
-    public JsonNode getAssertions() {
+    public String getAssertions() {
         return this.assertions.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "assertions")).getAssertions());
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public static StepBuilder getStepBuilder(){
+        return new StepBuilder();
     }
 
-    public void setExtend(Step parent) {
-        this.extend = Optional.of(parent);
-    }
+    public static class StepBuilder {
 
-    public void setLoop(Integer loop) {
-        this.loop = Optional.of(loop);
-    }
+        private String name;
+        private Optional<Step> extend;
+        private Optional<Integer> loop;
+        private Optional<String> operation;
+        private Optional<String> url;
+        private Optional<String> request;
+        private Optional<String> assertions;
 
-    public void setOperation(String operation) {
-        this.operation = Optional.of(operation);
-    }
+        public StepBuilder() {
+            this.name = null;
+            this.extend = Optional.empty();
+            this.loop = Optional.empty();
+            this.operation = Optional.empty();
+            this.url = Optional.empty();
+            this.request = Optional.empty();
+            this.assertions = Optional.empty();
+        }
 
-    public void setUrl(String url) {
-        this.url = Optional.of(url);
-    }
+        public Step build(){
+            return new Step(name, extend, loop, operation, url, request, assertions);
+        }
 
-    public void setRequest(JsonNode request) {
-        this.request = Optional.of(request);
-    }
+        public StepBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
 
-    public void setAssertions(JsonNode assertions) {
-        this.assertions = Optional.of(assertions);
+        public StepBuilder setExtend(Step parent) {
+            this.extend = Optional.of(parent);
+            return this;
+        }
+
+        public StepBuilder setLoop(Integer loop) {
+            this.loop = Optional.of(loop);
+            return this;
+        }
+
+        public StepBuilder setOperation(String operation) {
+            this.operation = Optional.of(operation);
+            return this;
+        }
+
+        public StepBuilder setUrl(String url) {
+            this.url = Optional.of(url);
+            return this;
+        }
+
+        public StepBuilder setRequest(String request) {
+            this.request = Optional.of(request);
+            return this;
+        }
+
+        public StepBuilder setAssertions(String assertions) {
+            this.assertions = Optional.of(assertions);
+            return this;
+        }
     }
 }

@@ -1,6 +1,5 @@
-package com.lloyds.test;
+package com.lloyds.composite;
 
-import com.lloyds.composite.Step;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,42 +35,32 @@ public class StepTest {
 
     @Test
     public void testBasicGets(){
-        Step step = new Step(STEP1);
+        Step step = Step.getStepBuilder().setName(STEP1).build();
         testBasicGet(step);
     }
 
     @Test
     public void testGets(){
-        Step parent = new Step(PARENT);
-        Step child = new Step(CHILD);
-        child.setExtend(parent);
+        Step parent = Step.getStepBuilder().setName(PARENT).build();
+        Step child = Step.getStepBuilder().setName(CHILD).setExtend(parent).build();
         testBasicGet(child);
     }
 
     @Test
     public void testBasicGetName(){
-        Step step = new Step(STEP1);
+        Step step = Step.getStepBuilder().setName(STEP1).build();
         Assert.assertEquals(STEP1, step.getName());
     }
 
     @Test
-    public void testGet(){
-        Step parent = new Step(PARENT);
-        Step child = new Step(CHILD);
-        child.setExtend(parent);
-        testBasicGet(child);
-    }
-
-    @Test
     public void testSets(){
-        Step parent = new Step(PARENT);
-        Step child = new Step(CHILD);
-        child.setExtend(parent);
+        Step parent = Step.getStepBuilder().setName(PARENT).setUrl(URL1).build();
+        Step.StepBuilder stepBuilder = Step.getStepBuilder().setName(CHILD).setExtend(parent);
 
-        parent.setUrl(URL1);
-        Assert.assertEquals(URL1, child.getUrl());
+        Assert.assertEquals(URL1, stepBuilder.build().getUrl());
 
-        child.setUrl(URL2);
-        Assert.assertEquals(URL2, child.getUrl());
+        stepBuilder.setUrl(URL2);
+        Assert.assertEquals(URL2, stepBuilder.build().getUrl());
     }
+
 }

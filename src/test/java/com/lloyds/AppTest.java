@@ -1,7 +1,9 @@
-package com.lloyds.test;
+package com.lloyds;
 
 import static org.junit.Assert.assertTrue;
 
+import com.lloyds.test.JsonTestCase;
+import com.lloyds.test.LazyTesterRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

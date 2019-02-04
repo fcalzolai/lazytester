@@ -2,8 +2,6 @@ package com.lloyds.composite;
 
 import antlr.lazytester.autogen.LazyTesterBaseListener;
 import antlr.lazytester.autogen.LazyTesterParser;
-import com.lloyds.composite.Scenario;
-import com.lloyds.composite.Step;
 
 import java.util.LinkedList;
 
@@ -13,6 +11,7 @@ public class ScenarioListener extends LazyTesterBaseListener {
     private Scenario scenario;
     private boolean isInStep;
     private LinkedList<Step> steps;
+    private Step.StepBuilder stepBuilder;
 
     @Override
     public void enterScenario_file(LazyTesterParser.Scenario_fileContext ctx) {
@@ -38,7 +37,7 @@ public class ScenarioListener extends LazyTesterBaseListener {
     @Override
     public void enterLoop_def(LazyTesterParser.Loop_defContext ctx) {
         int loop = Integer.valueOf(ctx.getChild(2).getText());
-        if(isInStep){
+        if (isInStep){
             //TODO
         } else {
             scenarioBuilder.setLoop(loop);
@@ -55,6 +54,17 @@ public class ScenarioListener extends LazyTesterBaseListener {
     public void exitStep_def(LazyTesterParser.Step_defContext ctx) {
         isInStep = false;
         scenarioBuilder.setSteps(steps);
+    }
+
+    @Override
+    public void enterStep_def(LazyTesterParser.Step_defContext ctx) {
+        stepBuilder = Step.getStepBuilder();
+    }
+
+    @Override
+    public void exitSteps_def(LazyTesterParser.Steps_defContext ctx) {
+        Step step = stepBuilder.build();
+        steps.add(step);
     }
 
     public Scenario getScenario() {
