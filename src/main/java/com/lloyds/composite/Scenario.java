@@ -9,8 +9,8 @@ import static java.lang.String.format;
 
 public class Scenario {
 
-    private static final BiFunction<String, String, Supplier<IllegalArgumentException>> EXCEPTION_BUILDER = (name, attr) ->
-            () -> new IllegalArgumentException(format("%s Unable to find valid data for the attribute %s", name, attr));
+    private static final BiFunction<String, String, Supplier<IllegalStateException>> EXCEPTION_BUILDER = (name, attr) ->
+            () -> new IllegalStateException(format("%s Unable to find valid data for the attribute %s", name, attr));
 
     private String name;
     private Optional<Scenario> extend;
@@ -18,12 +18,16 @@ public class Scenario {
     private Optional<Boolean> ignoreStepFailures;
     private Optional<List<Step>> steps;
 
-    public Scenario(String scenarioName) {
-        this.name = scenarioName;
-        this.extend = Optional.empty();
-        this.loop = Optional.empty();
-        this.ignoreStepFailures = Optional.empty();
-        this.steps = Optional.empty();
+    private Scenario(String name,
+                    Optional<Scenario> extend,
+                    Optional<Integer> loop,
+                    Optional<Boolean> ignoreStepFailures,
+                    Optional<List<Step>> steps) {
+        this.name = name;
+        this.extend = extend;
+        this.loop = loop;
+        this.ignoreStepFailures = ignoreStepFailures;
+        this.steps = steps;
     }
 
     public String getName() {
@@ -48,23 +52,54 @@ public class Scenario {
         );
     }
 
-    public void setExtend(Scenario parent) {
-        this.extend = Optional.of(parent);
+    public static ScenarioBuilder getScenarioBuilder(){
+        return new ScenarioBuilder();
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public static class ScenarioBuilder {
 
-    public void setLoop(Integer loop) {
-        this.loop = Optional.of(loop);
-    }
+        private String name;
+        private Optional<Scenario> extend;
+        private Optional<Integer> loop;
+        private Optional<Boolean> ignoreStepFailures;
+        private Optional<List<Step>> steps;
 
-    public void setIgnoreStepFailures(Boolean ignoreStepFailures) {
-        this.ignoreStepFailures = Optional.of(ignoreStepFailures);
-    }
+        private ScenarioBuilder() {
+            this.name = null;
+            this.extend = Optional.empty();
+            this.loop = Optional.empty();
+            this.ignoreStepFailures = Optional.empty();
+            this.steps = Optional.empty();
+        }
 
-    public void setSteps(List<Step> steps) {
-        this.steps = Optional.of(steps);
+        public Scenario build() {
+            return new Scenario(name, extend, loop, ignoreStepFailures, steps);
+        }
+
+        public ScenarioBuilder setExtend(Scenario parent) {
+            this.extend = Optional.of(parent);
+            return this;
+        }
+
+        public ScenarioBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public ScenarioBuilder setLoop(Integer loop) {
+            this.loop = Optional.of(loop);
+            return this;
+        }
+
+        public ScenarioBuilder setIgnoreStepFailures(Boolean ignoreStepFailures) {
+            this.ignoreStepFailures = Optional.of(ignoreStepFailures);
+            return this;
+        }
+
+        public ScenarioBuilder setSteps(List<Step> steps) {
+            this.steps = Optional.of(steps);
+            return this;
+        }
+
     }
 }

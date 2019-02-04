@@ -1,13 +1,11 @@
-package com.lloyds.test;
+package com.lloyds.composite;
 
-import com.lloyds.composite.Scenario;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.swing.*;
 import java.util.function.Supplier;
 
-public class ScenaioTest {
+public class ScenarioTest {
 
     private static final String PARENT = "parent";
     private static final String CHILD = "child";
@@ -37,42 +35,54 @@ public class ScenaioTest {
 
     @Test
     public void testBasicGets(){
-        Scenario step = new Scenario(SCENARIO1);
+        Scenario step = Scenario.getScenarioBuilder().setName(SCENARIO1).build();
         testBasicGet(step);
     }
 
     @Test
     public void testGets(){
-        Scenario parent = new Scenario(PARENT);
-        Scenario child = new Scenario(CHILD);
-        child.setExtend(parent);
+        Scenario parent = Scenario.getScenarioBuilder().setName(PARENT).build();
+        Scenario child = Scenario
+                .getScenarioBuilder()
+                .setName(CHILD)
+                .setExtend(parent)
+                .build();
         testBasicGet(child);
     }
 
     @Test
     public void testBasicGetName(){
-        Scenario step = new Scenario(SCENARIO1);
+        Scenario step = Scenario.getScenarioBuilder().setName(SCENARIO1).build();
         Assert.assertEquals(SCENARIO1, step.getName());
     }
 
     @Test
     public void testGet(){
-        Scenario parent = new Scenario(PARENT);
-        Scenario child = new Scenario(CHILD);
-        child.setExtend(parent);
+        Scenario parent = Scenario.getScenarioBuilder().setName(PARENT).build();
+        Scenario child = Scenario
+                .getScenarioBuilder()
+                .setName(CHILD)
+                .setExtend(parent)
+                .build();
         testBasicGet(child);
     }
 
     @Test
     public void testSets(){
-        Scenario parent = new Scenario(PARENT);
-        Scenario child = new Scenario(CHILD);
-        child.setExtend(parent);
+        Scenario parentBuilder = Scenario
+                .getScenarioBuilder()
+                .setName(PARENT)
+                .setLoop(LOOP1)
+                .build();
 
-        parent.setLoop(LOOP1);
-        Assert.assertEquals(LOOP1, child.getLoop());
+        Scenario.ScenarioBuilder childBuilder = Scenario
+                .getScenarioBuilder()
+                .setName(CHILD)
+                .setExtend(parentBuilder);
 
-        child.setLoop(LOOP2);
-        Assert.assertEquals(LOOP2, child.getLoop());
+        Assert.assertEquals(LOOP1, childBuilder.build().getLoop());
+
+        Assert.assertEquals(LOOP2, childBuilder.setLoop(LOOP2).build().getLoop());
     }
+
 }

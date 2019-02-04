@@ -1,8 +1,8 @@
 package antlr.lazytester.buider;
 
-import antlr.lazytester.autogen.LazyTesterBaseListener;
 import antlr.lazytester.autogen.LazyTesterLexer;
 import antlr.lazytester.autogen.LazyTesterParser;
+import com.lloyds.composite.Scenario;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -35,10 +35,12 @@ public class LazyTesterBuilderTest {
         LazyTesterParser parser = new LazyTesterParser(tokens);  //parse the tokens
 
         ParseTree tree = parser.scenario_file();
-        LazyTesterBaseListener listener = new LazyTesterBuilder();
+        ScenarioListener listener = new ScenarioListener();
 
         ParseTreeWalker walker = new ParseTreeWalker();
         walker.walk(listener,tree);
+        Scenario scenario = listener.getScenario();
+        System.out.println(scenario);
     }
 
 }
