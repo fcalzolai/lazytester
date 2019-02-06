@@ -1,6 +1,5 @@
 package com.lloyds.composite;
 
-import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -23,6 +22,7 @@ public class Step {
     private Optional<Integer> loop;
     private Optional<String> operation;
     private Optional<String> url;
+    private Optional<String> params;
     private Optional<String> headers;
     private Optional<String> body;
     private Optional<String> assertions;
@@ -34,6 +34,7 @@ public class Step {
                 Optional<Integer> loop,
                 Optional<String> operation,
                 Optional<String> url,
+                Optional<String> params,
                 Optional<String> headers,
                 Optional<String> body,
                 Optional<String> assertions) {
@@ -42,6 +43,7 @@ public class Step {
         this.loop = loop;
         this.operation = operation;
         this.url = url;
+        this.params = params;
         this.headers = headers;
         this.body = body;
         this.assertions = assertions;
@@ -63,6 +65,10 @@ public class Step {
         return this.url.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "url")).getUrl());
     }
 
+    public String getParams() {
+        return this.params.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "params")).getParams());
+    }
+
     public String getHeaders() {
         return this.headers.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "headers")).getHeaders());
     }
@@ -77,14 +83,17 @@ public class Step {
 
     public HttpUriRequest createHttpRequest() throws UnsupportedEncodingException {
         if(httpRequest == null) {
-            if (getOperation().equals(HttpGet.METHOD_NAME)) {
-                httpRequest = new HttpGet(getUrl());
-            } else if (getOperation().equals(HttpPost.METHOD_NAME)) {
-                HttpPost httpPost = new HttpPost(getUrl());
-                httpPost.setEntity(new StringEntity(getBody()));
-                httpRequest = httpPost;
-            } else {
-                throw new IllegalStateException("Method " + getOperation() + " is not supported.");
+            switch (getOperation()) {
+                case HttpGet.METHOD_NAME:
+                    httpRequest = new HttpGet(getUrl());
+                    break;
+                case HttpPost.METHOD_NAME:
+                    HttpPost httpPost = new HttpPost(getUrl());
+                    httpPost.setEntity(new StringEntity(getBody()));
+                    httpRequest = httpPost;
+                    break;
+                default:
+                    throw new IllegalStateException("Method " + getOperation() + " is not supported.");
             }
         }
 
@@ -102,6 +111,7 @@ public class Step {
         private Optional<Integer> loop;
         private Optional<String> operation;
         private Optional<String> url;
+        private Optional<String> params;
         private Optional<String> headers;
         private Optional<String> body;
         private Optional<String> assertions;
@@ -111,13 +121,15 @@ public class Step {
             this.extend = Optional.empty();
             this.loop = Optional.empty();
             this.operation = Optional.empty();
+            this.params = Optional.empty();
+            this.headers = Optional.empty();
             this.url = Optional.empty();
             this.body = Optional.empty();
             this.assertions = Optional.empty();
         }
 
         public Step build(){
-            return new Step(name, extend, loop, operation, url, headers, body, assertions);
+            return new Step(name, extend, loop, operation, url, params, headers, body, assertions);
         }
 
         public StepBuilder setName(String name) {
@@ -142,6 +154,11 @@ public class Step {
 
         public StepBuilder setUrl(String url) {
             this.url = Optional.of(url);
+            return this;
+        }
+
+        public StepBuilder setParam(String headers) {
+            this.params = Optional.of(headers);
             return this;
         }
 

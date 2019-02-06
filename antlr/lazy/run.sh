@@ -30,6 +30,9 @@ echo -e "{ \n
                   \"operation\": \"GET\",
                   \"loop\": 13,
                   \"url\": \"www.google.com\",
+                  \"params\": \"**** params ****\",
+                  \"headers\": \"**** headers ****\",
+                  \"body\": \"**** body ****\",
                   \"assertions\": {
                      \"status\": 200
                     }
