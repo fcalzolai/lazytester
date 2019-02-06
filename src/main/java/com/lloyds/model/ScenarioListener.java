@@ -1,4 +1,4 @@
-package com.lloyds.composite;
+package com.lloyds.model;
 
 import antlr.lazytester.autogen.LazyTesterBaseListener;
 import antlr.lazytester.autogen.LazyTesterParser;

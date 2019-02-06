@@ -159,4 +159,14 @@ public interface LazyTesterListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLoop_def(LazyTesterParser.Loop_defContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#ignore_step_failures_def}.
+	 * @param ctx the parse tree
+	 */
+	void enterIgnore_step_failures_def(LazyTesterParser.Ignore_step_failures_defContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#ignore_step_failures_def}.
+	 * @param ctx the parse tree
+	 */
+	void exitIgnore_step_failures_def(LazyTesterParser.Ignore_step_failures_defContext ctx);
 }

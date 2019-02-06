@@ -2,24 +2,20 @@ package antlr.lazytester.buider;
 
 import antlr.lazytester.autogen.LazyTesterLexer;
 import antlr.lazytester.autogen.LazyTesterParser;
-import com.lloyds.composite.Scenario;
-import com.lloyds.composite.ScenarioListener;
-import com.lloyds.composite.Step;
+import com.lloyds.model.Scenario;
+import com.lloyds.model.ScenarioListener;
+import com.lloyds.model.Step;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public class ScenarioBuilderTest {
 

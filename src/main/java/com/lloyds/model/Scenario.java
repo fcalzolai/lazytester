@@ -1,4 +1,4 @@
-package com.lloyds.composite;
+package com.lloyds.model;
 
 import java.util.List;
 import java.util.Optional;

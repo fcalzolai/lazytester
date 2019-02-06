@@ -193,6 +193,18 @@ public class LazyTesterBaseListener implements LazyTesterListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLoop_def(LazyTesterParser.Loop_defContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIgnore_step_failures_def(LazyTesterParser.Ignore_step_failures_defContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIgnore_step_failures_def(LazyTesterParser.Ignore_step_failures_defContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

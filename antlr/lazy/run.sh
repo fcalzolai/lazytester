@@ -23,7 +23,8 @@ cd ./target/
 
 echo -e "{ \n
             \"name\": \"scenario 1\" ,
-            \"loop\": 13 ,
+            \"ignoreStepFailures\": \"false\",
+            \"loop\" : 13 ,
             \"steps\": [
                 {
                   \"name\": \"step 1\" ,

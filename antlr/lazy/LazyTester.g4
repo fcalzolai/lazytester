@@ -6,7 +6,7 @@ package antlr.lazytester.autogen;
 
 scenario_file : '{' scenario '}' ;
 
-scenario     : (scenario_name | loop_def | steps_def) (',' scenario)* ;
+scenario     : (scenario_name | loop_def | steps_def | ignore_step_failures_def) (',' scenario)* ;
 
 scenario_name  : NAME ':' STRING ;
 steps_def      : STEPS ':' '[' steps ']' ;
@@ -21,6 +21,7 @@ operation      : OPERATION ':' HTTP_OPS ;
 assertions_def : ASSERTIONS ':' '{' assertions '}' ;
 assertions     : STATUS ':' INT ;
 loop_def       : LOOP ':' INT ;
+ignore_step_failures_def : '"ignoreStepFailures"' ':' ('"true"' | '"false"');
 
 NAME          : '"name"' ;
 LOOP          : '"loop"' ;
