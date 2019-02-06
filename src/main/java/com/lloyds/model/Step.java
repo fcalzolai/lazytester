@@ -81,7 +81,7 @@ public class Step {
         return this.assertions.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "assertions")).getAssertions());
     }
 
-    public HttpUriRequest createHttpRequest() throws UnsupportedEncodingException {
+    public HttpUriRequest getHttpRequest() throws UnsupportedEncodingException {
         if(httpRequest == null) {
             switch (getOperation()) {
                 case HttpGet.METHOD_NAME:
@@ -157,7 +157,7 @@ public class Step {
             return this;
         }
 
-        public StepBuilder setParam(String headers) {
+        public StepBuilder setParams(String headers) {
             this.params = Optional.of(headers);
             return this;
         }

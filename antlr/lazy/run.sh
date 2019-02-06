@@ -19,9 +19,11 @@ cd ./autogen/
 javac -d ./target/ LazyTester*.java
 
 cd ./target/
-#echo -e "{ \"name\": \"scenario 1\" }" | java org.antlr.v4.gui.TestRig antlr.lazytester.autogen.LazyTester scenario_file -gui
+#echo -e "import   test1/test1; import test2;}" | java org.antlr.v4.gui.TestRig antlr.lazytester.autogen.LazyTester import_def -gui
 
-echo -e "{ \n
+echo -e "import path1; \n
+         import path2; \n
+          [{  \n
             \"name\": \"scenario 1\" ,
             \"ignoreStepFailures\": \"false\",
             \"loop\" : 13 ,
@@ -39,4 +41,24 @@ echo -e "{ \n
                     }
                 }
              ]
-         }" | java org.antlr.v4.gui.TestRig antlr.lazytester.autogen.LazyTester scenario_file -gui
+         },
+         {  \n
+            \"name\": \"scenario 1\" ,
+            \"ignoreStepFailures\": \"false\",
+            \"loop\" : 13 ,
+            \"steps\": [
+                {
+                  \"name\": \"step 1\" ,
+                  \"operation\": \"GET\",
+                  \"loop\": 13,
+                  \"url\": \"www.google.com\",
+                  \"params\": \"**** params ****\",
+                  \"headers\": \"**** headers ****\",
+                  \"body\": \"**** body ****\",
+                  \"assertions\": {
+                     \"status\": 200
+                    }
+                }
+             ]
+         }]
+         " | java org.antlr.v4.gui.TestRig antlr.lazytester.autogen.LazyTester scenario_file -gui

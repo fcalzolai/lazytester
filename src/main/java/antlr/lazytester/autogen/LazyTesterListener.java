@@ -20,6 +20,16 @@ public interface LazyTesterListener extends ParseTreeListener {
 	 */
 	void exitScenario_file(LazyTesterParser.Scenario_fileContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#scenario_array}.
+	 * @param ctx the parse tree
+	 */
+	void enterScenario_array(LazyTesterParser.Scenario_arrayContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#scenario_array}.
+	 * @param ctx the parse tree
+	 */
+	void exitScenario_array(LazyTesterParser.Scenario_arrayContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LazyTesterParser#scenario}.
 	 * @param ctx the parse tree
 	 */
@@ -69,6 +79,16 @@ public interface LazyTesterListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStep_def(LazyTesterParser.Step_defContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#extend_def}.
+	 * @param ctx the parse tree
+	 */
+	void enterExtend_def(LazyTesterParser.Extend_defContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#extend_def}.
+	 * @param ctx the parse tree
+	 */
+	void exitExtend_def(LazyTesterParser.Extend_defContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LazyTesterParser#param_def}.
 	 * @param ctx the parse tree

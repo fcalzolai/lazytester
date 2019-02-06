@@ -1,0 +1,62 @@
+[
+ {
+  "step": {
+    "name": "getGoogle",
+    "stepLoop": 3,
+    "url": "http://www.google.com",
+    "operation": "GET",
+    "assertions": {
+      "status": 200
+    }
+  }
+ },
+  {
+    "step": {
+      "name": "getGoogle2",
+      "extends": "getGoogle",
+      "stepLoop": 2
+    }
+  },
+  {
+    "scenario": {
+      "name": "As simple GET request response",
+      "stepLoop": 2,
+      "steps": [
+        {
+          "step-ref": "getGoogle"
+        },
+        {
+          "step": {
+            "name": "getNewGoogle",
+            "extends": "getGoogle",
+            "stepLoop": 20
+          }
+        },
+        {
+          "step": {
+            "name": "getNewGoogle",
+            "extends": "getGoogle",
+            "stepLoop": 20
+          }
+        }
+      ]
+    }
+  },
+  {
+    "scenario": {
+      "name": "As simple GET request response 2",
+      "stepLoop": 2,
+      "steps": [
+        {
+          "name": "get google",
+          "stepLoop": 3,
+          "url": "/",
+          "operation": "GET",
+          "assertions": {
+            "status": 200
+          }
+        }
+      ]
+    }
+  }
+]

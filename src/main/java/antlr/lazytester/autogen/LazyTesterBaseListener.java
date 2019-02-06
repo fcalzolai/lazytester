@@ -30,6 +30,18 @@ public class LazyTesterBaseListener implements LazyTesterListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterScenario_array(LazyTesterParser.Scenario_arrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitScenario_array(LazyTesterParser.Scenario_arrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterScenario(LazyTesterParser.ScenarioContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -85,6 +97,18 @@ public class LazyTesterBaseListener implements LazyTesterListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStep_def(LazyTesterParser.Step_defContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExtend_def(LazyTesterParser.Extend_defContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExtend_def(LazyTesterParser.Extend_defContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

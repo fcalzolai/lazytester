@@ -4,17 +4,18 @@ grammar LazyTester;
 package antlr.lazytester.autogen;
 }
 
-scenario_file : '{' scenario '}' ;
-
-scenario     : (scenario_name | loop_def | steps_def | ignore_step_failures_def) (',' scenario)* ;
+scenario_file  : IMPORT* ('{' scenario '}' | scenario_array) ;
+scenario_array : '[' '{' scenario '}' (',' '{' scenario '}')* ']' ;
+scenario       : (scenario_name | loop_def | steps_def | ignore_step_failures_def) (',' scenario)* ;
 
 scenario_name  : NAME ':' STRING ;
 steps_def      : STEPS ':' '[' steps ']' ;
 steps          : '{' step_def '}' (','  steps )* ;
-step_def       : (step_name | loop_def | url_def | operation | param_def | headers_def | body_def | assertions_def) (',' step_def)* ;
-param_def      : PARAMS ':' STRING;
-headers_def    : HEADERS ':' STRING;
-body_def       : BODY ':' STRING;
+step_def       : (step_name | extend_def | loop_def | url_def | operation | param_def | headers_def | body_def | assertions_def) (',' step_def)* ;
+extend_def     : EXTEND ':' STRING ;
+param_def      : PARAMS ':' STRING ;
+headers_def    : HEADERS ':' STRING ;
+body_def       : BODY ':' STRING ;
 step_name      : NAME ':' STRING ;
 url_def        : URL ':' STRING ;
 operation      : OPERATION ':' HTTP_OPS ;
@@ -34,7 +35,9 @@ STATUS        : '"status"' ;
 PARAMS        : '"params"' ;
 HEADERS       : '"headers"' ;
 BODY          : '"body"' ;
+EXTEND        : '"extend"' ;
 STRING        : '"' ~('"')+ '"';
+IMPORT        : 'import' ~(';')+ ';';
 INT           : [0-9]+ ;
 WS            :  [ \t\r\n\f]+ -> skip ;
 
