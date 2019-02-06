@@ -1,0 +1,61 @@
+{
+  "scenarioName": "Session Post test",
+  "steps": [
+    {
+      "name": "session_post",
+      "url": "/auth-mech-api/v1.0/authmech/session",
+      "operation": "POST",
+      "request": {
+        "headers": {
+          "x-lbg-brand": "LYDS",
+          "x-lbg-channel": "RC",
+          "x-lbg-event": "PAYMENTS",
+          "x-lbg-internal-party-id": "12345",
+          "x-lbg-internal-user-id": "VJ877230",
+          "x-lbg-source-channel-name": "OB",
+          "x-lbg-txn-correlation-id": "CORR_ID"
+        },
+        "body": {
+          "AuthBindingMessageData": [ ],
+          "BindingMessage": "string",
+          "CallbackUrl": "string",
+          "DeviceId": "string",
+          "TimeToLiveInSeconds": 300
+        }
+      },
+      "assertions": {
+        "status": 201,
+        "body": {
+          "ChallengeCode": null,
+          "Status": "IN_PROGRESS",
+          "StatusText": "Session in progress",
+          "ExpiryTimeInSeconds": "$EQ.${$.session_post.request.body.TimeToLiveInSeconds}",
+          "IntervalInSeconds": 1,
+          "AuthenticationAssertion": null
+        }
+      }
+    },
+    {
+      "name": "session_get",
+      "url": "/auth-mech-api/v1.0/authmech/session/${$.session_post.response.body.SessionId}",
+      "operation": "GET",
+      "request": {
+        "headers": {
+          "x-lbg-txn-correlation-id:": "x-lbg-txn-correlation-id"
+        }
+      },
+      "assertions": {
+        "status": 200,
+        "body" : {
+          "SessionId" : "${$.session_post.response.body.SessionId}",
+          "ChallengeCode" : null,
+          "Status" : "IN_PROGRESS",
+          "StatusText" : "Session in progress",
+          "ExpiryTimeInSeconds" : "$LT.${$.session_post.request.body.TimeToLiveInSeconds}",
+          "IntervalInSeconds" : 1,
+          "AuthenticationAssertion" : null
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,12 @@
 package com.lloyds.composite;
 
+import org.apache.http.HttpRequest;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.StringEntity;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -16,22 +23,27 @@ public class Step {
     private Optional<Integer> loop;
     private Optional<String> operation;
     private Optional<String> url;
-    private Optional<String> request;
+    private Optional<String> headers;
+    private Optional<String> body;
     private Optional<String> assertions;
+
+    private HttpUriRequest httpRequest;
 
     private Step(String name,
                 Optional<Step> extend,
                 Optional<Integer> loop,
                 Optional<String> operation,
                 Optional<String> url,
-                Optional<String> request,
+                Optional<String> headers,
+                Optional<String> body,
                 Optional<String> assertions) {
         this.name = name;
         this.extend = extend;
         this.loop = loop;
         this.operation = operation;
         this.url = url;
-        this.request = request;
+        this.headers = headers;
+        this.body = body;
         this.assertions = assertions;
     }
 
@@ -51,12 +63,32 @@ public class Step {
         return this.url.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "url")).getUrl());
     }
 
-    public String getRequest() {
-        return this.request.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "request")).getRequest());
+    public String getHeaders() {
+        return this.headers.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "headers")).getHeaders());
+    }
+
+    public String getBody() {
+        return this.body.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "body")).getBody());
     }
 
     public String getAssertions() {
         return this.assertions.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "assertions")).getAssertions());
+    }
+
+    public HttpUriRequest createHttpRequest() throws UnsupportedEncodingException {
+        if(httpRequest == null) {
+            if (getOperation().equals(HttpGet.METHOD_NAME)) {
+                httpRequest = new HttpGet(getUrl());
+            } else if (getOperation().equals(HttpPost.METHOD_NAME)) {
+                HttpPost httpPost = new HttpPost(getUrl());
+                httpPost.setEntity(new StringEntity(getBody()));
+                httpRequest = httpPost;
+            } else {
+                throw new IllegalStateException("Method " + getOperation() + " is not supported.");
+            }
+        }
+
+        return httpRequest;
     }
 
     public static StepBuilder getStepBuilder(){
@@ -70,7 +102,8 @@ public class Step {
         private Optional<Integer> loop;
         private Optional<String> operation;
         private Optional<String> url;
-        private Optional<String> request;
+        private Optional<String> headers;
+        private Optional<String> body;
         private Optional<String> assertions;
 
         private StepBuilder() {
@@ -79,12 +112,12 @@ public class Step {
             this.loop = Optional.empty();
             this.operation = Optional.empty();
             this.url = Optional.empty();
-            this.request = Optional.empty();
+            this.body = Optional.empty();
             this.assertions = Optional.empty();
         }
 
         public Step build(){
-            return new Step(name, extend, loop, operation, url, request, assertions);
+            return new Step(name, extend, loop, operation, url, headers, body, assertions);
         }
 
         public StepBuilder setName(String name) {
@@ -112,8 +145,13 @@ public class Step {
             return this;
         }
 
-        public StepBuilder setRequest(String request) {
-            this.request = Optional.of(request);
+        public StepBuilder setHeaders(String headers) {
+            this.headers = Optional.of(headers);
+            return this;
+        }
+
+        public StepBuilder setBody(String body) {
+            this.body = Optional.of(body);
             return this;
         }
 

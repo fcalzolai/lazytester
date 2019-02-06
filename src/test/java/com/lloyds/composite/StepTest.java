@@ -28,7 +28,7 @@ public class StepTest {
     private void testBasicGet(Step step) {
         testIllegalStateException(() -> step.getAssertions());
         testIllegalStateException(() -> step.getUrl());
-        testIllegalStateException(() -> step.getRequest());
+        testIllegalStateException(() -> step.getBody());
         testIllegalStateException(() -> step.getOperation());
         testIllegalStateException(() -> step.getLoop());
     }

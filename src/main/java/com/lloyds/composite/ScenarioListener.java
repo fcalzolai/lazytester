@@ -2,6 +2,7 @@ package com.lloyds.composite;
 
 import antlr.lazytester.autogen.LazyTesterBaseListener;
 import antlr.lazytester.autogen.LazyTesterParser;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.LinkedList;
 
@@ -73,19 +74,23 @@ public class ScenarioListener extends LazyTesterBaseListener {
         stepBuilder.setName(ctx.getChild(2).getText());
     }
 
+    private static String getEscapedChildText(ParserRuleContext ctx){
+        return ctx.getChild(2).getText().replace("\"", "");
+    }
+
     @Override
     public void enterOperation(LazyTesterParser.OperationContext ctx) {
-        stepBuilder.setOperation(ctx.getChild(2).getText());
+        stepBuilder.setOperation(getEscapedChildText(ctx));
     }
 
     @Override
     public void enterUrl_def(LazyTesterParser.Url_defContext ctx) {
-        stepBuilder.setUrl(ctx.getChild(2).getText());
+        stepBuilder.setUrl(getEscapedChildText(ctx));
     }
 
     @Override
     public void enterAssertions(LazyTesterParser.AssertionsContext ctx) {
-        stepBuilder.setAssertions(ctx.getChild(2).getText());
+        stepBuilder.setAssertions(getEscapedChildText(ctx));
     }
 
     public Scenario getScenario() {

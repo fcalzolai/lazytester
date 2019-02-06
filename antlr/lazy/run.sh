@@ -19,6 +19,8 @@ cd ./autogen/
 javac -d ./target/ LazyTester*.java
 
 cd ./target/
+#echo -e "{ \"name\": \"scenario 1\" }" | java org.antlr.v4.gui.TestRig antlr.lazytester.autogen.LazyTester scenario_file -gui
+
 echo -e "{ \n
             \"name\": \"scenario 1\" ,
             \"loop\": 13 ,
