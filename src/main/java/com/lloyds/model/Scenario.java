@@ -1,7 +1,7 @@
 package com.lloyds.model;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
@@ -13,18 +13,15 @@ public class Scenario {
             () -> new IllegalStateException(format("%s Unable to find valid data for the attribute %s", name, attr));
 
     private String name;
-    private Optional<Scenario> extend;
-    private Optional<Integer> loop;
-    private Optional<Boolean> ignoreStepFailures;
-    private Optional<List<Step>> steps;
+    private Integer loop;
+    private Boolean ignoreStepFailures;
+    private List<Step> steps;
 
     private Scenario(String name,
-                    Optional<Scenario> extend,
-                    Optional<Integer> loop,
-                    Optional<Boolean> ignoreStepFailures,
-                    Optional<List<Step>> steps) {
+                    Integer loop,
+                    Boolean ignoreStepFailures,
+                    List<Step> steps) {
         this.name = name;
-        this.extend = extend;
         this.loop = loop;
         this.ignoreStepFailures = ignoreStepFailures;
         this.steps = steps;
@@ -35,21 +32,15 @@ public class Scenario {
     }
 
     public Integer getLoop() {
-        return this.loop.orElseGet(
-                () -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "loop")).getLoop()
-        );
+        return loop;
     }
 
     public Boolean getIgnoreStepFailures() {
-        return this.ignoreStepFailures.orElseGet(
-                () -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "ignoreStepFailures")).getIgnoreStepFailures()
-        );
+        return ignoreStepFailures;
     }
 
     public List<Step> getSteps() {
-        return this.steps.orElseGet(
-                () -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "steps")).getSteps()
-        );
+        return steps;
     }
 
     public static ScenarioBuilder getScenarioBuilder(){
@@ -59,26 +50,19 @@ public class Scenario {
     public static class ScenarioBuilder {
 
         private String name;
-        private Optional<Scenario> extend;
-        private Optional<Integer> loop;
-        private Optional<Boolean> ignoreStepFailures;
-        private Optional<List<Step>> steps;
+        private Integer loop;
+        private Boolean ignoreStepFailures;
+        private List<Step> steps;
 
         private ScenarioBuilder() {
             this.name = null;
-            this.extend = Optional.empty();
-            this.loop = Optional.empty();
-            this.ignoreStepFailures = Optional.empty();
-            this.steps = Optional.empty();
+            this.loop = 1;
+            this.ignoreStepFailures = false;
+            this.steps = new LinkedList<>();
         }
 
         public Scenario build() {
-            return new Scenario(name, extend, loop, ignoreStepFailures, steps);
-        }
-
-        public ScenarioBuilder setExtend(Scenario parent) {
-            this.extend = Optional.of(parent);
-            return this;
+            return new Scenario(name, loop, ignoreStepFailures, steps);
         }
 
         public ScenarioBuilder setName(String name) {
@@ -87,17 +71,17 @@ public class Scenario {
         }
 
         public ScenarioBuilder setLoop(Integer loop) {
-            this.loop = Optional.of(loop);
+            this.loop = loop;
             return this;
         }
 
         public ScenarioBuilder setIgnoreStepFailures(Boolean ignoreStepFailures) {
-            this.ignoreStepFailures = Optional.of(ignoreStepFailures);
+            this.ignoreStepFailures = ignoreStepFailures;
             return this;
         }
 
         public ScenarioBuilder setSteps(List<Step> steps) {
-            this.steps = Optional.of(steps);
+            this.steps = steps;
             return this;
         }
 

@@ -1,5 +1,6 @@
 package com.lloyds.runner;
 
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.lloyds.model.Scenario;
@@ -21,15 +22,16 @@ public class ScenarioRunner {
 
     private HttpClient httpClient;
     private Scenario scenario;
+
     private Table<Integer, Integer, HttpResponse> results;
 
     public ScenarioRunner(HttpClient httpClient, Scenario scenario) {
         this.httpClient = httpClient;
         this.scenario = scenario;
-        this.results = TreeBasedTable.create();
     }
 
     public void runAll() throws IOException {
+        this.results = TreeBasedTable.create();
         for (int i = 0; i < scenario.getLoop(); i++) {
             List<Step> steps = scenario.getSteps();
             for (Step step: steps) {
@@ -51,5 +53,9 @@ public class ScenarioRunner {
                 }
             }
         }
+    }
+
+    public ImmutableTable<Integer, Integer, HttpResponse> getResults() {
+        return ImmutableTable.copyOf(results);
     }
 }

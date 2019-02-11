@@ -36,7 +36,7 @@ STEP         : 'step' ;
 //PARAMS        : '"params"' ;
 //HEADERS       : '"headers"' ;
 //BODY          : '"body"' ;
-//EXTEND        : '"extend"' ;
+//EXTEND        : '"parent"' ;
 //INT           : [0-9]+ ;
 IMPORT        : 'import' ':' STRING NEWLINE;
 ELEM          : '-' STRING NEWLINE;

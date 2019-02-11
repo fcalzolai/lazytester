@@ -2,46 +2,50 @@ package com.lloyds.runner;
 
 import antlr.lazytester.autogen.LazyTesterLexer;
 import antlr.lazytester.autogen.LazyTesterParser;
+import com.google.common.collect.ImmutableTable;
 import com.lloyds.model.Scenario;
 import com.lloyds.model.ScenarioListener;
-import com.lloyds.model.Step;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClients;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
-
 public class ScenarioRunnerTest {
 
+    private static int SCENARIO_LOOP = 2;
+    private static int STEP_LOOP = 3;
     private static final String DEF1 = "{ " +
             "\"name\": \"scenario 1\", " +
-            "\"loop\": 2 , " +
+            "\"loop\": "+ SCENARIO_LOOP +" , " +
             "\"steps\": [ {" +
             "                \"name\": \"step 1\" , " +
             "                \"operation\": \"GET\", " +
-            "                \"loop\": 3, " +
+            "                \"loop\": "+ STEP_LOOP +", " +
             "                \"url\": \"http://www.google.com\", " +
             "                \"assertions\": {" +
-            "                    \"status\": 200    " +
+            "                    \"status\": 200 " +
             "                  }" +
             "              }" +
             "           ]" +
             "} ";
 
     @Test
-    public void runAll() throws IOException {
+    public void testResults() throws IOException {
         Scenario scenario = getScenario();
         HttpClient client = HttpClients.createDefault();
         ScenarioRunner scenarioRunner = new ScenarioRunner(client, scenario);
         scenarioRunner.runAll();
+        ImmutableTable<Integer, Integer, HttpResponse> results = scenarioRunner.getResults();
+        Assert.assertEquals(SCENARIO_LOOP, results.rowKeySet().size());
+        Assert.assertEquals(STEP_LOOP, results.columnKeySet().size());
     }
 
     private Scenario getScenario() {

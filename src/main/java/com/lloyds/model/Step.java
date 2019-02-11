@@ -6,6 +6,8 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -18,11 +20,11 @@ public class Step {
             () -> new IllegalStateException(format("%s Unable to find valid data for the attribute %s", name, attr));
 
     private String name;
-    private Optional<Step> extend;
+    private Optional<Step> parent;
     private Optional<Integer> loop;
     private Optional<String> operation;
     private Optional<String> url;
-    private Optional<String> params;
+    private Map<String, String> params;
     private Optional<String> headers;
     private Optional<String> body;
     private Optional<String> assertions;
@@ -30,16 +32,16 @@ public class Step {
     private HttpUriRequest httpRequest;
 
     private Step(String name,
-                Optional<Step> extend,
+                Optional<Step> parent,
                 Optional<Integer> loop,
                 Optional<String> operation,
                 Optional<String> url,
-                Optional<String> params,
+                Map<String, String> params,
                 Optional<String> headers,
                 Optional<String> body,
                 Optional<String> assertions) {
         this.name = name;
-        this.extend = extend;
+        this.parent = parent;
         this.loop = loop;
         this.operation = operation;
         this.url = url;
@@ -54,31 +56,34 @@ public class Step {
     }
 
     public Integer getLoop() {
-        return this.loop.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "loop")).getLoop());
+        return this.loop.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "loop")).getLoop());
     }
 
     public String getOperation() {
-        return this.operation.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "operation")).getOperation());
+        return this.operation.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "operation")).getOperation());
     }
 
     public String getUrl() {
-        return this.url.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "url")).getUrl());
+        return this.url.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "url")).getUrl());
     }
 
-    public String getParams() {
-        return this.params.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "params")).getParams());
+    public HashMap<String, String>  getParams() {
+        HashMap<String, String> result = new HashMap<>();
+        parent.ifPresent(s -> result.putAll(s.getParams()));
+        result.putAll(params);
+        return result;
     }
 
     public String getHeaders() {
-        return this.headers.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "headers")).getHeaders());
+        return this.headers.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "headers")).getHeaders());
     }
 
     public String getBody() {
-        return this.body.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "body")).getBody());
+        return this.body.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "body")).getBody());
     }
 
     public String getAssertions() {
-        return this.assertions.orElseGet(() -> extend.orElseThrow(EXCEPTION_BUILDER.apply(name, "assertions")).getAssertions());
+        return this.assertions.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "assertions")).getAssertions());
     }
 
     public HttpUriRequest getHttpRequest() throws UnsupportedEncodingException {
@@ -107,21 +112,21 @@ public class Step {
     public static class StepBuilder {
 
         private String name;
-        private Optional<Step> extend;
+        private Optional<Step> parent;
         private Optional<Integer> loop;
         private Optional<String> operation;
         private Optional<String> url;
-        private Optional<String> params;
+        private Map<String, String> params;
         private Optional<String> headers;
         private Optional<String> body;
         private Optional<String> assertions;
 
         private StepBuilder() {
             this.name = null;
-            this.extend = Optional.empty();
+            this.parent = Optional.empty();
             this.loop = Optional.empty();
             this.operation = Optional.empty();
-            this.params = Optional.empty();
+            this.params = new HashMap<>();
             this.headers = Optional.empty();
             this.url = Optional.empty();
             this.body = Optional.empty();
@@ -129,7 +134,7 @@ public class Step {
         }
 
         public Step build(){
-            return new Step(name, extend, loop, operation, url, params, headers, body, assertions);
+            return new Step(name, parent, loop, operation, url, params, headers, body, assertions);
         }
 
         public StepBuilder setName(String name) {
@@ -137,8 +142,8 @@ public class Step {
             return this;
         }
 
-        public StepBuilder setExtend(Step parent) {
-            this.extend = Optional.of(parent);
+        public StepBuilder setParent(Step parent) {
+            this.parent = Optional.of(parent);
             return this;
         }
 
@@ -157,8 +162,8 @@ public class Step {
             return this;
         }
 
-        public StepBuilder setParams(String headers) {
-            this.params = Optional.of(headers);
+        public StepBuilder setParams(Map<String, String> params) {
+            this.params = params;
             return this;
         }
 

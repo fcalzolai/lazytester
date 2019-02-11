@@ -35,7 +35,7 @@ STATUS        : '"status"' ;
 PARAMS        : '"params"' ;
 HEADERS       : '"headers"' ;
 BODY          : '"body"' ;
-EXTEND        : '"extend"' ;
+EXTEND        : '"parent"' ;
 STRING        : '"' ~('"')+ '"';
 IMPORT        : 'import' ~(';')+ ';';
 INT           : [0-9]+ ;

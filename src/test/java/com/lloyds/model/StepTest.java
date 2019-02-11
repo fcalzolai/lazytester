@@ -42,7 +42,7 @@ public class StepTest {
     @Test
     public void testGets(){
         Step parent = Step.getStepBuilder().setName(PARENT).build();
-        Step child = Step.getStepBuilder().setName(CHILD).setExtend(parent).build();
+        Step child = Step.getStepBuilder().setName(CHILD).setParent(parent).build();
         testBasicGet(child);
     }
 
@@ -55,7 +55,7 @@ public class StepTest {
     @Test
     public void testSets(){
         Step parent = Step.getStepBuilder().setName(PARENT).setUrl(URL1).build();
-        Step.StepBuilder stepBuilder = Step.getStepBuilder().setName(CHILD).setExtend(parent);
+        Step.StepBuilder stepBuilder = Step.getStepBuilder().setName(CHILD).setParent(parent);
 
         Assert.assertEquals(URL1, stepBuilder.build().getUrl());
 
