@@ -1,7 +1,5 @@
-package antlr.lazytester.buider;
+package antlr.lazytester.autogen;
 
-import antlr.lazytester.autogen.LazyTesterLexer;
-import antlr.lazytester.autogen.LazyTesterParser;
 import com.lloyds.model.Scenario;
 import com.lloyds.model.ScenarioListener;
 import com.lloyds.model.Step;
@@ -22,7 +20,7 @@ import java.io.IOException;
 
 public class ScenarioBuilderTest {
 
-    private static final String DEF1 = "{ " +
+    private static final String DEF1 = "import te; { " +
             "\"name\": \"scenario 1\", " +
             "\"loop\": 2 , " +
             "\"steps\": [ {" +

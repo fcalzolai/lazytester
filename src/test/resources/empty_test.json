@@ -1,15 +1,15 @@
 {
-    "name": "As simple GET request response",
-    "stepLoop": 2,
-    "steps": [
-        {
-            "name": "get google",
-            "stepLoop": 3,
-            "url": "/",
-            "operation": "GET",
-            "assertions": {
-                "status": 200
-            }
-        }
-    ]
+  "name": "As simple GET request response",
+  "stepLoop": 2,
+  "steps": [
+    {
+      "name": "get google",
+      "stepLoop": 3,
+      "url": "/",
+      "operation": "GET",
+      "assertions": {
+        "status": 200
+      }
+    }
+  ]
 }
