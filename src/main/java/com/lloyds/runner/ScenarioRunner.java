@@ -1,5 +1,7 @@
 package com.lloyds.runner;
 
+import com.google.common.collect.Table;
+import com.google.common.collect.TreeBasedTable;
 import com.lloyds.model.Scenario;
 import com.lloyds.model.Step;
 import org.apache.http.HttpEntity;
@@ -19,10 +21,12 @@ public class ScenarioRunner {
 
     private HttpClient httpClient;
     private Scenario scenario;
+    private Table<Integer, Integer, HttpResponse> results;
 
     public ScenarioRunner(HttpClient httpClient, Scenario scenario) {
         this.httpClient = httpClient;
         this.scenario = scenario;
+        this.results = TreeBasedTable.create();
     }
 
     public void runAll() throws IOException {
@@ -33,6 +37,7 @@ public class ScenarioRunner {
                     HttpUriRequest httpRequest = step.getHttpRequest();
                     try {
                         HttpResponse response = httpClient.execute(httpRequest);
+                        results.put(i, j, response);
                         System.out.println(response);
                         HttpEntity entity1 = response.getEntity();
                         EntityUtils.consume(entity1);

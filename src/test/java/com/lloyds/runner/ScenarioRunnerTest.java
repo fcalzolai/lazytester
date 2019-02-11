@@ -28,7 +28,7 @@ public class ScenarioRunnerTest {
             "                \"name\": \"step 1\" , " +
             "                \"operation\": \"GET\", " +
             "                \"loop\": 3, " +
-            "                \"url\": \"http://appsign-service.secfraud.sbx.zone/auth-mech-api/v1.0/isActive\", " +
+            "                \"url\": \"http://www.google.com\", " +
             "                \"assertions\": {" +
             "                    \"status\": 200    " +
             "                  }" +
