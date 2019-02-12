@@ -1,15 +1,17 @@
 package com.lloyds.model;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class StepTest {
 
     private static final String PARENT = "parent";
     private static final String CHILD = "child";
-
     private static final String URL1 = "url";
     private static final String URL2 = "url2";
     private static final String STEP1 = "step1";
@@ -61,6 +63,26 @@ public class StepTest {
 
         stepBuilder.setUrl(URL2);
         Assert.assertEquals(URL2, stepBuilder.build().getUrl());
+    }
+
+    @Test
+    public void testFullUrl(){
+        Map<String, String> param = ImmutableMap.<String, String>builder()
+                .put("q", "lbg")
+                .put("aq", "f")
+                .build();
+        String url = "http://www.google.com/search";
+        Step step = Step.getStepBuilder()
+                .setName(STEP1)
+                .setUrl(url)
+                .setParams(param)
+                .build();
+
+        String expectedRes1 = "http://www.google.com/search?q=lbg&aq=f";
+        String expectedRes2 = "http://www.google.com/search?aq=f&q=lbg";
+        String fullUrl = step.getFullUrl();
+
+        Assert.assertTrue(fullUrl.equals(expectedRes1) || fullUrl.equals(expectedRes2));
     }
 
 }

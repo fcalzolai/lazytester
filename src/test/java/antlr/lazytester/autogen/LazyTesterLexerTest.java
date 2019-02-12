@@ -41,7 +41,7 @@ public class LazyTesterLexerTest {
                     parser.addErrorListener(new ExceptionThrowerErrorListener());
                     try {
                         parser.scenario_file();
-                        Assert.fail("It should throw a RunTimeExcpetion");
+                        Assert.fail("It should throw a RunTimeException");
                     } catch (RuntimeException e) {
 
                     }

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -65,6 +66,24 @@ public class Step {
 
     public String getUrl() {
         return this.url.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "url")).getUrl());
+    }
+
+    public String getFullUrl() {
+        StringBuilder fullUrl = new StringBuilder()
+                .append(getUrl());
+
+        HashMap<String, String> params = getParams();
+        if(params.size() > 0){
+            String mappedParam = params.entrySet().stream()
+                    .map(entry -> entry.getKey() + "=" + entry.getValue())
+                    .collect(Collectors.joining("&"));
+
+            fullUrl.append("?");
+            fullUrl.append(mappedParam);
+
+        }
+
+        return fullUrl.toString();
     }
 
     public HashMap<String, String>  getParams() {

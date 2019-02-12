@@ -37,8 +37,35 @@ public class ScenarioRunnerTest {
             "           ]" +
             "} ";
 
+    //https://www.google.co.uk/search?q=lbg&aq=f
+    private static final String DEF2 = "{ " +
+            "\"name\": \"scenario 1\", " +
+            "\"loop\": "+ SCENARIO_LOOP +" , " +
+            "\"steps\": [ {" +
+            "                \"name\": \"step 1\" , " +
+            "                \"operation\": \"GET\", " +
+            "                \"loop\": "+ STEP_LOOP +", " +
+            "                \"url\": \"http://www.google.com\", " +
+            "                \"assertions\": {" +
+            "                    \"status\": 200 " +
+            "                  }" +
+            "              }" +
+            "           ]" +
+            "} ";
+
     @Test
     public void testResults() throws IOException {
+        Scenario scenario = getScenario();
+        HttpClient client = HttpClients.createDefault();
+        ScenarioRunner scenarioRunner = new ScenarioRunner(client, scenario);
+        scenarioRunner.runAll();
+        ImmutableTable<Integer, Integer, HttpResponse> results = scenarioRunner.getResults();
+        Assert.assertEquals(SCENARIO_LOOP, results.rowKeySet().size());
+        Assert.assertEquals(STEP_LOOP, results.columnKeySet().size());
+    }
+
+    @Test
+    public void testGetFullUrl() throws IOException {
         Scenario scenario = getScenario();
         HttpClient client = HttpClients.createDefault();
         ScenarioRunner scenarioRunner = new ScenarioRunner(client, scenario);
