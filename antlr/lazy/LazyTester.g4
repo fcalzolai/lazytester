@@ -11,9 +11,10 @@ scenario       : (scenario_name | loop_def | steps_def | ignore_step_failures_de
 scenario_name  : NAME ':' STRING ;
 steps_def      : STEPS ':' '[' steps ']' ;
 steps          : '{' step_def '}' (','  steps )* ;
-step_def       : (step_name | extend_def | loop_def | url_def | operation | param_def | headers_def | body_def | assertions_def) (',' step_def)* ;
+step_def       : (step_name | extend_def | loop_def | url_def | operation | params_def | headers_def | body_def | assertions_def) (',' step_def)* ;
 extend_def     : EXTEND ':' STRING ;
-param_def      : PARAMS ':' STRING ;
+params_def     : PARAMS ':' '{' params '}' ;
+params         : STRING ':' STRING (',' STRING ':' STRING)*;
 headers_def    : HEADERS ':' STRING ;
 body_def       : BODY ':' STRING ;
 step_name      : NAME ':' STRING ;

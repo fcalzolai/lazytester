@@ -114,13 +114,25 @@ public class LazyTesterBaseListener implements LazyTesterListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParam_def(LazyTesterParser.Param_defContext ctx) { }
+	@Override public void enterParams_def(LazyTesterParser.Params_defContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParam_def(LazyTesterParser.Param_defContext ctx) { }
+	@Override public void exitParams_def(LazyTesterParser.Params_defContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParams(LazyTesterParser.ParamsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParams(LazyTesterParser.ParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

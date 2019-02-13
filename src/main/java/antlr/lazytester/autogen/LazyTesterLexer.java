@@ -46,7 +46,7 @@ public class LazyTesterLexer extends Lexer {
 			null, "'{'", "'}'", "'['", "','", "']'", "':'", "'\"ignoreStepFailures\"'", 
 			"'\"true\"'", "'\"false\"'", "'\"name\"'", "'\"loop\"'", "'\"steps\"'", 
 			"'\"url\"'", "'\"operation\"'", null, "'\"assertions\"'", "'\"status\"'", 
-			"'\"params\"'", "'\"headers\"'", "'\"body\"'", "'\"extend\"'"
+			"'\"params\"'", "'\"headers\"'", "'\"body\"'", "'\"parent\"'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -181,8 +181,8 @@ public class LazyTesterLexer extends Lexer {
 		"\u00cc\7g\2\2\u00cc\u00cd\7t\2\2\u00cd\u00ce\7u\2\2\u00ce\u00cf\7$\2\2"+
 		"\u00cf(\3\2\2\2\u00d0\u00d1\7$\2\2\u00d1\u00d2\7d\2\2\u00d2\u00d3\7q\2"+
 		"\2\u00d3\u00d4\7f\2\2\u00d4\u00d5\7{\2\2\u00d5\u00d6\7$\2\2\u00d6*\3\2"+
-		"\2\2\u00d7\u00d8\7$\2\2\u00d8\u00d9\7g\2\2\u00d9\u00da\7z\2\2\u00da\u00db"+
-		"\7v\2\2\u00db\u00dc\7g\2\2\u00dc\u00dd\7p\2\2\u00dd\u00de\7f\2\2\u00de"+
+		"\2\2\u00d7\u00d8\7$\2\2\u00d8\u00d9\7r\2\2\u00d9\u00da\7c\2\2\u00da\u00db"+
+		"\7t\2\2\u00db\u00dc\7g\2\2\u00dc\u00dd\7p\2\2\u00dd\u00de\7v\2\2\u00de"+
 		"\u00df\7$\2\2\u00df,\3\2\2\2\u00e0\u00e2\7$\2\2\u00e1\u00e3\n\2\2\2\u00e2"+
 		"\u00e1\3\2\2\2\u00e3\u00e4\3\2\2\2\u00e4\u00e2\3\2\2\2\u00e4\u00e5\3\2"+
 		"\2\2\u00e5\u00e6\3\2\2\2\u00e6\u00e7\7$\2\2\u00e7.\3\2\2\2\u00e8\u00e9"+

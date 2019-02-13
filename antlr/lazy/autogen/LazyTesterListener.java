@@ -90,15 +90,25 @@ public interface LazyTesterListener extends ParseTreeListener {
 	 */
 	void exitExtend_def(LazyTesterParser.Extend_defContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LazyTesterParser#param_def}.
+	 * Enter a parse tree produced by {@link LazyTesterParser#params_def}.
 	 * @param ctx the parse tree
 	 */
-	void enterParam_def(LazyTesterParser.Param_defContext ctx);
+	void enterParams_def(LazyTesterParser.Params_defContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LazyTesterParser#param_def}.
+	 * Exit a parse tree produced by {@link LazyTesterParser#params_def}.
 	 * @param ctx the parse tree
 	 */
-	void exitParam_def(LazyTesterParser.Param_defContext ctx);
+	void exitParams_def(LazyTesterParser.Params_defContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#params}.
+	 * @param ctx the parse tree
+	 */
+	void enterParams(LazyTesterParser.ParamsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#params}.
+	 * @param ctx the parse tree
+	 */
+	void exitParams(LazyTesterParser.ParamsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LazyTesterParser#headers_def}.
 	 * @param ctx the parse tree

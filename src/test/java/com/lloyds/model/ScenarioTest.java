@@ -3,6 +3,7 @@ package com.lloyds.model;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.LinkedList;
 import java.util.function.Supplier;
 
 public class ScenarioTest {
@@ -14,8 +15,8 @@ public class ScenarioTest {
 
     private <T> void testIllegalStateException(Supplier<T> supplier){
         try {
-            supplier.get();
-            Assert.fail("It should fail with an IllegalStateException");
+            T t = supplier.get();
+            Assert.fail("It should fail with an IllegalStateException. Instead it gets the object " + t);
         } catch (IllegalStateException ex){
 
         } catch (Exception ex) {
@@ -24,9 +25,9 @@ public class ScenarioTest {
     }
 
     private void testBasicGet(Scenario scenario) {
-        testIllegalStateException(() -> scenario.getIgnoreStepFailures());
-        testIllegalStateException(() -> scenario.getLoop());
-        testIllegalStateException(() -> scenario.getSteps());
+        Assert.assertFalse(scenario.getIgnoreStepFailures());
+        Assert.assertEquals(Integer.valueOf(1), scenario.getLoop());
+        Assert.assertEquals(new LinkedList<>(), scenario.getSteps());
     }
 
     @Test
