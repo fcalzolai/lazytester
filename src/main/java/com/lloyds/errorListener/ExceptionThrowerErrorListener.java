@@ -9,6 +9,8 @@ import org.antlr.v4.runtime.dfa.DFA;
 
 import java.util.BitSet;
 
+import static java.lang.String.format;
+
 public class ExceptionThrowerErrorListener implements ANTLRErrorListener {
 
     @Override
@@ -23,7 +25,12 @@ public class ExceptionThrowerErrorListener implements ANTLRErrorListener {
 
     @Override
     public void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) {
-        throw new RuntimeException("ReportAttemptingFullContext");
+        throw new RuntimeException(format("ReportAttemptingFullContext " +
+                "dfa[%s] " +
+                "startIndex[%d], " +
+                "stopIndex[%d] " +
+                "conflicting[%s] " +
+                "configs[%s]", dfa, startIndex, stopIndex, conflictingAlts, configs));
     }
 
     @Override

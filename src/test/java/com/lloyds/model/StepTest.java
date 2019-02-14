@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -15,6 +14,10 @@ public class StepTest {
     private static final String URL1 = "url";
     private static final String URL2 = "url2";
     private static final String STEP1 = "step1";
+    private static final Map<String, String> GOOGLE_VALID_QUERY_PARAM = ImmutableMap.<String, String>builder()
+            .put("q", "lbg")
+            .put("aq", "f")
+            .build();
 
     private <T> void testIllegalStateException(Supplier<T> supplier){
         try {
@@ -67,15 +70,11 @@ public class StepTest {
 
     @Test
     public void testFullUrl(){
-        Map<String, String> param = ImmutableMap.<String, String>builder()
-                .put("q", "lbg")
-                .put("aq", "f")
-                .build();
         String url = "http://www.google.com/search";
         Step step = Step.getStepBuilder()
                 .setName(STEP1)
                 .setUrl(url)
-                .setParams(param)
+                .setParams(GOOGLE_VALID_QUERY_PARAM)
                 .build();
 
         String expectedRes1 = "http://www.google.com/search?q=lbg&aq=f";
@@ -83,6 +82,34 @@ public class StepTest {
         String fullUrl = step.getFullUrl();
 
         Assert.assertTrue(fullUrl.equals(expectedRes1) || fullUrl.equals(expectedRes2));
+    }
+
+    @Test
+    public void testParams(){
+        Step parent = Step.getStepBuilder()
+                .setParams(GOOGLE_VALID_QUERY_PARAM)
+                .build();
+
+        Step.StepBuilder childBuilder = Step.getStepBuilder()
+                .setParent(parent);
+
+        Step child = childBuilder
+                .build();
+
+        Assert.assertEquals(GOOGLE_VALID_QUERY_PARAM, child.getParams());
+        ImmutableMap<String, String> params = ImmutableMap.<String, String>builder()
+                .put("q", "lbg2")
+                .build();
+
+        child = childBuilder
+                .setParams(params)
+                .build();
+
+        ImmutableMap<String, String> expected = ImmutableMap.<String, String>builder()
+                .put("q", "lbg2")
+                .put("aq", "f")
+                .build();
+        Assert.assertEquals(expected, child.getParams());
     }
 
 }
