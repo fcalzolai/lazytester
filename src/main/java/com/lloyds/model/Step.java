@@ -17,7 +17,7 @@ import static java.lang.String.format;
 
 public class Step {
 
-    public static final Integer DEFAULT_LOOP = Integer.valueOf(1);
+    public static final Integer DEFAULT_LOOP = 1;
 
     private static final BiFunction<String, String, Supplier<IllegalStateException>> EXCEPTION_BUILDER = (name, attr) ->
             () -> new IllegalStateException(format("%s Unable to find valid data for the attribute %s", name, attr));
@@ -28,7 +28,7 @@ public class Step {
     private Optional<String> operation;
     private Optional<String> url;
     private Map<String, String> params;
-    private Optional<String> headers;
+    private Map<String, String> headers;
     private Optional<String> body;
     private Optional<String> assertions;
 
@@ -40,7 +40,7 @@ public class Step {
                 Optional<String> operation,
                 Optional<String> url,
                 Map<String, String> params,
-                Optional<String> headers,
+                Map<String, String> headers,
                 Optional<String> body,
                 Optional<String> assertions) {
         this.name = name;
@@ -96,8 +96,11 @@ public class Step {
         return result;
     }
 
-    public String getHeaders() {
-        return this.headers.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "headers")).getHeaders());
+    public Map<String, String> getHeaders() {
+        HashMap<String, String> result = new HashMap<>();
+        parent.ifPresent(s -> result.putAll(s.getHeaders()));
+        result.putAll(params);
+        return result;
     }
 
     public String getBody() {
@@ -113,9 +116,11 @@ public class Step {
             switch (getOperation()) {
                 case HttpGet.METHOD_NAME:
                     httpRequest = new HttpGet(getUrl());
+                    getHeaders().forEach((k, v) -> httpRequest.setHeader(k, v));
                     break;
                 case HttpPost.METHOD_NAME:
                     HttpPost httpPost = new HttpPost(getUrl());
+                    getHeaders().forEach((k, v) -> httpRequest.setHeader(k, v));
                     httpPost.setEntity(new StringEntity(getBody()));
                     httpRequest = httpPost;
                     break;
@@ -139,7 +144,7 @@ public class Step {
         private Optional<String> operation;
         private Optional<String> url;
         private Map<String, String> params;
-        private Optional<String> headers;
+        private Map<String, String> headers;
         private Optional<String> body;
         private Optional<String> assertions;
 
@@ -149,7 +154,7 @@ public class Step {
             this.loop = Optional.empty();
             this.operation = Optional.empty();
             this.params = new HashMap<>();
-            this.headers = Optional.empty();
+            this.headers = new HashMap<>();
             this.url = Optional.empty();
             this.body = Optional.empty();
             this.assertions = Optional.empty();
@@ -189,8 +194,8 @@ public class Step {
             return this;
         }
 
-        public StepBuilder setHeaders(String headers) {
-            this.headers = Optional.of(headers);
+        public StepBuilder setHeaders(Map<String, String> headers) {
+            this.headers = headers;
             return this;
         }
 
@@ -202,6 +207,10 @@ public class Step {
         public StepBuilder setAssertions(String assertions) {
             this.assertions = Optional.of(assertions);
             return this;
+        }
+
+        public String putParam(String k, String v) {
+            return params.put(k, v);
         }
     }
 }

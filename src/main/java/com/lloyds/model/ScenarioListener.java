@@ -3,8 +3,10 @@ package com.lloyds.model;
 import antlr.lazytester.autogen.LazyTesterBaseListener;
 import antlr.lazytester.autogen.LazyTesterParser;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class ScenarioListener extends LazyTesterBaseListener {
 
@@ -91,6 +93,28 @@ public class ScenarioListener extends LazyTesterBaseListener {
     @Override
     public void enterAssertions(LazyTesterParser.AssertionsContext ctx) {
         stepBuilder.setAssertions(getEscapedChildText(ctx));
+    }
+
+    @Override
+    public void enterParams(LazyTesterParser.ParamsContext ctx) {
+        super.enterParams(ctx);
+        List<ParseTree> children = ctx.children;
+        String k = "";
+        String v = "";
+        for (int i = 0; i < children.size(); i++) {
+            if(i % 4 == 0) {
+                k = children.get(i).getText().replace("\"", "");
+            } else if(i % 4 == 2) {
+                v = children.get(i).getText().replace("\"", "");
+                stepBuilder.putParam(k, v);
+            }
+        }
+
+    }
+
+    @Override
+    public void exitParams(LazyTesterParser.ParamsContext ctx) {
+        super.exitParams(ctx);
     }
 
     public Scenario getScenario() {

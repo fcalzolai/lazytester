@@ -14,13 +14,14 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class ScenarioBuilderTest {
 
-    private static final String DEF1 = "import te; { " +
+    private static final String SCENARIO_1 = "import te; { " +
             "\"name\": \"scenario 1\", " +
             "\"loop\": 2 , " +
             "\"steps\": [ {" +
@@ -35,9 +36,24 @@ public class ScenarioBuilderTest {
             "           ]" +
             "} ";
 
+    private static final String SCENARIO_2 = "{ " +
+            "\"name\": \"scenario 1\", " +
+            "\"steps\": [ {" +
+            "                \"name\": \"step 1\" , " +
+            "                \"operation\": \"GET\", " +
+            "                \"url\": \"http://www.google.com\", " +
+            "                \"params\": { " +
+            "                     \"q\": \"lbg\", " +
+            "                     \"aq\": \"f\"  " +
+            "                  }" +
+            "              }" +
+            "           ]" +
+            "} ";
+
+
     @Test
     public void test1(){
-        CharStream cs = CharStreams.fromString(DEF1);
+        CharStream cs = CharStreams.fromString(SCENARIO_1);
         LazyTesterLexer lexer = new LazyTesterLexer(cs);  //instantiate a lexer
         CommonTokenStream tokens = new CommonTokenStream(lexer); //scan stream for tokens
         LazyTesterParser parser = new LazyTesterParser(tokens);  //parse the tokens
@@ -53,7 +69,7 @@ public class ScenarioBuilderTest {
 
     @Test
     public void test2() throws IOException {
-        CharStream cs = CharStreams.fromString(DEF1);
+        CharStream cs = CharStreams.fromString(SCENARIO_1);
         LazyTesterLexer lexer = new LazyTesterLexer(cs);  //instantiate a lexer
         CommonTokenStream tokens = new CommonTokenStream(lexer); //scan stream for tokens
         LazyTesterParser parser = new LazyTesterParser(tokens);  //parse the tokens
@@ -73,6 +89,22 @@ public class ScenarioBuilderTest {
         runHttpGet(client, http);
         runHttpGet(client, http);
         runHttpGet(client, http);
+    }
+
+    @Test
+    public void testParamsCreation(){
+        CharStream cs = CharStreams.fromString(SCENARIO_2);
+        LazyTesterLexer lexer = new LazyTesterLexer(cs);  //instantiate a lexer
+        CommonTokenStream tokens = new CommonTokenStream(lexer); //scan stream for tokens
+        LazyTesterParser parser = new LazyTesterParser(tokens);  //parse the tokens
+
+        ParseTree tree = parser.scenario_file();
+        ScenarioListener listener = new ScenarioListener();
+
+        ParseTreeWalker walker = new ParseTreeWalker();
+        walker.walk(listener,tree);
+        Scenario scenario = listener.getScenario();
+        Assert.assertEquals(2, scenario.getSteps().get(0).getParams().size());
     }
 
     private void runHttpGet(HttpClient client, HttpUriRequest http) throws IOException {

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Scenario {
 
-    public static final Integer DEFAULT_LOOP = Integer.valueOf(1);
+    public static final Integer DEFAULT_LOOP = 1;
 
     private String name;
     private Integer loop;
