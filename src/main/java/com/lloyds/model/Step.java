@@ -17,6 +17,8 @@ import static java.lang.String.format;
 
 public class Step {
 
+    public static final Integer DEFAULT_LOOP = Integer.valueOf(1);
+
     private static final BiFunction<String, String, Supplier<IllegalStateException>> EXCEPTION_BUILDER = (name, attr) ->
             () -> new IllegalStateException(format("%s Unable to find valid data for the attribute %s", name, attr));
 
@@ -57,7 +59,8 @@ public class Step {
     }
 
     public Integer getLoop() {
-        return this.loop.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "loop")).getLoop());
+        // Use local value, otherwise parent, otherwise default
+        return this.loop.orElseGet(() -> parent.map(Step::getLoop).orElse(DEFAULT_LOOP));
     }
 
     public String getOperation() {

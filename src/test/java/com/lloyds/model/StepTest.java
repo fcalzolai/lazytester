@@ -35,13 +35,13 @@ public class StepTest {
         testIllegalStateException(() -> step.getUrl());
         testIllegalStateException(() -> step.getBody());
         testIllegalStateException(() -> step.getOperation());
-        testIllegalStateException(() -> step.getLoop());
     }
 
     @Test
     public void testBasicGets(){
         Step step = Step.getStepBuilder().setName(STEP1).build();
         testBasicGet(step);
+        Assert.assertEquals(Step.DEFAULT_LOOP, step.getLoop());
     }
 
     @Test
@@ -49,6 +49,7 @@ public class StepTest {
         Step parent = Step.getStepBuilder().setName(PARENT).build();
         Step child = Step.getStepBuilder().setName(CHILD).setParent(parent).build();
         testBasicGet(child);
+        Assert.assertEquals(Step.DEFAULT_LOOP, child.getLoop());
     }
 
     @Test
@@ -59,13 +60,25 @@ public class StepTest {
 
     @Test
     public void testSets(){
-        Step parent = Step.getStepBuilder().setName(PARENT).setUrl(URL1).build();
-        Step.StepBuilder stepBuilder = Step.getStepBuilder().setName(CHILD).setParent(parent);
+        Step.StepBuilder parentBuilder = Step.getStepBuilder()
+                .setName(PARENT)
+                .setUrl(URL1);
 
-        Assert.assertEquals(URL1, stepBuilder.build().getUrl());
+        Step.StepBuilder childBuilder = Step.getStepBuilder()
+                .setName(CHILD)
+                .setParent(parentBuilder.build());
 
-        stepBuilder.setUrl(URL2);
-        Assert.assertEquals(URL2, stepBuilder.build().getUrl());
+        Assert.assertEquals(URL1, childBuilder.build().getUrl());
+        Assert.assertEquals(Step.DEFAULT_LOOP, childBuilder.build().getLoop());
+
+        parentBuilder.setLoop(2);
+        childBuilder.setParent(parentBuilder.build());
+        Assert.assertEquals(Integer.valueOf(2), childBuilder.build().getLoop());
+
+        childBuilder.setUrl(URL2);
+        childBuilder.setLoop(3);
+        Assert.assertEquals(Integer.valueOf(3), childBuilder.build().getLoop());
+        Assert.assertEquals(URL2, childBuilder.build().getUrl());
     }
 
     @Test

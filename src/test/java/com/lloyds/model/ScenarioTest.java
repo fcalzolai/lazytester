@@ -26,7 +26,7 @@ public class ScenarioTest {
 
     private void testBasicGet(Scenario scenario) {
         Assert.assertFalse(scenario.getIgnoreStepFailures());
-        Assert.assertEquals(Integer.valueOf(1), scenario.getLoop());
+        Assert.assertEquals(Scenario.DEFAULT_LOOP, scenario.getLoop());
         Assert.assertEquals(new LinkedList<>(), scenario.getSteps());
     }
 

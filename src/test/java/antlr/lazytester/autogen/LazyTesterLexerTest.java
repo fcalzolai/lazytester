@@ -20,25 +20,29 @@ public class LazyTesterLexerTest {
     private static final List<String> INCORRECT_SCENARIOS = ImmutableList.<String>builder()
             .add("import path/to/test " +
                  "{\"name\": \"get google\"}")
+            .add("import path/to/test; " +
+                 "{" +
+                    "\"name\": \"get google\"," +
+                 "}")
             .build();
 
     private static final List<String> CORRECT_SCENARIOS = ImmutableList.<String>builder()
-//            .add("import test; " +
-//                 "{\"name\": \"get google\"}")
-//            .add("import path/to/test; " +
-//                 "import path/to/test2; "+
-//                 "{\"name\": \"get google\"}")
-//            .add("{\"steps\": [{ \"name\": \"get google\"}]} ")
+            .add("import test; " +
+                 "{\"name\": \"get google\"}")
+            .add("import path/to/test; " +
+                 "import path/to/test2; "+
+                 "{\"name\": \"get google\"}")
+            .add("{\"steps\": [{ \"name\": \"get google\"}]} ")
             .add("{ " +
                     "\"steps\": [ " +
                     "   { " +
                     "      \"name\": \"get google\",  " +
                     "      \"url\": \"https://www.google.com\", " +
-                    "      \"operation\": \"GET\" " +
-//                    "      , \"params\" : { " +
-//                    "        \"key1\" : \"value1\", " +
-//                    "        \"key2\" : \"value2\"  " +
-//                    "      }" +
+                    "      \"operation\": \"GET\", " +
+                    "        \"params\" : { " +
+                    "        \"key1\" : \"value1\", " +
+                    "        \"key2\" : \"value2\"  " +
+                    "      }" +
                     "  }" +
                     "]" +
                     "} ")

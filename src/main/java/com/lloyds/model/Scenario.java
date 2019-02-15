@@ -2,15 +2,10 @@ package com.lloyds.model;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
-
-import static java.lang.String.format;
 
 public class Scenario {
 
-    private static final BiFunction<String, String, Supplier<IllegalStateException>> EXCEPTION_BUILDER = (name, attr) ->
-            () -> new IllegalStateException(format("%s Unable to find valid data for the attribute %s", name, attr));
+    public static final Integer DEFAULT_LOOP = Integer.valueOf(1);
 
     private String name;
     private Integer loop;
@@ -56,7 +51,7 @@ public class Scenario {
 
         private ScenarioBuilder() {
             this.name = null;
-            this.loop = 1;
+            this.loop = DEFAULT_LOOP;
             this.ignoreStepFailures = false;
             this.steps = new LinkedList<>();
         }

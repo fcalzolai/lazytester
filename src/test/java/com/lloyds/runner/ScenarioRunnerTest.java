@@ -22,32 +22,27 @@ public class ScenarioRunnerTest {
 
     private static int SCENARIO_LOOP = 2;
     private static int STEP_LOOP = 3;
-    private static final String DEF1 = "{ " +
+    private static final String SCENARIO_1 = "{ " +
             "\"name\": \"scenario 1\", " +
             "\"loop\": "+ SCENARIO_LOOP +" , " +
             "\"steps\": [ {" +
             "                \"name\": \"step 1\" , " +
             "                \"operation\": \"GET\", " +
             "                \"loop\": "+ STEP_LOOP +", " +
-            "                \"url\": \"http://www.google.com\", " +
-            "                \"assertions\": {" +
-            "                    \"status\": 200 " +
-            "                  }" +
+            "                \"url\": \"http://www.google.com\" " +
             "              }" +
             "           ]" +
             "} ";
 
-    //https://www.google.co.uk/search?q=lbg&aq=f
-    private static final String DEF2 = "{ " +
+    private static final String SCENARIO_2 = "{ " +
             "\"name\": \"scenario 1\", " +
-            "\"loop\": "+ SCENARIO_LOOP +" , " +
             "\"steps\": [ {" +
             "                \"name\": \"step 1\" , " +
             "                \"operation\": \"GET\", " +
-            "                \"loop\": "+ STEP_LOOP +", " +
             "                \"url\": \"http://www.google.com\", " +
-            "                \"assertions\": {" +
-            "                    \"status\": 200 " +
+            "                \"params\": { " +
+            "                     \"q\": \"lbg\", " +
+            "                     \"aq\": \"f\"  " +
             "                  }" +
             "              }" +
             "           ]" +
@@ -55,28 +50,39 @@ public class ScenarioRunnerTest {
 
     @Test
     public void testResults() throws IOException {
-        Scenario scenario = getScenario();
+        Scenario scenario = getScenario(SCENARIO_1);
         HttpClient client = HttpClients.createDefault();
         ScenarioRunner scenarioRunner = new ScenarioRunner(client, scenario);
         scenarioRunner.runAll();
         ImmutableTable<Integer, Integer, HttpResponse> results = scenarioRunner.getResults();
-        Assert.assertEquals(SCENARIO_LOOP, results.rowKeySet().size());
-        Assert.assertEquals(STEP_LOOP, results.columnKeySet().size());
+        Assert.assertEquals(scenario.getLoop().intValue(), results.rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.columnKeySet().size());
     }
 
     @Test
     public void testGetFullUrl() throws IOException {
-        Scenario scenario = getScenario();
+        Scenario scenario = getScenario(SCENARIO_1);
         HttpClient client = HttpClients.createDefault();
         ScenarioRunner scenarioRunner = new ScenarioRunner(client, scenario);
         scenarioRunner.runAll();
         ImmutableTable<Integer, Integer, HttpResponse> results = scenarioRunner.getResults();
-        Assert.assertEquals(SCENARIO_LOOP, results.rowKeySet().size());
-        Assert.assertEquals(STEP_LOOP, results.columnKeySet().size());
+        Assert.assertEquals(scenario.getLoop().intValue(), results.rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.columnKeySet().size());
     }
 
-    private Scenario getScenario() {
-        CharStream cs = CharStreams.fromString(DEF1);
+    @Test
+    public void testGetFullUrlAndParams() throws IOException {
+        Scenario scenario = getScenario(SCENARIO_2);
+        HttpClient client = HttpClients.createDefault();
+        ScenarioRunner scenarioRunner = new ScenarioRunner(client, scenario);
+        scenarioRunner.runAll();
+        ImmutableTable<Integer, Integer, HttpResponse> results = scenarioRunner.getResults();
+        Assert.assertEquals(scenario.getLoop().intValue(), results.rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.columnKeySet().size());
+    }
+
+    private Scenario getScenario(String scenario) {
+        CharStream cs = CharStreams.fromString(scenario);
         LazyTesterLexer lexer = new LazyTesterLexer(cs);  //instantiate a lexer
         CommonTokenStream tokens = new CommonTokenStream(lexer); //scan stream for tokens
         LazyTesterParser parser = new LazyTesterParser(tokens);  //parse the tokens
