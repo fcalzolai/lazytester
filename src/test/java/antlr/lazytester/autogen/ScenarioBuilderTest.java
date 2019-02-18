@@ -1,7 +1,7 @@
 package antlr.lazytester.autogen;
 
 import com.lloyds.model.Scenario;
-import com.lloyds.model.ScenarioListener;
+import com.lloyds.builder.ScenarioListener;
 import com.lloyds.model.Step;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -18,8 +18,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScenarioBuilderTest {
+
+    private static final String HEADERS_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 " +
+            "(KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36";
 
     private static final String SCENARIO_1 = "import te; { " +
             "\"name\": \"scenario 1\", " +
@@ -45,7 +50,11 @@ public class ScenarioBuilderTest {
             "                \"params\": { " +
             "                     \"q\": \"lbg\", " +
             "                     \"aq\": \"f\"  " +
-            "                  }" +
+            "                  }," +
+            "                \"headers\" : { " +
+            "                     \"user-agent\" : \""+HEADERS_USER_AGENT+"\", " +
+            "                     \"accept-encoding\" : \"gzip, deflate, br\" " +
+            "                } " +
             "              }" +
             "           ]" +
             "} ";
@@ -104,7 +113,29 @@ public class ScenarioBuilderTest {
         ParseTreeWalker walker = new ParseTreeWalker();
         walker.walk(listener,tree);
         Scenario scenario = listener.getScenario();
-        Assert.assertEquals(2, scenario.getSteps().get(0).getParams().size());
+        Map<String, String> params = scenario.getSteps().get(0).getParams();
+        Assert.assertEquals(2, params.size());
+        Assert.assertEquals("lbg", params.get("q"));
+        Assert.assertEquals("f", params.get("aq"));
+    }
+
+    @Test
+    public void testHeadersCreation(){
+        CharStream cs = CharStreams.fromString(SCENARIO_2);
+        LazyTesterLexer lexer = new LazyTesterLexer(cs);  //instantiate a lexer
+        CommonTokenStream tokens = new CommonTokenStream(lexer); //scan stream for tokens
+        LazyTesterParser parser = new LazyTesterParser(tokens);  //parse the tokens
+
+        ParseTree tree = parser.scenario_file();
+        ScenarioListener listener = new ScenarioListener();
+
+        ParseTreeWalker walker = new ParseTreeWalker();
+        walker.walk(listener,tree);
+        Scenario scenario = listener.getScenario();
+        Map<String, String> headers = scenario.getSteps().get(0).getHeaders();
+        Assert.assertEquals(2, headers.size());
+        Assert.assertEquals(HEADERS_USER_AGENT, headers.get("user-agent"));
+        Assert.assertEquals("gzip, deflate, br", headers.get("accept-encoding"));
     }
 
     private void runHttpGet(HttpClient client, HttpUriRequest http) throws IOException {

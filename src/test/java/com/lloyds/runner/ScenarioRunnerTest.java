@@ -4,7 +4,7 @@ import antlr.lazytester.autogen.LazyTesterLexer;
 import antlr.lazytester.autogen.LazyTesterParser;
 import com.google.common.collect.ImmutableTable;
 import com.lloyds.model.Scenario;
-import com.lloyds.model.ScenarioListener;
+import com.lloyds.builder.ScenarioListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;

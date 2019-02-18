@@ -28,8 +28,12 @@ echo -e "
       \"url\": \"https://www.google.com\",
       \"operation\": \"GET\",
       \"params\" : {
-        \"key1\" : \"value1\",
-        \"key2\" : \"value2\"
+        \"q\" : \"lbg\",
+        \"aq\" : \"f\"
+      },
+      \"headers\" : {
+        \"user-agent\" : \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36\",
+        \"accept-encoding\" : \"gzip, deflate, br\"
       },
       \"assertions\": {
       \"status\": 200

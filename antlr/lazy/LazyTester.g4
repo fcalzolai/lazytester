@@ -15,7 +15,7 @@ step_def       : (step_name | extend_def | loop_def | url_def | operation | para
 extend_def     : EXTEND ':' STRING ;
 params_def     : PARAMS ':' '{' params '}' ;
 params         : STRING ':' STRING (',' STRING ':' STRING)*;
-headers_def    : HEADERS ':' STRING ;
+headers_def    : HEADERS ':' '{' params '}' ;
 body_def       : BODY ':' STRING ;
 step_name      : NAME ':' STRING ;
 url_def        : URL ':' STRING ;

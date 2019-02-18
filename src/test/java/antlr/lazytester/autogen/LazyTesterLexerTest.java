@@ -2,14 +2,10 @@ package antlr.lazytester.autogen;
 
 import com.google.common.collect.ImmutableList;
 import com.lloyds.errorListener.ExceptionThrowerErrorListener;
-import com.lloyds.model.Scenario;
-import com.lloyds.model.ScenarioListener;
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,6 +39,23 @@ public class LazyTesterLexerTest {
                     "          \"key1\" : \"value1\", " +
                     "          \"key2\" : \"value2\"  " +
                     "      }" +
+                    "  }" +
+                    "]" +
+                    "} ")
+            .add("{ " +
+                    "\"steps\": [ " +
+                    "   { " +
+                    "      \"name\": \"get google\",  " +
+                    "      \"url\": \"https://www.google.com\", " +
+                    "      \"operation\": \"GET\", " +
+                    "      \"params\" : { " +
+                    "          \"key1\" : \"value1\", " +
+                    "          \"key2\" : \"value2\"  " +
+                    "        }, " +
+                    "      \"headers\" : { " +
+                    "          \"user-agent\" : \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36\", " +
+                    "          \"accept-encoding\" : \"gzip, deflate, br\" " +
+                    "        } " +
                     "  }" +
                     "]" +
                     "} ")

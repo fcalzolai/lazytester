@@ -75,7 +75,7 @@ public class Step {
         StringBuilder fullUrl = new StringBuilder()
                 .append(getUrl());
 
-        HashMap<String, String> params = getParams();
+        Map<String, String> params = getParams();
         if(params.size() > 0){
             String mappedParam = params.entrySet().stream()
                     .map(entry -> entry.getKey() + "=" + entry.getValue())
@@ -89,7 +89,7 @@ public class Step {
         return fullUrl.toString();
     }
 
-    public HashMap<String, String>  getParams() {
+    public Map<String, String>  getParams() {
         HashMap<String, String> result = new HashMap<>();
         parent.ifPresent(s -> result.putAll(s.getParams()));
         result.putAll(params);
@@ -99,7 +99,7 @@ public class Step {
     public Map<String, String> getHeaders() {
         HashMap<String, String> result = new HashMap<>();
         parent.ifPresent(s -> result.putAll(s.getHeaders()));
-        result.putAll(params);
+        result.putAll(headers);
         return result;
     }
 
@@ -211,6 +211,10 @@ public class Step {
 
         public String putParam(String k, String v) {
             return params.put(k, v);
+        }
+
+        public String putHeaders(String k, String v) {
+            return headers.put(k, v);
         }
     }
 }

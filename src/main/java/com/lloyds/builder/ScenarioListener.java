@@ -1,12 +1,15 @@
-package com.lloyds.model;
+package com.lloyds.builder;
 
 import antlr.lazytester.autogen.LazyTesterBaseListener;
 import antlr.lazytester.autogen.LazyTesterParser;
+import com.lloyds.model.Scenario;
+import com.lloyds.model.Step;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 public class ScenarioListener extends LazyTesterBaseListener {
 
@@ -15,11 +18,13 @@ public class ScenarioListener extends LazyTesterBaseListener {
     private boolean isInStep;
     private LinkedList<Step> steps;
     private Step.StepBuilder stepBuilder;
+    private MapDef map;
 
     @Override
     public void enterScenario_file(LazyTesterParser.Scenario_fileContext ctx) {
         scenarioBuilder = Scenario.getScenarioBuilder();
         isInStep = false;
+        map = MapDef.HEADERS;
     }
 
     @Override
@@ -97,8 +102,8 @@ public class ScenarioListener extends LazyTesterBaseListener {
 
     @Override
     public void enterParams(LazyTesterParser.ParamsContext ctx) {
-        super.enterParams(ctx);
         List<ParseTree> children = ctx.children;
+        BiConsumer<String, String> put = getPutParamConsumer();
         String k = "";
         String v = "";
         for (int i = 0; i < children.size(); i++) {
@@ -106,15 +111,43 @@ public class ScenarioListener extends LazyTesterBaseListener {
                 k = children.get(i).getText().replace("\"", "");
             } else if(i % 4 == 2) {
                 v = children.get(i).getText().replace("\"", "");
-                stepBuilder.putParam(k, v);
+                put.accept(k, v);
             }
         }
 
     }
 
     @Override
-    public void exitParams(LazyTesterParser.ParamsContext ctx) {
-        super.exitParams(ctx);
+    public void enterParams_def(LazyTesterParser.Params_defContext ctx) {
+        map = MapDef.QUERY_PARAMS;
+    }
+
+    @Override
+    public void exitParams_def(LazyTesterParser.Params_defContext ctx) {
+        map = MapDef.NULL;
+    }
+
+    @Override
+    public void enterHeaders_def(LazyTesterParser.Headers_defContext ctx) {
+        map = MapDef.HEADERS;
+    }
+
+    @Override
+    public void exitHeaders_def(LazyTesterParser.Headers_defContext ctx) {
+        map = MapDef.NULL;
+    }
+
+    private BiConsumer<String, String> getPutParamConsumer() {
+        switch (map) {
+            case HEADERS:
+                return (k, v) -> stepBuilder.putHeaders(k, v);
+            case QUERY_PARAMS:
+                return (k, v) -> stepBuilder.putParam(k, v);
+            case NULL:
+                throw new IllegalArgumentException("Map has been set to NULL");
+            default:
+                throw new IllegalArgumentException("Unknown map: unable to perform put.");
+        }
     }
 
     public Scenario getScenario() {
