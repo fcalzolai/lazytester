@@ -19,7 +19,7 @@ cd ./autogen/
 javac -d ./target/ LazyTester*.java
 
 cd ./target/
-#echo -e "import test1; {\"name\": \"get google\"} " | java org.antlr.v4.gui.TestRig antlr.lazytester.autogen.LazyTester scenario_file -gui
+
 echo -e "
 {
 \"steps\": [
@@ -35,51 +35,20 @@ echo -e "
         \"user-agent\" : \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36\",
         \"accept-encoding\" : \"gzip, deflate, br\"
       },
+      \"body\": {
+          \"test\" : \"test\",
+          \"array\" : [ \"array\" ],
+          \"array\" : [
+                \"text1\",
+                {
+                    \"array\" : \"test1\"
+                },
+                +123
+          ]
+      },
       \"assertions\": {
       \"status\": 200
       }
     }
   ]
 }" | java org.antlr.v4.gui.TestRig antlr.lazytester.autogen.LazyTester scenario_file -gui
-
-#echo -e "import path1; \n
-#         import path2; \n
-#          [{  \n
-#            \"name\": \"scenario 1\" ,
-#            \"ignoreStepFailures\": \"false\",
-#            \"loop\" : 13 ,
-#            \"steps\": [
-#                {
-#                  \"name\": \"step 1\" ,
-#                  \"operation\": \"GET\",
-#                  \"loop\": 13,
-#                  \"url\": \"www.google.com\",
-#                  \"params\": \"**** params ****\",
-#                  \"headers\": \"**** headers ****\",
-#                  \"body\": \"**** body ****\",
-#                  \"assertions\": {
-#                     \"status\": 200
-#                    }
-#                }
-#             ]
-#         },
-#         {  \n
-#            \"name\": \"scenario 1\" ,
-#            \"ignoreStepFailures\": \"false\",
-#            \"loop\" : 13 ,
-#            \"steps\": [
-#                {
-#                  \"name\": \"step 1\" ,
-#                  \"operation\": \"GET\",
-#                  \"loop\": 13,
-#                  \"url\": \"www.google.com\",
-#                  \"params\": \"**** params ****\",
-#                  \"headers\": \"**** headers ****\",
-#                  \"body\": \"**** body ****\",
-#                  \"assertions\": {
-#                     \"status\": 200
-#                    }
-#                }
-#             ]
-#         }]
-#         " | java org.antlr.v4.gui.TestRig antlr.lazytester.autogen.LazyTester scenario_file -gui

@@ -126,18 +126,6 @@ public class LazyTesterBaseListener implements LazyTesterListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParams(LazyTesterParser.ParamsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParams(LazyTesterParser.ParamsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterHeaders_def(LazyTesterParser.Headers_defContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -145,6 +133,18 @@ public class LazyTesterBaseListener implements LazyTesterListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitHeaders_def(LazyTesterParser.Headers_defContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParams(LazyTesterParser.ParamsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParams(LazyTesterParser.ParamsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -241,6 +241,66 @@ public class LazyTesterBaseListener implements LazyTesterListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIgnore_step_failures_def(LazyTesterParser.Ignore_step_failures_defContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterJson(LazyTesterParser.JsonContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJson(LazyTesterParser.JsonContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterObj(LazyTesterParser.ObjContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitObj(LazyTesterParser.ObjContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPair(LazyTesterParser.PairContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPair(LazyTesterParser.PairContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArray(LazyTesterParser.ArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArray(LazyTesterParser.ArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValue(LazyTesterParser.ValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValue(LazyTesterParser.ValueContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

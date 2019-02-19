@@ -60,15 +60,15 @@ public class Step {
 
     public Integer getLoop() {
         // Use local value, otherwise parent, otherwise default
-        return this.loop.orElseGet(() -> parent.map(Step::getLoop).orElse(DEFAULT_LOOP));
+        return loop.orElseGet(() -> parent.map(Step::getLoop).orElse(DEFAULT_LOOP));
     }
 
     public String getOperation() {
-        return this.operation.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "operation")).getOperation());
+        return operation.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "operation")).getOperation());
     }
 
     public String getUrl() {
-        return this.url.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "url")).getUrl());
+        return url.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "url")).getUrl());
     }
 
     public String getFullUrl() {
@@ -104,11 +104,11 @@ public class Step {
     }
 
     public String getBody() {
-        return this.body.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "body")).getBody());
+        return body.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "body")).getBody());
     }
 
     public String getAssertions() {
-        return this.assertions.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "assertions")).getAssertions());
+        return assertions.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "assertions")).getAssertions());
     }
 
     public HttpUriRequest getHttpRequest() throws UnsupportedEncodingException {

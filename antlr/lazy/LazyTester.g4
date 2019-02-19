@@ -1,5 +1,7 @@
 grammar LazyTester;
 
+import Json;
+
 @header {
 package antlr.lazytester.autogen;
 }
@@ -14,9 +16,9 @@ steps          : '{' step_def '}' (','  steps )? ;
 step_def       : (step_name | extend_def | loop_def | url_def | operation | params_def | headers_def | body_def | assertions_def) (',' step_def)? ;
 extend_def     : EXTEND ':' STRING ;
 params_def     : PARAMS ':' '{' params '}' ;
-params         : STRING ':' STRING (',' STRING ':' STRING)*;
 headers_def    : HEADERS ':' '{' params '}' ;
-body_def       : BODY ':' STRING ;
+params         : STRING ':' STRING (',' STRING ':' STRING)*;
+body_def       : BODY ':' json ;
 step_name      : NAME ':' STRING ;
 url_def        : URL ':' STRING ;
 operation      : OPERATION ':' HTTP_OPS ;
@@ -37,7 +39,7 @@ PARAMS        : '"params"' ;
 HEADERS       : '"headers"' ;
 BODY          : '"body"' ;
 EXTEND        : '"parent"' ;
-STRING        : '"' ~["]+ '"';
+STRING        : '"' (.)+? '"';
 IMPORT        : 'import' ~[;]+ ';';
 INT           : [0-9]+ ;
 WS            :  [ \t\r\n\f]+ -> skip ;

@@ -100,16 +100,6 @@ public interface LazyTesterListener extends ParseTreeListener {
 	 */
 	void exitParams_def(LazyTesterParser.Params_defContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LazyTesterParser#params}.
-	 * @param ctx the parse tree
-	 */
-	void enterParams(LazyTesterParser.ParamsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LazyTesterParser#params}.
-	 * @param ctx the parse tree
-	 */
-	void exitParams(LazyTesterParser.ParamsContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link LazyTesterParser#headers_def}.
 	 * @param ctx the parse tree
 	 */
@@ -119,6 +109,16 @@ public interface LazyTesterListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitHeaders_def(LazyTesterParser.Headers_defContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#params}.
+	 * @param ctx the parse tree
+	 */
+	void enterParams(LazyTesterParser.ParamsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#params}.
+	 * @param ctx the parse tree
+	 */
+	void exitParams(LazyTesterParser.ParamsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LazyTesterParser#body_def}.
 	 * @param ctx the parse tree
@@ -199,4 +199,54 @@ public interface LazyTesterListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIgnore_step_failures_def(LazyTesterParser.Ignore_step_failures_defContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#json}.
+	 * @param ctx the parse tree
+	 */
+	void enterJson(LazyTesterParser.JsonContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#json}.
+	 * @param ctx the parse tree
+	 */
+	void exitJson(LazyTesterParser.JsonContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#obj}.
+	 * @param ctx the parse tree
+	 */
+	void enterObj(LazyTesterParser.ObjContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#obj}.
+	 * @param ctx the parse tree
+	 */
+	void exitObj(LazyTesterParser.ObjContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#pair}.
+	 * @param ctx the parse tree
+	 */
+	void enterPair(LazyTesterParser.PairContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#pair}.
+	 * @param ctx the parse tree
+	 */
+	void exitPair(LazyTesterParser.PairContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#array}.
+	 * @param ctx the parse tree
+	 */
+	void enterArray(LazyTesterParser.ArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#array}.
+	 * @param ctx the parse tree
+	 */
+	void exitArray(LazyTesterParser.ArrayContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterValue(LazyTesterParser.ValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitValue(LazyTesterParser.ValueContext ctx);
 }
