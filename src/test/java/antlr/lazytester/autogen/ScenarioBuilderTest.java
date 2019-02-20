@@ -24,7 +24,12 @@ import java.util.Map;
 public class ScenarioBuilderTest {
 
     private static final String HEADERS_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 " +
-            "(KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36";
+                                                     "(KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36";
+
+    private static final String BODY =  "{ " +
+                                        "  \"body_key_1\" : \"body_key_val_1\", " +
+                                        "  \"body_key_2\" : \"body_key_val_2\" " +
+                                        "}";
 
     private static final String SCENARIO_1 = "import te; { " +
             "\"name\": \"scenario 1\", " +
@@ -54,7 +59,8 @@ public class ScenarioBuilderTest {
             "                \"headers\" : { " +
             "                     \"user-agent\" : \""+HEADERS_USER_AGENT+"\", " +
             "                     \"accept-encoding\" : \"gzip, deflate, br\" " +
-            "                } " +
+            "                }, " +
+            "                \"body\" : "+BODY+"" +
             "              }" +
             "           ]" +
             "} ";
@@ -136,6 +142,23 @@ public class ScenarioBuilderTest {
         Assert.assertEquals(2, headers.size());
         Assert.assertEquals(HEADERS_USER_AGENT, headers.get("user-agent"));
         Assert.assertEquals("gzip, deflate, br", headers.get("accept-encoding"));
+    }
+
+    @Test
+    public void testBodyCreation(){
+        CharStream cs = CharStreams.fromString(SCENARIO_2);
+        LazyTesterLexer lexer = new LazyTesterLexer(cs);  //instantiate a lexer
+        CommonTokenStream tokens = new CommonTokenStream(lexer); //scan stream for tokens
+        LazyTesterParser parser = new LazyTesterParser(tokens);  //parse the tokens
+
+        ParseTree tree = parser.scenario_file();
+        ScenarioListener listener = new ScenarioListener();
+
+        ParseTreeWalker walker = new ParseTreeWalker();
+        walker.walk(listener,tree);
+        Scenario scenario = listener.getScenario();
+        String body = scenario.getSteps().get(0).getBody();
+        Assert.assertEquals(BODY.replaceAll(" ",""), body);
     }
 
     private void runHttpGet(HttpClient client, HttpUriRequest http) throws IOException {

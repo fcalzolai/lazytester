@@ -137,6 +137,12 @@ public class ScenarioListener extends LazyTesterBaseListener {
         map = MapDef.NULL;
     }
 
+    @Override
+    public void enterBody_def(LazyTesterParser.Body_defContext ctx) {
+        String body = ctx.getChild(2).getText();
+        stepBuilder.setBody(body);
+    }
+
     private BiConsumer<String, String> getPutParamConsumer() {
         switch (map) {
             case HEADERS:

@@ -3,6 +3,10 @@ grammar Json;
 // Derived from http://json.org
 /** Taken from "The Definitive ANTLR 4 Reference" by Terence Parr */
 
+@header {
+package antlr.lazytester.autogen;
+}
+
 json
    : value
    ;
