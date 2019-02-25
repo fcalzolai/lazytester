@@ -13,17 +13,6 @@ public class ScenarioTest {
     private static final Integer LOOP1 = 1;
     private static final Integer LOOP2 = 2;
 
-    private <T> void testIllegalStateException(Supplier<T> supplier){
-        try {
-            T t = supplier.get();
-            Assert.fail("It should fail with an IllegalStateException. Instead it gets the object " + t);
-        } catch (IllegalStateException ex){
-
-        } catch (Exception ex) {
-            Assert.fail("Unexpected exception: "+ ex);
-        }
-    }
-
     private void testBasicGet(Scenario scenario) {
         Assert.assertFalse(scenario.getIgnoreStepFailures());
         Assert.assertEquals(Scenario.DEFAULT_LOOP, scenario.getLoop());

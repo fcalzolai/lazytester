@@ -1,6 +1,6 @@
 // Generated from LazyTester.g4 by ANTLR 4.7.2
 
-package antlr.lazytester.autogen;
+package com.lloyds.antlr.lazytester.autogen;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -20,55 +20,35 @@ public interface LazyTesterListener extends ParseTreeListener {
 	 */
 	void exitScenario_file(LazyTesterParser.Scenario_fileContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LazyTesterParser#scenario_array}.
+	 * Enter a parse tree produced by {@link LazyTesterParser#import_section}.
 	 * @param ctx the parse tree
 	 */
-	void enterScenario_array(LazyTesterParser.Scenario_arrayContext ctx);
+	void enterImport_section(LazyTesterParser.Import_sectionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LazyTesterParser#scenario_array}.
+	 * Exit a parse tree produced by {@link LazyTesterParser#import_section}.
 	 * @param ctx the parse tree
 	 */
-	void exitScenario_array(LazyTesterParser.Scenario_arrayContext ctx);
+	void exitImport_section(LazyTesterParser.Import_sectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LazyTesterParser#scenario}.
+	 * Enter a parse tree produced by {@link LazyTesterParser#steps_section}.
 	 * @param ctx the parse tree
 	 */
-	void enterScenario(LazyTesterParser.ScenarioContext ctx);
+	void enterSteps_section(LazyTesterParser.Steps_sectionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LazyTesterParser#scenario}.
+	 * Exit a parse tree produced by {@link LazyTesterParser#steps_section}.
 	 * @param ctx the parse tree
 	 */
-	void exitScenario(LazyTesterParser.ScenarioContext ctx);
+	void exitSteps_section(LazyTesterParser.Steps_sectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LazyTesterParser#scenario_name}.
+	 * Enter a parse tree produced by {@link LazyTesterParser#scenarios_section}.
 	 * @param ctx the parse tree
 	 */
-	void enterScenario_name(LazyTesterParser.Scenario_nameContext ctx);
+	void enterScenarios_section(LazyTesterParser.Scenarios_sectionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LazyTesterParser#scenario_name}.
+	 * Exit a parse tree produced by {@link LazyTesterParser#scenarios_section}.
 	 * @param ctx the parse tree
 	 */
-	void exitScenario_name(LazyTesterParser.Scenario_nameContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LazyTesterParser#steps_def}.
-	 * @param ctx the parse tree
-	 */
-	void enterSteps_def(LazyTesterParser.Steps_defContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LazyTesterParser#steps_def}.
-	 * @param ctx the parse tree
-	 */
-	void exitSteps_def(LazyTesterParser.Steps_defContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LazyTesterParser#steps}.
-	 * @param ctx the parse tree
-	 */
-	void enterSteps(LazyTesterParser.StepsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LazyTesterParser#steps}.
-	 * @param ctx the parse tree
-	 */
-	void exitSteps(LazyTesterParser.StepsContext ctx);
+	void exitScenarios_section(LazyTesterParser.Scenarios_sectionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LazyTesterParser#step_def}.
 	 * @param ctx the parse tree
@@ -79,6 +59,46 @@ public interface LazyTesterListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStep_def(LazyTesterParser.Step_defContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#step_component}.
+	 * @param ctx the parse tree
+	 */
+	void enterStep_component(LazyTesterParser.Step_componentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#step_component}.
+	 * @param ctx the parse tree
+	 */
+	void exitStep_component(LazyTesterParser.Step_componentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#scenario_def}.
+	 * @param ctx the parse tree
+	 */
+	void enterScenario_def(LazyTesterParser.Scenario_defContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#scenario_def}.
+	 * @param ctx the parse tree
+	 */
+	void exitScenario_def(LazyTesterParser.Scenario_defContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#scenario_component}.
+	 * @param ctx the parse tree
+	 */
+	void enterScenario_component(LazyTesterParser.Scenario_componentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#scenario_component}.
+	 * @param ctx the parse tree
+	 */
+	void exitScenario_component(LazyTesterParser.Scenario_componentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LazyTesterParser#scenario_name}.
+	 * @param ctx the parse tree
+	 */
+	void enterScenario_name(LazyTesterParser.Scenario_nameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LazyTesterParser#scenario_name}.
+	 * @param ctx the parse tree
+	 */
+	void exitScenario_name(LazyTesterParser.Scenario_nameContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LazyTesterParser#extend_def}.
 	 * @param ctx the parse tree

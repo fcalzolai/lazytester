@@ -1,8 +1,8 @@
 package com.lloyds.runner;
 
-import antlr.lazytester.autogen.LazyTesterLexer;
-import antlr.lazytester.autogen.LazyTesterParser;
 import com.google.common.collect.ImmutableTable;
+import com.lloyds.antlr.lazytester.autogen.LazyTesterLexer;
+import com.lloyds.antlr.lazytester.autogen.LazyTesterParser;
 import com.lloyds.model.Scenario;
 import com.lloyds.builder.ScenarioListener;
 import org.antlr.v4.runtime.CharStream;
@@ -22,30 +22,34 @@ public class ScenarioRunnerTest {
 
     private static int SCENARIO_LOOP = 2;
     private static int STEP_LOOP = 3;
-    private static final String SCENARIO_1 = "{ " +
-            "\"name\": \"scenario 1\", " +
-            "\"loop\": "+ SCENARIO_LOOP +" , " +
-            "\"steps\": [ {" +
-            "                \"name\": \"step 1\" , " +
-            "                \"operation\": \"GET\", " +
-            "                \"loop\": "+ STEP_LOOP +", " +
-            "                \"url\": \"http://www.google.com\" " +
-            "              }" +
-            "           ]" +
+    private static final String SCENARIO_1 = "" +
+            "{ " +
+            "  name: \"scenario 1\"; " +
+            "  loop: "+ SCENARIO_LOOP +"; " +
+            "  steps: [ " +
+            "    {" +
+            "      name: \"step 1\"; " +
+            "      operation: GET; " +
+            "      loop: "+ STEP_LOOP +"; " +
+            "      url: http://www.google.com; " +
+            "    }" +
+            "  ]" +
             "} ";
 
-    private static final String SCENARIO_2 = "{ " +
-            "\"name\": \"scenario 1\", " +
-            "\"steps\": [ {" +
-            "                \"name\": \"step 1\" , " +
-            "                \"operation\": \"GET\", " +
-            "                \"url\": \"http://www.google.com\", " +
-            "                \"params\": { " +
-            "                     \"q\": \"lbg\", " +
-            "                     \"aq\": \"f\"  " +
-            "                  }" +
-            "              }" +
-            "           ]" +
+    private static final String SCENARIO_2 = "" +
+            "{ " +
+            "  name: \"scenario 1\"; " +
+            "  steps: [ " +
+            "    {" +
+            "      name: \"step 1\"; " +
+            "      operation: GET; " +
+            "      url: http://www.google.com; " +
+            "      params: { " +
+            "        q: lbg; " +
+            "        aq: f;  " +
+            "      }" +
+            "    }" +
+            "  ]" +
             "} ";
 
     @Test

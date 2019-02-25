@@ -1,45 +1,80 @@
 package com.lloyds.builder;
 
-import antlr.lazytester.autogen.LazyTesterBaseListener;
-import antlr.lazytester.autogen.LazyTesterParser;
+import com.lloyds.antlr.lazytester.autogen.LazyTesterBaseListener;
+import com.lloyds.antlr.lazytester.autogen.LazyTesterParser;
 import com.lloyds.model.Scenario;
 import com.lloyds.model.Step;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class ScenarioListener extends LazyTesterBaseListener {
 
+    private static final String IMPORT = "import";
     private Scenario.ScenarioBuilder scenarioBuilder;
     private Scenario scenario;
     private boolean isInStep;
     private LinkedList<Step> steps;
+    private Map<String, Step> stepsMap;
     private Step.StepBuilder stepBuilder;
     private MapDef map;
+
+    public Scenario getScenario() {
+        return scenario;
+    }
 
     @Override
     public void enterScenario_file(LazyTesterParser.Scenario_fileContext ctx) {
         scenarioBuilder = Scenario.getScenarioBuilder();
         isInStep = false;
         map = MapDef.HEADERS;
+        stepsMap = new HashMap<>();
     }
 
     @Override
     public void exitScenario_file(LazyTesterParser.Scenario_fileContext ctx) {
         scenario = scenarioBuilder.build();
+        scenarioBuilder = null;
+    }
+
+    @Override
+    public void enterSteps_section(LazyTesterParser.Steps_sectionContext ctx) {
+        steps = new LinkedList<>();
+    }
+
+    @Override
+    public void exitSteps_section(LazyTesterParser.Steps_sectionContext ctx) {
+        if(scenarioBuilder != null) {
+            scenarioBuilder.setSteps(steps);
+        }
+        steps = null;
+    }
+
+    @Override
+    public void enterStep_def(LazyTesterParser.Step_defContext ctx) {
+        isInStep = true;
+        stepBuilder = Step.getStepBuilder();
+    }
+
+    @Override
+    public void exitStep_def(LazyTesterParser.Step_defContext ctx) {
+        isInStep = false;
+        Step step = stepBuilder.build();
+        steps.add(step);
+        stepsMap.put(step.getName(), step);
+
+        stepBuilder = null;
     }
 
     @Override
     public void enterScenario_name(LazyTesterParser.Scenario_nameContext ctx) {
-        scenarioBuilder.setName(ctx.getChild(2).getText());
-    }
-
-    @Override
-    public void exitScenario_name(LazyTesterParser.Scenario_nameContext ctx) {
-        super.exitScenario_name(ctx);
+        scenarioBuilder.setName(getEscapedChildText(ctx));
     }
 
     @Override
@@ -53,36 +88,8 @@ public class ScenarioListener extends LazyTesterBaseListener {
     }
 
     @Override
-    public void enterSteps_def(LazyTesterParser.Steps_defContext ctx) {
-        isInStep = true;
-        steps = new LinkedList<>();
-    }
-
-    @Override
-    public void exitStep_def(LazyTesterParser.Step_defContext ctx) {
-        isInStep = false;
-        scenarioBuilder.setSteps(steps);
-    }
-
-    @Override
-    public void enterSteps(LazyTesterParser.StepsContext ctx) {
-        stepBuilder = Step.getStepBuilder();
-    }
-
-    @Override
-    public void exitSteps_def(LazyTesterParser.Steps_defContext ctx) {
-        Step step = stepBuilder.build();
-        steps.add(step);
-        stepBuilder = Step.getStepBuilder();
-    }
-
-    @Override
     public void enterStep_name(LazyTesterParser.Step_nameContext ctx) {
-        stepBuilder.setName(ctx.getChild(2).getText());
-    }
-
-    private static String getEscapedChildText(ParserRuleContext ctx){
-        return ctx.getChild(2).getText().replace("\"", "");
+        stepBuilder.setName(getEscapedChildText(ctx));
     }
 
     @Override
@@ -143,6 +150,27 @@ public class ScenarioListener extends LazyTesterBaseListener {
         stepBuilder.setBody(body);
     }
 
+    @Override
+    public void visitTerminal(TerminalNode node) {
+        String terminal = node.toString();
+
+        if(terminal.startsWith(IMPORT)) {
+            String toImport = terminal
+                    .substring(IMPORT.length(), terminal.lastIndexOf(';'))
+                    .trim();
+
+//            try {
+//                Utils.createScenarioFromFileName(toImport);
+//            } catch (IOException e) {
+//                throw new IllegalArgumentException("Exception while parsing file: "+toImport);
+//            }
+        }
+    }
+
+    private static String getEscapedChildText(ParserRuleContext ctx){
+        return ctx.getChild(2).getText().replace("\"", "");
+    }
+
     private BiConsumer<String, String> getPutParamConsumer() {
         switch (map) {
             case HEADERS:
@@ -154,9 +182,5 @@ public class ScenarioListener extends LazyTesterBaseListener {
             default:
                 throw new IllegalArgumentException("Unknown map: unable to perform put.");
         }
-    }
-
-    public Scenario getScenario() {
-        return scenario;
     }
 }

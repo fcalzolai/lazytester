@@ -1,6 +1,6 @@
 // Generated from LazyTester.g4 by ANTLR 4.7.2
 
-package com.lloyds.antlr.lazytester.autogen;
+package antlr.lazytester.autogen;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -20,21 +20,21 @@ public class LazyTesterParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, STEPS=12, SCENARIOS=13, NAME=14, LOOP=15, URL=16, OPERATION=17, 
+		T__9=10, T__10=11, T__11=12, NAME=13, LOOP=14, STEPS=15, URL=16, OPERATION=17, 
 		HTTP_OPS=18, ASSERTIONS=19, STATUS=20, PARAMS=21, HEADERS=22, BODY=23, 
-		EXTEND=24, IMPORT=25, INT=26, STRING=27, QSTRING=28, WS=29, NUMBER=30;
+		EXTEND=24, STRING=25, IMPORT=26, INT=27, WS=28, NUMBER=29;
 	public static final int
 		RULE_scenario_file = 0, RULE_import_section = 1, RULE_steps_section = 2, 
-		RULE_scenarios_section = 3, RULE_step_def = 4, RULE_step_component = 5, 
-		RULE_scenario_def = 6, RULE_scenario_component = 7, RULE_scenario_name = 8, 
-		RULE_extend_def = 9, RULE_params_def = 10, RULE_headers_def = 11, RULE_params = 12, 
-		RULE_body_def = 13, RULE_step_name = 14, RULE_url_def = 15, RULE_operation = 16, 
-		RULE_assertions_def = 17, RULE_assertions = 18, RULE_loop_def = 19, RULE_ignore_step_failures_def = 20, 
+		RULE_scenarios_section = 3, RULE_scenario = 4, RULE_scenario_name = 5, 
+		RULE_step_array = 6, RULE_step_def = 7, RULE_step_component = 8, RULE_extend_def = 9, 
+		RULE_params_def = 10, RULE_headers_def = 11, RULE_params = 12, RULE_body_def = 13, 
+		RULE_step_name = 14, RULE_url_def = 15, RULE_operation = 16, RULE_assertions_def = 17, 
+		RULE_assertions = 18, RULE_loop_def = 19, RULE_ignore_step_failures_def = 20, 
 		RULE_json = 21, RULE_obj = 22, RULE_pair = 23, RULE_array = 24, RULE_value = 25;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"scenario_file", "import_section", "steps_section", "scenarios_section", 
-			"step_def", "step_component", "scenario_def", "scenario_component", "scenario_name", 
+			"scenario", "scenario_name", "step_array", "step_def", "step_component", 
 			"extend_def", "params_def", "headers_def", "params", "body_def", "step_name", 
 			"url_def", "operation", "assertions_def", "assertions", "loop_def", "ignore_step_failures_def", 
 			"json", "obj", "pair", "array", "value"
@@ -44,19 +44,19 @@ public class LazyTesterParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "':'", "'['", "']'", "'{'", "'}'", "';'", "'ignoreStepFailures'", 
-			"'true'", "'false'", "','", "'null'", "'steps'", "'scenarios'", "'name'", 
-			"'loop'", "'url'", "'operation'", null, "'assertions'", "'status'", "'params'", 
-			"'headers'", "'body'", "'parent'"
+			null, "'{'", "':'", "'['", "']'", "'}'", "','", "'\"ignoreStepFailures\"'", 
+			"'\"true\"'", "'\"false\"'", "'true'", "'false'", "'null'", "'\"name\"'", 
+			"'\"loop\"'", "'\"steps\"'", "'\"url\"'", "'\"operation\"'", null, "'\"assertions\"'", 
+			"'\"status\"'", "'\"params\"'", "'\"headers\"'", "'\"body\"'", "'\"parent\"'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			"STEPS", "SCENARIOS", "NAME", "LOOP", "URL", "OPERATION", "HTTP_OPS", 
-			"ASSERTIONS", "STATUS", "PARAMS", "HEADERS", "BODY", "EXTEND", "IMPORT", 
-			"INT", "STRING", "QSTRING", "WS", "NUMBER"
+			null, "NAME", "LOOP", "STEPS", "URL", "OPERATION", "HTTP_OPS", "ASSERTIONS", 
+			"STATUS", "PARAMS", "HEADERS", "BODY", "EXTEND", "STRING", "IMPORT", 
+			"INT", "WS", "NUMBER"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -114,11 +114,11 @@ public class LazyTesterParser extends Parser {
 		public Import_sectionContext import_section() {
 			return getRuleContext(Import_sectionContext.class,0);
 		}
-		public Scenarios_sectionContext scenarios_section() {
-			return getRuleContext(Scenarios_sectionContext.class,0);
-		}
 		public Steps_sectionContext steps_section() {
 			return getRuleContext(Steps_sectionContext.class,0);
+		}
+		public Scenarios_sectionContext scenarios_section() {
+			return getRuleContext(Scenarios_sectionContext.class,0);
 		}
 		public Scenario_fileContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -137,23 +137,14 @@ public class LazyTesterParser extends Parser {
 	public final Scenario_fileContext scenario_file() throws RecognitionException {
 		Scenario_fileContext _localctx = new Scenario_fileContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_scenario_file);
-		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(52);
 			import_section();
+			setState(53);
+			steps_section();
 			setState(54);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==STEPS) {
-				{
-				setState(53);
-				steps_section();
-				}
-			}
-
-			setState(56);
 			scenarios_section();
 			}
 		}
@@ -194,17 +185,17 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(61);
+			setState(59);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==IMPORT) {
 				{
 				{
-				setState(58);
+				setState(56);
 				match(IMPORT);
 				}
 				}
-				setState(63);
+				setState(61);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -223,11 +214,8 @@ public class LazyTesterParser extends Parser {
 
 	public static class Steps_sectionContext extends ParserRuleContext {
 		public TerminalNode STEPS() { return getToken(LazyTesterParser.STEPS, 0); }
-		public List<Step_defContext> step_def() {
-			return getRuleContexts(Step_defContext.class);
-		}
-		public Step_defContext step_def(int i) {
-			return getRuleContext(Step_defContext.class,i);
+		public Step_arrayContext step_array() {
+			return getRuleContext(Step_arrayContext.class,0);
 		}
 		public Steps_sectionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -246,32 +234,31 @@ public class LazyTesterParser extends Parser {
 	public final Steps_sectionContext steps_section() throws RecognitionException {
 		Steps_sectionContext _localctx = new Steps_sectionContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_steps_section);
-		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(64);
-			match(STEPS);
-			setState(65);
-			match(T__0);
-			setState(66);
-			match(T__1);
 			setState(70);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==T__3) {
+			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
+			case 1:
 				{
-				{
+				setState(62);
+				match(T__0);
+				setState(63);
+				match(STEPS);
+				setState(64);
+				match(T__1);
+				setState(65);
+				match(T__2);
+				setState(66);
+				step_array();
 				setState(67);
-				step_def();
+				match(T__3);
+				setState(68);
+				match(T__4);
 				}
-				}
-				setState(72);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
+				break;
 			}
-			setState(73);
-			match(T__2);
 			}
 		}
 		catch (RecognitionException re) {
@@ -286,12 +273,11 @@ public class LazyTesterParser extends Parser {
 	}
 
 	public static class Scenarios_sectionContext extends ParserRuleContext {
-		public TerminalNode SCENARIOS() { return getToken(LazyTesterParser.SCENARIOS, 0); }
-		public List<Scenario_defContext> scenario_def() {
-			return getRuleContexts(Scenario_defContext.class);
+		public List<ScenarioContext> scenario() {
+			return getRuleContexts(ScenarioContext.class);
 		}
-		public Scenario_defContext scenario_def(int i) {
-			return getRuleContext(Scenario_defContext.class,i);
+		public ScenarioContext scenario(int i) {
+			return getRuleContext(ScenarioContext.class,i);
 		}
 		public Scenarios_sectionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -314,33 +300,246 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(85);
+			setState(92);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==SCENARIOS) {
+			switch (_input.LA(1)) {
+			case T__0:
 				{
-				setState(75);
-				match(SCENARIOS);
-				setState(76);
+				setState(72);
 				match(T__0);
+				setState(73);
+				scenario();
+				setState(74);
+				match(T__4);
+				}
+				break;
+			case T__2:
+				{
+				setState(76);
+				match(T__2);
 				setState(77);
-				match(T__1);
-				setState(81);
+				match(T__0);
+				setState(78);
+				scenario();
+				setState(79);
+				match(T__4);
+				setState(87);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==T__3) {
+				while (_la==T__5) {
 					{
 					{
-					setState(78);
-					scenario_def();
-					}
-					}
+					setState(80);
+					match(T__5);
+					setState(81);
+					match(T__0);
+					setState(82);
+					scenario();
 					setState(83);
+					match(T__4);
+					}
+					}
+					setState(89);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(84);
-				match(T__2);
+				setState(90);
+				match(T__3);
+				}
+				break;
+			case EOF:
+				break;
+			default:
+				break;
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ScenarioContext extends ParserRuleContext {
+		public Scenario_nameContext scenario_name() {
+			return getRuleContext(Scenario_nameContext.class,0);
+		}
+		public Loop_defContext loop_def() {
+			return getRuleContext(Loop_defContext.class,0);
+		}
+		public Steps_sectionContext steps_section() {
+			return getRuleContext(Steps_sectionContext.class,0);
+		}
+		public Ignore_step_failures_defContext ignore_step_failures_def() {
+			return getRuleContext(Ignore_step_failures_defContext.class,0);
+		}
+		public ScenarioContext scenario() {
+			return getRuleContext(ScenarioContext.class,0);
+		}
+		public ScenarioContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_scenario; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).enterScenario(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).exitScenario(this);
+		}
+	}
+
+	public final ScenarioContext scenario() throws RecognitionException {
+		ScenarioContext _localctx = new ScenarioContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_scenario);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(98);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case NAME:
+				{
+				setState(94);
+				scenario_name();
+				}
+				break;
+			case LOOP:
+				{
+				setState(95);
+				loop_def();
+				}
+				break;
+			case T__0:
+			case T__4:
+			case T__5:
+				{
+				setState(96);
+				steps_section();
+				}
+				break;
+			case T__6:
+				{
+				setState(97);
+				ignore_step_failures_def();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			setState(102);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__5) {
+				{
+				setState(100);
+				match(T__5);
+				setState(101);
+				scenario();
+				}
+			}
+
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Scenario_nameContext extends ParserRuleContext {
+		public TerminalNode NAME() { return getToken(LazyTesterParser.NAME, 0); }
+		public TerminalNode STRING() { return getToken(LazyTesterParser.STRING, 0); }
+		public Scenario_nameContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_scenario_name; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).enterScenario_name(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).exitScenario_name(this);
+		}
+	}
+
+	public final Scenario_nameContext scenario_name() throws RecognitionException {
+		Scenario_nameContext _localctx = new Scenario_nameContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_scenario_name);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(104);
+			match(NAME);
+			setState(105);
+			match(T__1);
+			setState(106);
+			match(STRING);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Step_arrayContext extends ParserRuleContext {
+		public Step_defContext step_def() {
+			return getRuleContext(Step_defContext.class,0);
+		}
+		public Step_arrayContext step_array() {
+			return getRuleContext(Step_arrayContext.class,0);
+		}
+		public Step_arrayContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_step_array; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).enterStep_array(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).exitStep_array(this);
+		}
+	}
+
+	public final Step_arrayContext step_array() throws RecognitionException {
+		Step_arrayContext _localctx = new Step_arrayContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_step_array);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(108);
+			step_def();
+			setState(111);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__5) {
+				{
+				setState(109);
+				match(T__5);
+				setState(110);
+				step_array();
 				}
 			}
 
@@ -358,11 +557,8 @@ public class LazyTesterParser extends Parser {
 	}
 
 	public static class Step_defContext extends ParserRuleContext {
-		public List<Step_componentContext> step_component() {
-			return getRuleContexts(Step_componentContext.class);
-		}
-		public Step_componentContext step_component(int i) {
-			return getRuleContext(Step_componentContext.class,i);
+		public Step_componentContext step_component() {
+			return getRuleContext(Step_componentContext.class,0);
 		}
 		public Step_defContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -380,31 +576,16 @@ public class LazyTesterParser extends Parser {
 
 	public final Step_defContext step_def() throws RecognitionException {
 		Step_defContext _localctx = new Step_defContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_step_def);
-		int _la;
+		enterRule(_localctx, 14, RULE_step_def);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87);
-			match(T__3);
-			setState(91);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NAME) | (1L << LOOP) | (1L << URL) | (1L << OPERATION) | (1L << ASSERTIONS) | (1L << PARAMS) | (1L << HEADERS) | (1L << BODY) | (1L << EXTEND))) != 0)) {
-				{
-				{
-				setState(88);
-				step_component();
-				}
-				}
-				setState(93);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(94);
+			setState(113);
+			match(T__0);
+			setState(114);
+			step_component();
+			setState(115);
 			match(T__4);
-			setState(95);
-			match(T__5);
 			}
 		}
 		catch (RecognitionException re) {
@@ -446,6 +627,9 @@ public class LazyTesterParser extends Parser {
 		public Assertions_defContext assertions_def() {
 			return getRuleContext(Assertions_defContext.class,0);
 		}
+		public Step_componentContext step_component() {
+			return getRuleContext(Step_componentContext.class,0);
+		}
 		public Step_componentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -462,184 +646,24 @@ public class LazyTesterParser extends Parser {
 
 	public final Step_componentContext step_component() throws RecognitionException {
 		Step_componentContext _localctx = new Step_componentContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_step_component);
+		enterRule(_localctx, 16, RULE_step_component);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(106);
+			setState(126);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case NAME:
 				{
-				setState(97);
+				setState(117);
 				step_name();
 				}
 				break;
 			case EXTEND:
 				{
-				setState(98);
-				extend_def();
-				}
-				break;
-			case LOOP:
-				{
-				setState(99);
-				loop_def();
-				}
-				break;
-			case URL:
-				{
-				setState(100);
-				url_def();
-				}
-				break;
-			case OPERATION:
-				{
-				setState(101);
-				operation();
-				}
-				break;
-			case PARAMS:
-				{
-				setState(102);
-				params_def();
-				}
-				break;
-			case HEADERS:
-				{
-				setState(103);
-				headers_def();
-				}
-				break;
-			case BODY:
-				{
-				setState(104);
-				body_def();
-				}
-				break;
-			case ASSERTIONS:
-				{
-				setState(105);
-				assertions_def();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Scenario_defContext extends ParserRuleContext {
-		public List<Scenario_componentContext> scenario_component() {
-			return getRuleContexts(Scenario_componentContext.class);
-		}
-		public Scenario_componentContext scenario_component(int i) {
-			return getRuleContext(Scenario_componentContext.class,i);
-		}
-		public Scenario_defContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_scenario_def; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).enterScenario_def(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).exitScenario_def(this);
-		}
-	}
-
-	public final Scenario_defContext scenario_def() throws RecognitionException {
-		Scenario_defContext _localctx = new Scenario_defContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_scenario_def);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(108);
-			match(T__3);
-			setState(112);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__6) | (1L << STEPS) | (1L << NAME) | (1L << LOOP))) != 0)) {
-				{
-				{
-				setState(109);
-				scenario_component();
-				}
-				}
-				setState(114);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(115);
-			match(T__4);
-			setState(116);
-			match(T__5);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class Scenario_componentContext extends ParserRuleContext {
-		public Scenario_nameContext scenario_name() {
-			return getRuleContext(Scenario_nameContext.class,0);
-		}
-		public Loop_defContext loop_def() {
-			return getRuleContext(Loop_defContext.class,0);
-		}
-		public Steps_sectionContext steps_section() {
-			return getRuleContext(Steps_sectionContext.class,0);
-		}
-		public Ignore_step_failures_defContext ignore_step_failures_def() {
-			return getRuleContext(Ignore_step_failures_defContext.class,0);
-		}
-		public Scenario_componentContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_scenario_component; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).enterScenario_component(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).exitScenario_component(this);
-		}
-	}
-
-	public final Scenario_componentContext scenario_component() throws RecognitionException {
-		Scenario_componentContext _localctx = new Scenario_componentContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_scenario_component);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(122);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case NAME:
-				{
 				setState(118);
-				scenario_name();
+				extend_def();
 				}
 				break;
 			case LOOP:
@@ -648,63 +672,57 @@ public class LazyTesterParser extends Parser {
 				loop_def();
 				}
 				break;
-			case STEPS:
+			case URL:
 				{
 				setState(120);
-				steps_section();
+				url_def();
 				}
 				break;
-			case T__6:
+			case OPERATION:
 				{
 				setState(121);
-				ignore_step_failures_def();
+				operation();
+				}
+				break;
+			case PARAMS:
+				{
+				setState(122);
+				params_def();
+				}
+				break;
+			case HEADERS:
+				{
+				setState(123);
+				headers_def();
+				}
+				break;
+			case BODY:
+				{
+				setState(124);
+				body_def();
+				}
+				break;
+			case ASSERTIONS:
+				{
+				setState(125);
+				assertions_def();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
+			setState(130);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__5) {
+				{
+				setState(128);
+				match(T__5);
+				setState(129);
+				step_component();
+				}
 			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
 
-	public static class Scenario_nameContext extends ParserRuleContext {
-		public TerminalNode NAME() { return getToken(LazyTesterParser.NAME, 0); }
-		public TerminalNode STRING() { return getToken(LazyTesterParser.STRING, 0); }
-		public Scenario_nameContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_scenario_name; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).enterScenario_name(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LazyTesterListener ) ((LazyTesterListener)listener).exitScenario_name(this);
-		}
-	}
-
-	public final Scenario_nameContext scenario_name() throws RecognitionException {
-		Scenario_nameContext _localctx = new Scenario_nameContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_scenario_name);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(124);
-			match(NAME);
-			setState(125);
-			match(T__0);
-			setState(126);
-			match(STRING);
 			}
 		}
 		catch (RecognitionException re) {
@@ -741,14 +759,12 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(128);
+			setState(132);
 			match(EXTEND);
-			setState(129);
-			match(T__0);
-			setState(130);
+			setState(133);
+			match(T__1);
+			setState(134);
 			match(STRING);
-			setState(131);
-			match(T__5);
 			}
 		}
 		catch (RecognitionException re) {
@@ -787,18 +803,16 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(133);
-			match(PARAMS);
-			setState(134);
-			match(T__0);
-			setState(135);
-			match(T__3);
 			setState(136);
-			params();
+			match(PARAMS);
 			setState(137);
-			match(T__4);
+			match(T__1);
 			setState(138);
-			match(T__5);
+			match(T__0);
+			setState(139);
+			params();
+			setState(140);
+			match(T__4);
 			}
 		}
 		catch (RecognitionException re) {
@@ -837,18 +851,16 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(140);
-			match(HEADERS);
-			setState(141);
-			match(T__0);
 			setState(142);
-			match(T__3);
+			match(HEADERS);
 			setState(143);
-			params();
+			match(T__1);
 			setState(144);
-			match(T__4);
+			match(T__0);
 			setState(145);
-			match(T__5);
+			params();
+			setState(146);
+			match(T__4);
 			}
 		}
 		catch (RecognitionException re) {
@@ -866,10 +878,6 @@ public class LazyTesterParser extends Parser {
 		public List<TerminalNode> STRING() { return getTokens(LazyTesterParser.STRING); }
 		public TerminalNode STRING(int i) {
 			return getToken(LazyTesterParser.STRING, i);
-		}
-		public List<TerminalNode> QSTRING() { return getTokens(LazyTesterParser.QSTRING); }
-		public TerminalNode QSTRING(int i) {
-			return getToken(LazyTesterParser.QSTRING, i);
 		}
 		public ParamsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -892,31 +900,29 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(153);
+			setState(148);
+			match(STRING);
+			setState(149);
+			match(T__1);
+			setState(150);
+			match(STRING);
+			setState(157);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==STRING) {
+			while (_la==T__5) {
 				{
 				{
-				setState(147);
-				match(STRING);
-				setState(148);
-				match(T__0);
-				setState(149);
-				_la = _input.LA(1);
-				if ( !(_la==STRING || _la==QSTRING) ) {
-				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
-				setState(150);
+				setState(151);
 				match(T__5);
+				setState(152);
+				match(STRING);
+				setState(153);
+				match(T__1);
+				setState(154);
+				match(STRING);
 				}
 				}
-				setState(155);
+				setState(159);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -958,14 +964,12 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(156);
+			setState(160);
 			match(BODY);
-			setState(157);
-			match(T__0);
-			setState(158);
+			setState(161);
+			match(T__1);
+			setState(162);
 			json();
-			setState(159);
-			match(T__5);
 			}
 		}
 		catch (RecognitionException re) {
@@ -982,7 +986,6 @@ public class LazyTesterParser extends Parser {
 	public static class Step_nameContext extends ParserRuleContext {
 		public TerminalNode NAME() { return getToken(LazyTesterParser.NAME, 0); }
 		public TerminalNode STRING() { return getToken(LazyTesterParser.STRING, 0); }
-		public TerminalNode QSTRING() { return getToken(LazyTesterParser.QSTRING, 0); }
 		public Step_nameContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1000,26 +1003,15 @@ public class LazyTesterParser extends Parser {
 	public final Step_nameContext step_name() throws RecognitionException {
 		Step_nameContext _localctx = new Step_nameContext(_ctx, getState());
 		enterRule(_localctx, 28, RULE_step_name);
-		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(161);
-			match(NAME);
-			setState(162);
-			match(T__0);
-			setState(163);
-			_la = _input.LA(1);
-			if ( !(_la==STRING || _la==QSTRING) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
 			setState(164);
-			match(T__5);
+			match(NAME);
+			setState(165);
+			match(T__1);
+			setState(166);
+			match(STRING);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1036,7 +1028,6 @@ public class LazyTesterParser extends Parser {
 	public static class Url_defContext extends ParserRuleContext {
 		public TerminalNode URL() { return getToken(LazyTesterParser.URL, 0); }
 		public TerminalNode STRING() { return getToken(LazyTesterParser.STRING, 0); }
-		public TerminalNode QSTRING() { return getToken(LazyTesterParser.QSTRING, 0); }
 		public Url_defContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1054,26 +1045,15 @@ public class LazyTesterParser extends Parser {
 	public final Url_defContext url_def() throws RecognitionException {
 		Url_defContext _localctx = new Url_defContext(_ctx, getState());
 		enterRule(_localctx, 30, RULE_url_def);
-		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(166);
-			match(URL);
-			setState(167);
-			match(T__0);
 			setState(168);
-			_la = _input.LA(1);
-			if ( !(_la==STRING || _la==QSTRING) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			match(URL);
 			setState(169);
-			match(T__5);
+			match(T__1);
+			setState(170);
+			match(STRING);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1110,14 +1090,12 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(171);
-			match(OPERATION);
 			setState(172);
-			match(T__0);
+			match(OPERATION);
 			setState(173);
-			match(HTTP_OPS);
+			match(T__1);
 			setState(174);
-			match(T__5);
+			match(HTTP_OPS);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1159,15 +1137,13 @@ public class LazyTesterParser extends Parser {
 			setState(176);
 			match(ASSERTIONS);
 			setState(177);
-			match(T__0);
+			match(T__1);
 			setState(178);
-			match(T__3);
+			match(T__0);
 			setState(179);
 			assertions();
 			setState(180);
 			match(T__4);
-			setState(181);
-			match(T__5);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1204,14 +1180,12 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(183);
+			setState(182);
 			match(STATUS);
+			setState(183);
+			match(T__1);
 			setState(184);
-			match(T__0);
-			setState(185);
 			match(INT);
-			setState(186);
-			match(T__5);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1248,14 +1222,12 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(188);
+			setState(186);
 			match(LOOP);
-			setState(189);
-			match(T__0);
-			setState(190);
+			setState(187);
+			match(T__1);
+			setState(188);
 			match(INT);
-			setState(191);
-			match(T__5);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1291,11 +1263,11 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(193);
+			setState(190);
 			match(T__6);
-			setState(194);
-			match(T__0);
-			setState(195);
+			setState(191);
+			match(T__1);
+			setState(192);
 			_la = _input.LA(1);
 			if ( !(_la==T__7 || _la==T__8) ) {
 			_errHandler.recoverInline(this);
@@ -1305,8 +1277,6 @@ public class LazyTesterParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(196);
-			match(T__5);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1344,7 +1314,7 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(198);
+			setState(194);
 			value();
 			}
 		}
@@ -1385,42 +1355,42 @@ public class LazyTesterParser extends Parser {
 		enterRule(_localctx, 44, RULE_obj);
 		int _la;
 		try {
-			setState(213);
+			setState(209);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(200);
-				match(T__3);
-				setState(201);
+				setState(196);
+				match(T__0);
+				setState(197);
 				pair();
-				setState(206);
+				setState(202);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==T__9) {
+				while (_la==T__5) {
 					{
 					{
-					setState(202);
-					match(T__9);
-					setState(203);
+					setState(198);
+					match(T__5);
+					setState(199);
 					pair();
 					}
 					}
-					setState(208);
+					setState(204);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(209);
+				setState(205);
 				match(T__4);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(211);
-				match(T__3);
-				setState(212);
+				setState(207);
+				match(T__0);
+				setState(208);
 				match(T__4);
 				}
 				break;
@@ -1462,11 +1432,11 @@ public class LazyTesterParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(215);
+			setState(211);
 			match(STRING);
-			setState(216);
-			match(T__0);
-			setState(217);
+			setState(212);
+			match(T__1);
+			setState(213);
 			value();
 			}
 		}
@@ -1507,43 +1477,43 @@ public class LazyTesterParser extends Parser {
 		enterRule(_localctx, 48, RULE_array);
 		int _la;
 		try {
-			setState(232);
+			setState(228);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(219);
-				match(T__1);
-				setState(220);
+				setState(215);
+				match(T__2);
+				setState(216);
 				value();
-				setState(225);
+				setState(221);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==T__9) {
+				while (_la==T__5) {
 					{
 					{
-					setState(221);
-					match(T__9);
-					setState(222);
+					setState(217);
+					match(T__5);
+					setState(218);
 					value();
 					}
 					}
-					setState(227);
+					setState(223);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(228);
-				match(T__2);
+				setState(224);
+				match(T__3);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(230);
-				match(T__1);
-				setState(231);
+				setState(226);
 				match(T__2);
+				setState(227);
+				match(T__3);
 				}
 				break;
 			}
@@ -1586,56 +1556,56 @@ public class LazyTesterParser extends Parser {
 		ValueContext _localctx = new ValueContext(_ctx, getState());
 		enterRule(_localctx, 50, RULE_value);
 		try {
-			setState(241);
+			setState(237);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case STRING:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(234);
+				setState(230);
 				match(STRING);
 				}
 				break;
 			case NUMBER:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(235);
+				setState(231);
 				match(NUMBER);
 				}
 				break;
-			case T__3:
+			case T__0:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(236);
+				setState(232);
 				obj();
 				}
 				break;
-			case T__1:
+			case T__2:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(237);
+				setState(233);
 				array();
 				}
 				break;
-			case T__7:
+			case T__9:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(238);
-				match(T__7);
-				}
-				break;
-			case T__8:
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(239);
-				match(T__8);
+				setState(234);
+				match(T__9);
 				}
 				break;
 			case T__10:
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(235);
+				match(T__10);
+				}
+				break;
+			case T__11:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(240);
-				match(T__10);
+				setState(236);
+				match(T__11);
 				}
 				break;
 			default:
@@ -1654,82 +1624,82 @@ public class LazyTesterParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3 \u00f6\4\2\t\2\4"+
-		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\37\u00f2\4\2\t\2"+
+		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
+		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
-		"\4\32\t\32\4\33\t\33\3\2\3\2\5\29\n\2\3\2\3\2\3\3\7\3>\n\3\f\3\16\3A\13"+
-		"\3\3\4\3\4\3\4\3\4\7\4G\n\4\f\4\16\4J\13\4\3\4\3\4\3\5\3\5\3\5\3\5\7\5"+
-		"R\n\5\f\5\16\5U\13\5\3\5\5\5X\n\5\3\6\3\6\7\6\\\n\6\f\6\16\6_\13\6\3\6"+
-		"\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7m\n\7\3\b\3\b\7\bq\n\b"+
-		"\f\b\16\bt\13\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\5\t}\n\t\3\n\3\n\3\n\3\n\3"+
-		"\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3"+
-		"\r\3\r\3\r\3\16\3\16\3\16\3\16\7\16\u009a\n\16\f\16\16\16\u009d\13\16"+
-		"\3\17\3\17\3\17\3\17\3\17\3\20\3\20\3\20\3\20\3\20\3\21\3\21\3\21\3\21"+
-		"\3\21\3\22\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\24"+
-		"\3\24\3\24\3\24\3\24\3\25\3\25\3\25\3\25\3\25\3\26\3\26\3\26\3\26\3\26"+
-		"\3\27\3\27\3\30\3\30\3\30\3\30\7\30\u00cf\n\30\f\30\16\30\u00d2\13\30"+
-		"\3\30\3\30\3\30\3\30\5\30\u00d8\n\30\3\31\3\31\3\31\3\31\3\32\3\32\3\32"+
-		"\3\32\7\32\u00e2\n\32\f\32\16\32\u00e5\13\32\3\32\3\32\3\32\3\32\5\32"+
-		"\u00eb\n\32\3\33\3\33\3\33\3\33\3\33\3\33\3\33\5\33\u00f4\n\33\3\33\2"+
-		"\2\34\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\2\4\3\2"+
-		"\35\36\3\2\n\13\2\u00f8\2\66\3\2\2\2\4?\3\2\2\2\6B\3\2\2\2\bW\3\2\2\2"+
-		"\nY\3\2\2\2\fl\3\2\2\2\16n\3\2\2\2\20|\3\2\2\2\22~\3\2\2\2\24\u0082\3"+
-		"\2\2\2\26\u0087\3\2\2\2\30\u008e\3\2\2\2\32\u009b\3\2\2\2\34\u009e\3\2"+
-		"\2\2\36\u00a3\3\2\2\2 \u00a8\3\2\2\2\"\u00ad\3\2\2\2$\u00b2\3\2\2\2&\u00b9"+
-		"\3\2\2\2(\u00be\3\2\2\2*\u00c3\3\2\2\2,\u00c8\3\2\2\2.\u00d7\3\2\2\2\60"+
-		"\u00d9\3\2\2\2\62\u00ea\3\2\2\2\64\u00f3\3\2\2\2\668\5\4\3\2\679\5\6\4"+
-		"\28\67\3\2\2\289\3\2\2\29:\3\2\2\2:;\5\b\5\2;\3\3\2\2\2<>\7\33\2\2=<\3"+
-		"\2\2\2>A\3\2\2\2?=\3\2\2\2?@\3\2\2\2@\5\3\2\2\2A?\3\2\2\2BC\7\16\2\2C"+
-		"D\7\3\2\2DH\7\4\2\2EG\5\n\6\2FE\3\2\2\2GJ\3\2\2\2HF\3\2\2\2HI\3\2\2\2"+
-		"IK\3\2\2\2JH\3\2\2\2KL\7\5\2\2L\7\3\2\2\2MN\7\17\2\2NO\7\3\2\2OS\7\4\2"+
-		"\2PR\5\16\b\2QP\3\2\2\2RU\3\2\2\2SQ\3\2\2\2ST\3\2\2\2TV\3\2\2\2US\3\2"+
-		"\2\2VX\7\5\2\2WM\3\2\2\2WX\3\2\2\2X\t\3\2\2\2Y]\7\6\2\2Z\\\5\f\7\2[Z\3"+
-		"\2\2\2\\_\3\2\2\2][\3\2\2\2]^\3\2\2\2^`\3\2\2\2_]\3\2\2\2`a\7\7\2\2ab"+
-		"\7\b\2\2b\13\3\2\2\2cm\5\36\20\2dm\5\24\13\2em\5(\25\2fm\5 \21\2gm\5\""+
-		"\22\2hm\5\26\f\2im\5\30\r\2jm\5\34\17\2km\5$\23\2lc\3\2\2\2ld\3\2\2\2"+
-		"le\3\2\2\2lf\3\2\2\2lg\3\2\2\2lh\3\2\2\2li\3\2\2\2lj\3\2\2\2lk\3\2\2\2"+
-		"m\r\3\2\2\2nr\7\6\2\2oq\5\20\t\2po\3\2\2\2qt\3\2\2\2rp\3\2\2\2rs\3\2\2"+
-		"\2su\3\2\2\2tr\3\2\2\2uv\7\7\2\2vw\7\b\2\2w\17\3\2\2\2x}\5\22\n\2y}\5"+
-		"(\25\2z}\5\6\4\2{}\5*\26\2|x\3\2\2\2|y\3\2\2\2|z\3\2\2\2|{\3\2\2\2}\21"+
-		"\3\2\2\2~\177\7\20\2\2\177\u0080\7\3\2\2\u0080\u0081\7\35\2\2\u0081\23"+
-		"\3\2\2\2\u0082\u0083\7\32\2\2\u0083\u0084\7\3\2\2\u0084\u0085\7\35\2\2"+
-		"\u0085\u0086\7\b\2\2\u0086\25\3\2\2\2\u0087\u0088\7\27\2\2\u0088\u0089"+
-		"\7\3\2\2\u0089\u008a\7\6\2\2\u008a\u008b\5\32\16\2\u008b\u008c\7\7\2\2"+
-		"\u008c\u008d\7\b\2\2\u008d\27\3\2\2\2\u008e\u008f\7\30\2\2\u008f\u0090"+
-		"\7\3\2\2\u0090\u0091\7\6\2\2\u0091\u0092\5\32\16\2\u0092\u0093\7\7\2\2"+
-		"\u0093\u0094\7\b\2\2\u0094\31\3\2\2\2\u0095\u0096\7\35\2\2\u0096\u0097"+
-		"\7\3\2\2\u0097\u0098\t\2\2\2\u0098\u009a\7\b\2\2\u0099\u0095\3\2\2\2\u009a"+
-		"\u009d\3\2\2\2\u009b\u0099\3\2\2\2\u009b\u009c\3\2\2\2\u009c\33\3\2\2"+
-		"\2\u009d\u009b\3\2\2\2\u009e\u009f\7\31\2\2\u009f\u00a0\7\3\2\2\u00a0"+
-		"\u00a1\5,\27\2\u00a1\u00a2\7\b\2\2\u00a2\35\3\2\2\2\u00a3\u00a4\7\20\2"+
-		"\2\u00a4\u00a5\7\3\2\2\u00a5\u00a6\t\2\2\2\u00a6\u00a7\7\b\2\2\u00a7\37"+
-		"\3\2\2\2\u00a8\u00a9\7\22\2\2\u00a9\u00aa\7\3\2\2\u00aa\u00ab\t\2\2\2"+
-		"\u00ab\u00ac\7\b\2\2\u00ac!\3\2\2\2\u00ad\u00ae\7\23\2\2\u00ae\u00af\7"+
-		"\3\2\2\u00af\u00b0\7\24\2\2\u00b0\u00b1\7\b\2\2\u00b1#\3\2\2\2\u00b2\u00b3"+
-		"\7\25\2\2\u00b3\u00b4\7\3\2\2\u00b4\u00b5\7\6\2\2\u00b5\u00b6\5&\24\2"+
-		"\u00b6\u00b7\7\7\2\2\u00b7\u00b8\7\b\2\2\u00b8%\3\2\2\2\u00b9\u00ba\7"+
-		"\26\2\2\u00ba\u00bb\7\3\2\2\u00bb\u00bc\7\34\2\2\u00bc\u00bd\7\b\2\2\u00bd"+
-		"\'\3\2\2\2\u00be\u00bf\7\21\2\2\u00bf\u00c0\7\3\2\2\u00c0\u00c1\7\34\2"+
-		"\2\u00c1\u00c2\7\b\2\2\u00c2)\3\2\2\2\u00c3\u00c4\7\t\2\2\u00c4\u00c5"+
-		"\7\3\2\2\u00c5\u00c6\t\3\2\2\u00c6\u00c7\7\b\2\2\u00c7+\3\2\2\2\u00c8"+
-		"\u00c9\5\64\33\2\u00c9-\3\2\2\2\u00ca\u00cb\7\6\2\2\u00cb\u00d0\5\60\31"+
-		"\2\u00cc\u00cd\7\f\2\2\u00cd\u00cf\5\60\31\2\u00ce\u00cc\3\2\2\2\u00cf"+
-		"\u00d2\3\2\2\2\u00d0\u00ce\3\2\2\2\u00d0\u00d1\3\2\2\2\u00d1\u00d3\3\2"+
-		"\2\2\u00d2\u00d0\3\2\2\2\u00d3\u00d4\7\7\2\2\u00d4\u00d8\3\2\2\2\u00d5"+
-		"\u00d6\7\6\2\2\u00d6\u00d8\7\7\2\2\u00d7\u00ca\3\2\2\2\u00d7\u00d5\3\2"+
-		"\2\2\u00d8/\3\2\2\2\u00d9\u00da\7\35\2\2\u00da\u00db\7\3\2\2\u00db\u00dc"+
-		"\5\64\33\2\u00dc\61\3\2\2\2\u00dd\u00de\7\4\2\2\u00de\u00e3\5\64\33\2"+
-		"\u00df\u00e0\7\f\2\2\u00e0\u00e2\5\64\33\2\u00e1\u00df\3\2\2\2\u00e2\u00e5"+
-		"\3\2\2\2\u00e3\u00e1\3\2\2\2\u00e3\u00e4\3\2\2\2\u00e4\u00e6\3\2\2\2\u00e5"+
-		"\u00e3\3\2\2\2\u00e6\u00e7\7\5\2\2\u00e7\u00eb\3\2\2\2\u00e8\u00e9\7\4"+
-		"\2\2\u00e9\u00eb\7\5\2\2\u00ea\u00dd\3\2\2\2\u00ea\u00e8\3\2\2\2\u00eb"+
-		"\63\3\2\2\2\u00ec\u00f4\7\35\2\2\u00ed\u00f4\7 \2\2\u00ee\u00f4\5.\30"+
-		"\2\u00ef\u00f4\5\62\32\2\u00f0\u00f4\7\n\2\2\u00f1\u00f4\7\13\2\2\u00f2"+
-		"\u00f4\7\r\2\2\u00f3\u00ec\3\2\2\2\u00f3\u00ed\3\2\2\2\u00f3\u00ee\3\2"+
-		"\2\2\u00f3\u00ef\3\2\2\2\u00f3\u00f0\3\2\2\2\u00f3\u00f1\3\2\2\2\u00f3"+
-		"\u00f2\3\2\2\2\u00f4\65\3\2\2\2\218?HSW]lr|\u009b\u00d0\u00d7\u00e3\u00ea"+
-		"\u00f3";
+		"\4\32\t\32\4\33\t\33\3\2\3\2\3\2\3\2\3\3\7\3<\n\3\f\3\16\3?\13\3\3\4\3"+
+		"\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4I\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
+		"\5\3\5\3\5\3\5\3\5\7\5X\n\5\f\5\16\5[\13\5\3\5\3\5\5\5_\n\5\3\6\3\6\3"+
+		"\6\3\6\5\6e\n\6\3\6\3\6\5\6i\n\6\3\7\3\7\3\7\3\7\3\b\3\b\3\b\5\br\n\b"+
+		"\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n\u0081\n\n\3\n"+
+		"\3\n\5\n\u0085\n\n\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3\r\3\r"+
+		"\3\r\3\r\3\r\3\r\3\16\3\16\3\16\3\16\3\16\3\16\3\16\7\16\u009e\n\16\f"+
+		"\16\16\16\u00a1\13\16\3\17\3\17\3\17\3\17\3\20\3\20\3\20\3\20\3\21\3\21"+
+		"\3\21\3\21\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\3\24\3\24"+
+		"\3\24\3\24\3\25\3\25\3\25\3\25\3\26\3\26\3\26\3\26\3\27\3\27\3\30\3\30"+
+		"\3\30\3\30\7\30\u00cb\n\30\f\30\16\30\u00ce\13\30\3\30\3\30\3\30\3\30"+
+		"\5\30\u00d4\n\30\3\31\3\31\3\31\3\31\3\32\3\32\3\32\3\32\7\32\u00de\n"+
+		"\32\f\32\16\32\u00e1\13\32\3\32\3\32\3\32\3\32\5\32\u00e7\n\32\3\33\3"+
+		"\33\3\33\3\33\3\33\3\33\3\33\5\33\u00f0\n\33\3\33\2\2\34\2\4\6\b\n\f\16"+
+		"\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\2\3\3\2\n\13\2\u00f5\2\66\3"+
+		"\2\2\2\4=\3\2\2\2\6H\3\2\2\2\b^\3\2\2\2\nd\3\2\2\2\fj\3\2\2\2\16n\3\2"+
+		"\2\2\20s\3\2\2\2\22\u0080\3\2\2\2\24\u0086\3\2\2\2\26\u008a\3\2\2\2\30"+
+		"\u0090\3\2\2\2\32\u0096\3\2\2\2\34\u00a2\3\2\2\2\36\u00a6\3\2\2\2 \u00aa"+
+		"\3\2\2\2\"\u00ae\3\2\2\2$\u00b2\3\2\2\2&\u00b8\3\2\2\2(\u00bc\3\2\2\2"+
+		"*\u00c0\3\2\2\2,\u00c4\3\2\2\2.\u00d3\3\2\2\2\60\u00d5\3\2\2\2\62\u00e6"+
+		"\3\2\2\2\64\u00ef\3\2\2\2\66\67\5\4\3\2\678\5\6\4\289\5\b\5\29\3\3\2\2"+
+		"\2:<\7\34\2\2;:\3\2\2\2<?\3\2\2\2=;\3\2\2\2=>\3\2\2\2>\5\3\2\2\2?=\3\2"+
+		"\2\2@A\7\3\2\2AB\7\21\2\2BC\7\4\2\2CD\7\5\2\2DE\5\16\b\2EF\7\6\2\2FG\7"+
+		"\7\2\2GI\3\2\2\2H@\3\2\2\2HI\3\2\2\2I\7\3\2\2\2JK\7\3\2\2KL\5\n\6\2LM"+
+		"\7\7\2\2M_\3\2\2\2NO\7\5\2\2OP\7\3\2\2PQ\5\n\6\2QY\7\7\2\2RS\7\b\2\2S"+
+		"T\7\3\2\2TU\5\n\6\2UV\7\7\2\2VX\3\2\2\2WR\3\2\2\2X[\3\2\2\2YW\3\2\2\2"+
+		"YZ\3\2\2\2Z\\\3\2\2\2[Y\3\2\2\2\\]\7\6\2\2]_\3\2\2\2^J\3\2\2\2^N\3\2\2"+
+		"\2^_\3\2\2\2_\t\3\2\2\2`e\5\f\7\2ae\5(\25\2be\5\6\4\2ce\5*\26\2d`\3\2"+
+		"\2\2da\3\2\2\2db\3\2\2\2dc\3\2\2\2eh\3\2\2\2fg\7\b\2\2gi\5\n\6\2hf\3\2"+
+		"\2\2hi\3\2\2\2i\13\3\2\2\2jk\7\17\2\2kl\7\4\2\2lm\7\33\2\2m\r\3\2\2\2"+
+		"nq\5\20\t\2op\7\b\2\2pr\5\16\b\2qo\3\2\2\2qr\3\2\2\2r\17\3\2\2\2st\7\3"+
+		"\2\2tu\5\22\n\2uv\7\7\2\2v\21\3\2\2\2w\u0081\5\36\20\2x\u0081\5\24\13"+
+		"\2y\u0081\5(\25\2z\u0081\5 \21\2{\u0081\5\"\22\2|\u0081\5\26\f\2}\u0081"+
+		"\5\30\r\2~\u0081\5\34\17\2\177\u0081\5$\23\2\u0080w\3\2\2\2\u0080x\3\2"+
+		"\2\2\u0080y\3\2\2\2\u0080z\3\2\2\2\u0080{\3\2\2\2\u0080|\3\2\2\2\u0080"+
+		"}\3\2\2\2\u0080~\3\2\2\2\u0080\177\3\2\2\2\u0081\u0084\3\2\2\2\u0082\u0083"+
+		"\7\b\2\2\u0083\u0085\5\22\n\2\u0084\u0082\3\2\2\2\u0084\u0085\3\2\2\2"+
+		"\u0085\23\3\2\2\2\u0086\u0087\7\32\2\2\u0087\u0088\7\4\2\2\u0088\u0089"+
+		"\7\33\2\2\u0089\25\3\2\2\2\u008a\u008b\7\27\2\2\u008b\u008c\7\4\2\2\u008c"+
+		"\u008d\7\3\2\2\u008d\u008e\5\32\16\2\u008e\u008f\7\7\2\2\u008f\27\3\2"+
+		"\2\2\u0090\u0091\7\30\2\2\u0091\u0092\7\4\2\2\u0092\u0093\7\3\2\2\u0093"+
+		"\u0094\5\32\16\2\u0094\u0095\7\7\2\2\u0095\31\3\2\2\2\u0096\u0097\7\33"+
+		"\2\2\u0097\u0098\7\4\2\2\u0098\u009f\7\33\2\2\u0099\u009a\7\b\2\2\u009a"+
+		"\u009b\7\33\2\2\u009b\u009c\7\4\2\2\u009c\u009e\7\33\2\2\u009d\u0099\3"+
+		"\2\2\2\u009e\u00a1\3\2\2\2\u009f\u009d\3\2\2\2\u009f\u00a0\3\2\2\2\u00a0"+
+		"\33\3\2\2\2\u00a1\u009f\3\2\2\2\u00a2\u00a3\7\31\2\2\u00a3\u00a4\7\4\2"+
+		"\2\u00a4\u00a5\5,\27\2\u00a5\35\3\2\2\2\u00a6\u00a7\7\17\2\2\u00a7\u00a8"+
+		"\7\4\2\2\u00a8\u00a9\7\33\2\2\u00a9\37\3\2\2\2\u00aa\u00ab\7\22\2\2\u00ab"+
+		"\u00ac\7\4\2\2\u00ac\u00ad\7\33\2\2\u00ad!\3\2\2\2\u00ae\u00af\7\23\2"+
+		"\2\u00af\u00b0\7\4\2\2\u00b0\u00b1\7\24\2\2\u00b1#\3\2\2\2\u00b2\u00b3"+
+		"\7\25\2\2\u00b3\u00b4\7\4\2\2\u00b4\u00b5\7\3\2\2\u00b5\u00b6\5&\24\2"+
+		"\u00b6\u00b7\7\7\2\2\u00b7%\3\2\2\2\u00b8\u00b9\7\26\2\2\u00b9\u00ba\7"+
+		"\4\2\2\u00ba\u00bb\7\35\2\2\u00bb\'\3\2\2\2\u00bc\u00bd\7\20\2\2\u00bd"+
+		"\u00be\7\4\2\2\u00be\u00bf\7\35\2\2\u00bf)\3\2\2\2\u00c0\u00c1\7\t\2\2"+
+		"\u00c1\u00c2\7\4\2\2\u00c2\u00c3\t\2\2\2\u00c3+\3\2\2\2\u00c4\u00c5\5"+
+		"\64\33\2\u00c5-\3\2\2\2\u00c6\u00c7\7\3\2\2\u00c7\u00cc\5\60\31\2\u00c8"+
+		"\u00c9\7\b\2\2\u00c9\u00cb\5\60\31\2\u00ca\u00c8\3\2\2\2\u00cb\u00ce\3"+
+		"\2\2\2\u00cc\u00ca\3\2\2\2\u00cc\u00cd\3\2\2\2\u00cd\u00cf\3\2\2\2\u00ce"+
+		"\u00cc\3\2\2\2\u00cf\u00d0\7\7\2\2\u00d0\u00d4\3\2\2\2\u00d1\u00d2\7\3"+
+		"\2\2\u00d2\u00d4\7\7\2\2\u00d3\u00c6\3\2\2\2\u00d3\u00d1\3\2\2\2\u00d4"+
+		"/\3\2\2\2\u00d5\u00d6\7\33\2\2\u00d6\u00d7\7\4\2\2\u00d7\u00d8\5\64\33"+
+		"\2\u00d8\61\3\2\2\2\u00d9\u00da\7\5\2\2\u00da\u00df\5\64\33\2\u00db\u00dc"+
+		"\7\b\2\2\u00dc\u00de\5\64\33\2\u00dd\u00db\3\2\2\2\u00de\u00e1\3\2\2\2"+
+		"\u00df\u00dd\3\2\2\2\u00df\u00e0\3\2\2\2\u00e0\u00e2\3\2\2\2\u00e1\u00df"+
+		"\3\2\2\2\u00e2\u00e3\7\6\2\2\u00e3\u00e7\3\2\2\2\u00e4\u00e5\7\5\2\2\u00e5"+
+		"\u00e7\7\6\2\2\u00e6\u00d9\3\2\2\2\u00e6\u00e4\3\2\2\2\u00e7\63\3\2\2"+
+		"\2\u00e8\u00f0\7\33\2\2\u00e9\u00f0\7\37\2\2\u00ea\u00f0\5.\30\2\u00eb"+
+		"\u00f0\5\62\32\2\u00ec\u00f0\7\f\2\2\u00ed\u00f0\7\r\2\2\u00ee\u00f0\7"+
+		"\16\2\2\u00ef\u00e8\3\2\2\2\u00ef\u00e9\3\2\2\2\u00ef\u00ea\3\2\2\2\u00ef"+
+		"\u00eb\3\2\2\2\u00ef\u00ec\3\2\2\2\u00ef\u00ed\3\2\2\2\u00ef\u00ee\3\2"+
+		"\2\2\u00f0\65\3\2\2\2\21=HY^dhq\u0080\u0084\u009f\u00cc\u00d3\u00df\u00e6"+
+		"\u00ef";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

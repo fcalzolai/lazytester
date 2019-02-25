@@ -1,0 +1,36 @@
+import googleSteps;
+
+scenarios: [
+  {
+    name: scenario_name one;
+    description: description;
+    loop: 3;
+    steps: {
+      extends: post_halifax;
+      {
+        extends: get_halifax;
+        loop: 2;
+      };
+      {
+        extends: lbg;
+        url: www.lbg.com;
+      }:
+    }
+  };
+  {
+    name: scenario two;
+    description: description;
+    loop: 3;
+    steps: {
+      extends: post_halifax;
+      {
+        extends: get_halifax;
+        loop: 2;
+      };
+      {
+        extends: lbg;
+        url: www.lbg.com;
+      }:
+    }
+  };
+]
