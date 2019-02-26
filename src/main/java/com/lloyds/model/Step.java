@@ -58,6 +58,10 @@ public class Step {
         return name;
     }
 
+    public Optional<Step> getParent() {
+        return parent;
+    }
+
     public Integer getLoop() {
         // Use local value, otherwise parent, otherwise default
         return loop.orElseGet(() -> parent.map(Step::getLoop).orElse(DEFAULT_LOOP));

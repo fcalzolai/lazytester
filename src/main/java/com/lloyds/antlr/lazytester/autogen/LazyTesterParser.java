@@ -47,7 +47,7 @@ public class LazyTesterParser extends Parser {
 			null, "':'", "'['", "']'", "';'", "'{'", "'}'", "'ignoreStepFailures'", 
 			"'true'", "'false'", "','", "'null'", "'steps'", "'scenarios'", "'name'", 
 			"'loop'", "'url'", "'operation'", null, "'assertions'", "'status'", "'params'", 
-			"'headers'", "'body'", "'parent'"
+			"'headers'", "'body'", "'extends'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();

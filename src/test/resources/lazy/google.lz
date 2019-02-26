@@ -1,7 +1,6 @@
 steps: [
   {
     name: lbg;
-    description: Search LBG in google;
     url: www.google.com/ncr;
     operation: GET;
     loop: 2;
@@ -10,13 +9,12 @@ steps: [
       aq: f;
     };
     headers: {
-      user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36;
-      accept-encoding: gzip, deflate, br;
+      user-agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36";
+      accept-encoding: "gzip, deflate, br";
     };
-  },
+  };
   {
     name: get_halifax;
-    description: Search for halifax in google;
     url: www.google.com/ncr;
     operation: GET;
     loop: 10;
@@ -25,13 +23,12 @@ steps: [
       aq: f;
     };
     headers: {
-      user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36;
-      accept-encoding: gzip, deflate, br;
+      user-agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36";
+      accept-encoding: "gzip, deflate, br";
     };
-  },
+  };
   {
     name: post_halifax;
-    description: a POST;
     url: www.google.com/ncr;
     operation: POST;
     loop: 5;
@@ -40,41 +37,25 @@ steps: [
       aq: f;
     };
     headers: {
-      user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36;
-      accept-encoding: gzip, deflate, br;
+      user-agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36";
+      accept-encoding: "gzip, deflate, br";
     };
     body: {
-      "body_key": "body_val"
     };
     assertions:{
       status:200;
-    }
-  }
-]
+    };
+  };
+];
 
 scenarios: [
   {
-    name: scenario_name;
-    description: description;
-    loop: 3;
+    name: Scenario1;
+    loop: 1;
     steps: [
-      extends: post_halifax;
       {
-          extends: get_halifax;
-          loop: 2;
+        extends: post_halifax;
       };
-      {
-        extends: lbg;
-        url: www.lbg.com;
-      };
-    ]
-  };
-  {
-    name: scenario_name;
-    description: description;
-    loop: 3;
-    steps: {
-      extends: post_halifax;
       {
         extends: get_halifax;
         loop: 2;
@@ -83,6 +64,23 @@ scenarios: [
         extends: lbg;
         url: www.lbg.com;
       };
-    }
+    ]
   };
-]
+  {
+    name: Scenario2;
+    loop: 2;
+    steps: {
+      {
+        extends: post_halifax;
+      };
+      {
+        extends: get_halifax;
+        url: www.lbg.com;
+      };
+      {
+        extends: lbg;
+        loop: 2;
+      };
+    };
+  };
+];

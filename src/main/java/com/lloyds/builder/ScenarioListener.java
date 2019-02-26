@@ -1,5 +1,6 @@
 package com.lloyds.builder;
 
+import com.google.common.collect.ImmutableMap;
 import com.lloyds.antlr.lazytester.autogen.LazyTesterBaseListener;
 import com.lloyds.antlr.lazytester.autogen.LazyTesterParser;
 import com.lloyds.model.Scenario;
@@ -8,38 +9,45 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 public class ScenarioListener extends LazyTesterBaseListener {
 
     private static final String IMPORT = "import";
+
     private Scenario.ScenarioBuilder scenarioBuilder;
-    private Scenario scenario;
+    private LinkedList<Scenario> scenarios;
     private boolean isInStep;
     private LinkedList<Step> steps;
     private Map<String, Step> stepsMap;
     private Step.StepBuilder stepBuilder;
     private MapDef map;
 
-    public Scenario getScenario() {
-        return scenario;
+    public LinkedList<Scenario> getScenario() {
+        return scenarios;
+    }
+
+    public ImmutableMap<String, Step> getAllSteps(){
+        return ImmutableMap.copyOf(stepsMap);
     }
 
     @Override
     public void enterScenario_file(LazyTesterParser.Scenario_fileContext ctx) {
-        scenarioBuilder = Scenario.getScenarioBuilder();
         isInStep = false;
         map = MapDef.HEADERS;
         stepsMap = new HashMap<>();
+        scenarios = new LinkedList<>();
     }
 
     @Override
-    public void exitScenario_file(LazyTesterParser.Scenario_fileContext ctx) {
-        scenario = scenarioBuilder.build();
+    public void enterScenario_def(LazyTesterParser.Scenario_defContext ctx) {
+        scenarioBuilder = Scenario.getScenarioBuilder();
+    }
+
+    @Override
+    public void exitScenario_def(LazyTesterParser.Scenario_defContext ctx) {
+        scenarios.add(scenarioBuilder.build());
         scenarioBuilder = null;
     }
 
@@ -142,6 +150,16 @@ public class ScenarioListener extends LazyTesterBaseListener {
     @Override
     public void exitHeaders_def(LazyTesterParser.Headers_defContext ctx) {
         map = MapDef.NULL;
+    }
+
+    @Override
+    public void enterExtend_def(LazyTesterParser.Extend_defContext ctx) {
+        String parentString = getEscapedChildText(ctx);
+        Step parent = this.stepsMap.get(parentString);
+        if(parent == null) {
+            throw new IllegalArgumentException("Step "+parentString+" has not been declared.");
+        }
+        stepBuilder.setParent(parent);
     }
 
     @Override

@@ -17,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class ScenarioRunnerTest {
 
@@ -59,7 +60,7 @@ public class ScenarioRunnerTest {
 
     @Test
     public void testResults() throws IOException {
-        Scenario scenario = getScenario(SCENARIO_1);
+        Scenario scenario = getScenario(SCENARIO_1).get(0);
         HttpClient client = HttpClients.createDefault();
         ScenarioRunner scenarioRunner = new ScenarioRunner(client, scenario);
         scenarioRunner.runAll();
@@ -70,7 +71,7 @@ public class ScenarioRunnerTest {
 
     @Test
     public void testGetFullUrl() throws IOException {
-        Scenario scenario = getScenario(SCENARIO_1);
+        Scenario scenario = getScenario(SCENARIO_1).get(0);
         HttpClient client = HttpClients.createDefault();
         ScenarioRunner scenarioRunner = new ScenarioRunner(client, scenario);
         scenarioRunner.runAll();
@@ -81,7 +82,7 @@ public class ScenarioRunnerTest {
 
     @Test
     public void testGetFullUrlAndParams() throws IOException {
-        Scenario scenario = getScenario(SCENARIO_2);
+        Scenario scenario = getScenario(SCENARIO_2).get(0);
         HttpClient client = HttpClients.createDefault();
         ScenarioRunner scenarioRunner = new ScenarioRunner(client, scenario);
         scenarioRunner.runAll();
@@ -90,7 +91,7 @@ public class ScenarioRunnerTest {
         Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.columnKeySet().size());
     }
 
-    private Scenario getScenario(String scenario) {
+    private LinkedList<Scenario> getScenario(String scenario) {
         CharStream cs = CharStreams.fromString(scenario);
         LazyTesterLexer lexer = new LazyTesterLexer(cs);  //instantiate a lexer
         CommonTokenStream tokens = new CommonTokenStream(lexer); //scan stream for tokens

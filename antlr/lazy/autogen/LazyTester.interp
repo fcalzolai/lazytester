@@ -23,7 +23,7 @@ null
 'params'
 'headers'
 'body'
-'parent'
+'extends'
 null
 null
 null

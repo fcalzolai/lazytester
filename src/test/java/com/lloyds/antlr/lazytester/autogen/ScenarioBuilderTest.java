@@ -1,5 +1,7 @@
 package com.lloyds.antlr.lazytester.autogen;
 
+import com.google.common.collect.ImmutableMap;
+import com.lloyds.builder.ScenarioListener;
 import com.lloyds.model.Scenario;
 import com.lloyds.model.Step;
 import com.lloyds.utils.Utils;
@@ -13,7 +15,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 public class ScenarioBuilderTest {
@@ -123,12 +124,12 @@ public class ScenarioBuilderTest {
 
     @Test
     public void test1(){
-        System.out.println(Utils.parseScenario(SCENARIO_1));
+        System.out.println(Utils.createScenario(SCENARIO_1));
     }
 
     @Test
     public void test2() throws IOException {
-        Scenario scenario = Utils.parseScenario(SCENARIO_1);
+        Scenario scenario = Utils.createScenario(SCENARIO_1).get(0);
 
         Step step = scenario.getSteps().get(0);
         HttpClient client = HttpClients.createDefault();
@@ -142,7 +143,7 @@ public class ScenarioBuilderTest {
 
     @Test
     public void testParamsCreation(){
-        Scenario scenario = Utils.parseScenario(SCENARIO_2);
+        Scenario scenario = Utils.createScenario(SCENARIO_2).get(0);
         Map<String, String> params = scenario.getSteps().get(0).getParams();
         Assert.assertEquals(2, params.size());
         Assert.assertEquals("lbg", params.get("q"));
@@ -151,7 +152,7 @@ public class ScenarioBuilderTest {
 
     @Test
     public void testHeadersCreation(){
-        Scenario scenario = Utils.parseScenario(SCENARIO_2);
+        Scenario scenario = Utils.createScenario(SCENARIO_2).get(0);
         Map<String, String> headers = scenario.getSteps().get(0).getHeaders();
         Assert.assertEquals(2, headers.size());
         Assert.assertEquals(HEADERS_USER_AGENT, headers.get("user-agent"));
@@ -160,20 +161,19 @@ public class ScenarioBuilderTest {
 
     @Test
     public void testBodyCreation(){
-        Scenario scenario = Utils.parseScenario(SCENARIO_2);
+        Scenario scenario = Utils.createScenario(SCENARIO_2).get(0);
         String body = scenario.getSteps().get(0).getBody();
         Assert.assertEquals(BODY.replaceAll(" ",""), body);
     }
 
     @Test
     public void testTwoStepsCreation(){
-        Scenario scenario = Utils.parseScenario(SCENARIO_3);
-        List<Step> steps = scenario.getSteps();
+        ScenarioListener scenarioListener = Utils.createScenarioListener(SCENARIO_3);
+        ImmutableMap<String, Step> steps = scenarioListener.getAllSteps();
         Assert.assertEquals(2, steps.size());
 
         Step step;
-        step = steps.get(0);
-        Assert.assertEquals("step 31", step.getName());
+        step = steps.get("step 31");
         Assert.assertEquals("GET", step.getOperation());
         Assert.assertEquals("http://www.google.com", step.getUrl());
         Map<String, String> params = step.getParams();
@@ -181,8 +181,7 @@ public class ScenarioBuilderTest {
         Assert.assertEquals("lbg", params.get("q"));
         Assert.assertEquals("f", params.get("aq"));
 
-        step = steps.get(1);
-        Assert.assertEquals("step 32", step.getName());
+        step = steps.get("step 32");
         Assert.assertEquals("POST", step.getOperation());
         Assert.assertEquals("http://www.lbg.com", step.getUrl());
         params = step.getParams();
@@ -194,13 +193,12 @@ public class ScenarioBuilderTest {
 
     @Test
     public void testThreeStepsCreation(){
-        Scenario scenario = Utils.parseScenario(SCENARIO_4);
-        List<Step> steps = scenario.getSteps();
+        ScenarioListener scenarioListener = Utils.createScenarioListener(SCENARIO_4);
+        ImmutableMap<String, Step> steps = scenarioListener.getAllSteps();
         Assert.assertEquals(3, steps.size());
 
         Step step;
-        step = steps.get(0);
-        Assert.assertEquals("step 31", step.getName());
+        step = steps.get("step 31");
         Assert.assertEquals("GET", step.getOperation());
         Assert.assertEquals("http://www.google.com", step.getUrl());
         Map<String, String> params = step.getParams();
@@ -208,16 +206,14 @@ public class ScenarioBuilderTest {
         Assert.assertEquals("lbg", params.get("q"));
         Assert.assertEquals("f", params.get("aq"));
 
-        step = steps.get(1);
-        Assert.assertEquals("step 32", step.getName());
+        step = steps.get("step 32");
         Assert.assertEquals("POST", step.getOperation());
         Assert.assertEquals("http://www.lbg.com", step.getUrl());
         params = step.getParams();
         Assert.assertEquals(1, params.size());
         Assert.assertEquals("val", params.get("lbg"));
 
-        step = steps.get(2);
-        Assert.assertEquals("step 33", step.getName());
+        step = steps.get("step 33");
         Assert.assertEquals("POST", step.getOperation());
         Assert.assertEquals("http://www.lbg2.com", step.getUrl());
         params = step.getParams();
