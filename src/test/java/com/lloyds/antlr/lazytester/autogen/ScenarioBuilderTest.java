@@ -45,7 +45,7 @@ public class ScenarioBuilderTest {
             "  }; " +
             "];";
 
-    private static final String SCENARIO_2 = "" +
+    private static final String SCENARIO_2 =
             " scenarios: [ \n" +
             "  { \n" +
             "    name: \"scenario 2\"; \n" +
@@ -68,16 +68,58 @@ public class ScenarioBuilderTest {
             "  }; \n" +
             "];\n";
 
-    private static final String SCENARIO_3 = "steps: [ " +
-                                             "  { " +
-                                             "    name: \"step 31\"; " +
-                                             "    operation: GET; " +
-                                             "  }; " +
-                                             "  { " +
-                                             "    name: \"step 32\"; " +
-                                             "    operation: POST; " +
-                                             "  }; " +
-                                             "] ;";
+    private static final String SCENARIO_3 =
+            "steps: [ " +
+            "  { " +
+            "    name: \"step 31\"; " +
+            "    operation: GET; " +
+            "    url: \"http://www.google.com\"; " +
+            "    params: { " +
+            "      q: lbg; " +
+            "      aq: f; " +
+            "    }; " +
+            "  }; " +
+            "  { " +
+            "    name: \"step 32\"; " +
+            "    operation: POST; " +
+            "    url: \"http://www.lbg.com\"; " +
+            "    params: { " +
+            "      lbg: val; " +
+            "    }; " +
+            "    body : "+BODY+" ;\n" +
+            "  }; " +
+            "] ;";
+
+    private static final String SCENARIO_4 =
+            "steps: [ " +
+            "  { " +
+            "    name: \"step 31\"; " +
+            "    operation: GET; " +
+            "    url: \"http://www.google.com\"; " +
+            "    params: { " +
+            "      q: lbg; " +
+            "      aq: f; " +
+            "    }; " +
+            "  }; " +
+            "  { " +
+            "    name: \"step 32\"; " +
+            "    operation: POST; " +
+            "    url: \"http://www.lbg.com\"; " +
+            "    params: { " +
+            "      lbg: val; " +
+            "    }; " +
+            "    body : "+BODY+" ;\n" +
+            "  }; " +
+            "  { " +
+            "    name: \"step 33\"; " +
+            "    operation: POST; " +
+            "    url: \"http://www.lbg2.com\"; " +
+            "    params: { " +
+            "      lbg2: val; " +
+            "    }; " +
+            "    body : "+BODY+" ;\n" +
+            "  }; " +
+            "] ;";
 
     @Test
     public void test1(){
@@ -133,10 +175,56 @@ public class ScenarioBuilderTest {
         step = steps.get(0);
         Assert.assertEquals("step 31", step.getName());
         Assert.assertEquals("GET", step.getOperation());
+        Assert.assertEquals("http://www.google.com", step.getUrl());
+        Map<String, String> params = step.getParams();
+        Assert.assertEquals(2, params.size());
+        Assert.assertEquals("lbg", params.get("q"));
+        Assert.assertEquals("f", params.get("aq"));
 
         step = steps.get(1);
         Assert.assertEquals("step 32", step.getName());
         Assert.assertEquals("POST", step.getOperation());
+        Assert.assertEquals("http://www.lbg.com", step.getUrl());
+        params = step.getParams();
+        Assert.assertEquals(1, params.size());
+        Assert.assertEquals("val", params.get("lbg"));
+
+        Assert.assertEquals(BODY.replaceAll(" ",""), step.getBody());
+    }
+
+    @Test
+    public void testThreeStepsCreation(){
+        Scenario scenario = Utils.parseScenario(SCENARIO_4);
+        List<Step> steps = scenario.getSteps();
+        Assert.assertEquals(3, steps.size());
+
+        Step step;
+        step = steps.get(0);
+        Assert.assertEquals("step 31", step.getName());
+        Assert.assertEquals("GET", step.getOperation());
+        Assert.assertEquals("http://www.google.com", step.getUrl());
+        Map<String, String> params = step.getParams();
+        Assert.assertEquals(2, params.size());
+        Assert.assertEquals("lbg", params.get("q"));
+        Assert.assertEquals("f", params.get("aq"));
+
+        step = steps.get(1);
+        Assert.assertEquals("step 32", step.getName());
+        Assert.assertEquals("POST", step.getOperation());
+        Assert.assertEquals("http://www.lbg.com", step.getUrl());
+        params = step.getParams();
+        Assert.assertEquals(1, params.size());
+        Assert.assertEquals("val", params.get("lbg"));
+
+        step = steps.get(2);
+        Assert.assertEquals("step 33", step.getName());
+        Assert.assertEquals("POST", step.getOperation());
+        Assert.assertEquals("http://www.lbg2.com", step.getUrl());
+        params = step.getParams();
+        Assert.assertEquals(1, params.size());
+        Assert.assertEquals("val", params.get("lbg2"));
+
+        Assert.assertEquals(BODY.replaceAll(" ",""), step.getBody());
     }
 
     private void runHttpGet(HttpClient client, HttpUriRequest http) throws IOException {

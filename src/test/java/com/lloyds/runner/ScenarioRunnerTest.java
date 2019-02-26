@@ -22,7 +22,8 @@ public class ScenarioRunnerTest {
 
     private static int SCENARIO_LOOP = 2;
     private static int STEP_LOOP = 3;
-    private static final String SCENARIO_1 = "" +
+
+    private static final String SCENARIO_1 =
             "scenarios: [" +
             "  { " +
             "    name: \"scenario 1\"; " +
@@ -38,7 +39,7 @@ public class ScenarioRunnerTest {
             "  };" +
             "]; ";
 
-    private static final String SCENARIO_2 = "" +
+    private static final String SCENARIO_2 =
             "scenarios: [" +
             "  { " +
             "    name: \"scenario 1\"; " +
