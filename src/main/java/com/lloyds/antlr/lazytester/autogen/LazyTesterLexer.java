@@ -44,7 +44,7 @@ public class LazyTesterLexer extends Lexer {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "':'", "'['", "']'", "'{'", "'}'", "';'", "'ignoreStepFailures'", 
+			null, "':'", "'['", "']'", "';'", "'{'", "'}'", "'ignoreStepFailures'", 
 			"'true'", "'false'", "','", "'null'", "'steps'", "'scenarios'", "'name'", 
 			"'loop'", "'url'", "'operation'", null, "'assertions'", "'status'", "'params'", 
 			"'headers'", "'body'", "'parent'"
@@ -157,7 +157,7 @@ public class LazyTesterLexer extends Lexer {
 		"\3\2\2\2\67\u00f5\3\2\2\29\u00f9\3\2\2\2;\u0102\3\2\2\2=\u0108\3\2\2\2"+
 		"?\u010d\3\2\2\2A\u0113\3\2\2\2C\u0115\3\2\2\2E\u0118\3\2\2\2G\u0126\3"+
 		"\2\2\2IJ\7<\2\2J\4\3\2\2\2KL\7]\2\2L\6\3\2\2\2MN\7_\2\2N\b\3\2\2\2OP\7"+
-		"}\2\2P\n\3\2\2\2QR\7\177\2\2R\f\3\2\2\2ST\7=\2\2T\16\3\2\2\2UV\7k\2\2"+
+		"=\2\2P\n\3\2\2\2QR\7}\2\2R\f\3\2\2\2ST\7\177\2\2T\16\3\2\2\2UV\7k\2\2"+
 		"VW\7i\2\2WX\7p\2\2XY\7q\2\2YZ\7t\2\2Z[\7g\2\2[\\\7U\2\2\\]\7v\2\2]^\7"+
 		"g\2\2^_\7r\2\2_`\7H\2\2`a\7c\2\2ab\7k\2\2bc\7n\2\2cd\7w\2\2de\7t\2\2e"+
 		"f\7g\2\2fg\7u\2\2g\20\3\2\2\2hi\7v\2\2ij\7t\2\2jk\7w\2\2kl\7g\2\2l\22"+

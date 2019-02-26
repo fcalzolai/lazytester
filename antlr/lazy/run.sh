@@ -21,26 +21,30 @@ javac -d ./target/ LazyTester*.java
 cd ./target/
 
 echo -e "import googleSteps;
-
-steps: [
-  {
-    name: \"step1 \";
-    url: \"http://www.google.com\";
-    operation: GET;
-    loop: 2;
-    params: {
-      q: lbg;
-      aq: f;
-    };
-    headers: {
-      user-agent: \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36\";
-      accept-encoding: \"gzip, deflate, br\";
-    };
-    body: [];
-    body: { };
-    assertions:{
-      status:200;
-    };
-  };
-]
+scenarios : [
+ {
+    name: \"scenario 2\";
+    steps: [
+      {
+        name: \"step 1\";
+        url: \"http://www.google.com\";
+        operation: GET;
+        loop: 2;
+        params: {
+          q: lbg;
+          aq: f;
+        };
+        headers: {
+          user-agent: \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36\";
+          accept-encoding: \"gzip, deflate, br\";
+        };
+        body: [];
+        body: { };
+        assertions:{
+          status:200;
+        };
+      };
+    ];
+ };
+];
 " | java org.antlr.v4.gui.TestRig com.lloyds.antlr.lazytester.autogen.LazyTester scenario_file -gui

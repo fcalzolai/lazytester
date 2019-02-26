@@ -22,8 +22,8 @@ public class ScenarioBuilderTest {
                                                      "(KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36\"";
 
     private static final String BODY =  "{ " +
-                                        "  \"body_key_1\" : \"body_key_val_1\", " +
-                                        "  \"body_key_2\" : \"body_key_val_2\" " +
+//                                        "  \"body_key_1\" : \"body_key_val_1\", " +
+//                                        "  \"body_key_2\" : \"body_key_val_2\" " +
                                         "}";
 
     private static final String SCENARIO_1 = "import test; " +
@@ -41,32 +41,32 @@ public class ScenarioBuilderTest {
             "          status:200;" +
             "        }; " +
             "      };" +
-            "    ]" +
-            "  }; " +
-            "]";
-
-    private static final String SCENARIO_2 = "" +
-            " scenarios: [" +
-            "  { " +
-            "    name: \"scenario 2\"; " +
-            "    steps: [ " +
-            "      {" +
-            "        name: \"step 1\"; " +
-            "        operation: GET; " +
-            "        url: \"http://www.google.com\"; " +
-            "        params: {" +
-            "          q: lbg; " +
-            "          aq: f;  " +
-            "        }; " +
-            "        headers : { " +
-            "          user-agent : "+HEADERS_USER_AGENT+"; " +
-            "          accept-encoding : gzip, deflate, br; " +
-            "         }; " +
-            "        body : "+BODY+" ;" +
-            "      }" +
             "    ];" +
             "  }; " +
             "];";
+
+    private static final String SCENARIO_2 = "" +
+            " scenarios: [ \n" +
+            "  { \n" +
+            "    name: \"scenario 2\"; \n" +
+            "    steps: [ \n" +
+            "      {\n" +
+            "        name: \"step 1\"; \n" +
+            "        operation: GET; \n" +
+            "        url: \"http://www.google.com\"; \n" +
+            "        params: {\n" +
+            "          q: lbg; \n" +
+            "          aq: f;  \n" +
+            "        }; \n" +
+            "        headers : { \n" +
+            "          user-agent : "+HEADERS_USER_AGENT+"; \n" +
+            "          accept-encoding : \"gzip, deflate, br\"; \n" +
+            "         }; \n" +
+            "        body : "+BODY+" ;\n" +
+            "      };\n" +
+            "    ];\n" +
+            "  }; \n" +
+            "];\n";
 
     private static final String SCENARIO_3 = "steps: [ " +
                                              "  { " +
@@ -77,7 +77,7 @@ public class ScenarioBuilderTest {
                                              "    name: \"step 32\"; " +
                                              "    operation: POST; " +
                                              "  }; " +
-                                             "] ";
+                                             "] ;";
 
     @Test
     public void test1(){
@@ -113,7 +113,7 @@ public class ScenarioBuilderTest {
         Map<String, String> headers = scenario.getSteps().get(0).getHeaders();
         Assert.assertEquals(2, headers.size());
         Assert.assertEquals(HEADERS_USER_AGENT, headers.get("user-agent"));
-        Assert.assertEquals("gzip, deflate, br", headers.get("accept-encoding"));
+        Assert.assertEquals("\"gzip, deflate, br\"", headers.get("accept-encoding"));
     }
 
     @Test

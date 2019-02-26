@@ -115,9 +115,9 @@ public class ScenarioListener extends LazyTesterBaseListener {
         String v = "";
         for (int i = 0; i < children.size(); i++) {
             if(i % 4 == 0) {
-                k = children.get(i).getText().replace("\"", "");
+                k = children.get(i).getText();
             } else if(i % 4 == 2) {
-                v = children.get(i).getText().replace("\"", "");
+                v = children.get(i).getText();
                 put.accept(k, v);
             }
         }

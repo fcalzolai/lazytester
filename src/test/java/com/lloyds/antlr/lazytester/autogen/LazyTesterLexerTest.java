@@ -14,12 +14,18 @@ import java.util.List;
 public class LazyTesterLexerTest {
 
     private static final List<String> INCORRECT_SCENARIOS = ImmutableList.<String>builder()
-            .add("import path/to/test " +
-                 "{\"name\": \"get google\"}")
+            .add("import path/to/test ;" +
+                 "scenarios : [" +
+                 "  {" +
+                 "    names: \"get google\";" + //It should be "name" NOT "names"
+                 "  };" +
+                 "];")
             .add("import path/to/test; " +
-                 "{" +
-                    "\"name\": \"get google\"," +
-                 "}")
+                 "scenarios : " +               //Missing open square bracket
+                 "  {" +
+                 "    name: \"get google\"; " +
+                 "  }; " +
+                 "]; ")
             .build();
 
     private static final List<String> CORRECT_SCENARIOS = ImmutableList.<String>builder()
@@ -100,10 +106,10 @@ public class LazyTesterLexerTest {
                     LazyTesterParser parser = new LazyTesterParser(tokens);  //parse the tokens
                     parser.addErrorListener(new ExceptionThrowerErrorListener());
                     try {
-                        parser.scenario_file();
+                        LazyTesterParser.Scenario_fileContext scenario_fileContext = parser.scenario_file();
                         Assert.fail("It should throw a RunTimeException");
                     } catch (RuntimeException e) {
-
+                        e.printStackTrace();
                     }
                 }
         );

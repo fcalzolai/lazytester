@@ -23,34 +23,38 @@ public class ScenarioRunnerTest {
     private static int SCENARIO_LOOP = 2;
     private static int STEP_LOOP = 3;
     private static final String SCENARIO_1 = "" +
-            "{ " +
-            "  name: \"scenario 1\"; " +
-            "  loop: "+ SCENARIO_LOOP +"; " +
-            "  steps: [ " +
-            "    {" +
-            "      name: \"step 1\"; " +
-            "      operation: GET; " +
-            "      loop: "+ STEP_LOOP +"; " +
-            "      url: http://www.google.com; " +
-            "    }" +
-            "  ]" +
-            "} ";
+            "scenarios: [" +
+            "  { " +
+            "    name: \"scenario 1\"; " +
+            "    loop: "+ SCENARIO_LOOP +"; " +
+            "    steps: [ " +
+            "      {" +
+            "        name: \"step 1\"; " +
+            "        operation: GET; " +
+            "        loop: "+ STEP_LOOP +"; " +
+            "        url: \"http://www.google.com\" ; " +
+            "      };" +
+            "    ];" +
+            "  };" +
+            "]; ";
 
     private static final String SCENARIO_2 = "" +
-            "{ " +
-            "  name: \"scenario 1\"; " +
-            "  steps: [ " +
-            "    {" +
-            "      name: \"step 1\"; " +
-            "      operation: GET; " +
-            "      url: http://www.google.com; " +
-            "      params: { " +
-            "        q: lbg; " +
-            "        aq: f;  " +
-            "      }" +
-            "    }" +
-            "  ]" +
-            "} ";
+            "scenarios: [" +
+            "  { " +
+            "    name: \"scenario 1\"; " +
+            "    steps: [ " +
+            "      {" +
+            "        name: \"step 1\"; " +
+            "        operation: GET; " +
+            "        url: \"http://www.google.com\"; " +
+            "        params: { " +
+            "          q: lbg; " +
+            "          aq: f;  " +
+            "        }; " +
+            "      };" +
+            "    ]; " +
+            "  };" +
+            "]; ";
 
     @Test
     public void testResults() throws IOException {
