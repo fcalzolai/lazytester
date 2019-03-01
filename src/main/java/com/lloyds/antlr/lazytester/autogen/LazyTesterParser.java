@@ -55,7 +55,7 @@ public class LazyTesterParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			"STEPS", "SCENARIOS", "NAME", "LOOP", "URL", "OPERATION", "HTTP_OPS", 
-			"ASSERTIONS", "STATUS", "PARAMS", "HEADERS", "BODY", "EXTEND", "IMPORT", 
+			"ASSERTIONS_HEADERS", "STATUS", "PARAMS", "HEADERS", "BODY", "EXTEND", "IMPORT",
 			"INT", "STRING", "QSTRING", "WS", "NUMBER"
 		};
 	}

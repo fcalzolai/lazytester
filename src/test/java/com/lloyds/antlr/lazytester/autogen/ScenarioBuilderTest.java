@@ -119,6 +119,13 @@ public class ScenarioBuilderTest {
             "      lbg2: val; " +
             "    }; " +
             "    body : "+BODY+" ;\n" +
+            "    assertions: { " +
+            "      status:200; " +
+            "      body:{}; " +
+            "      headers: {\n" +
+            "        accept-encoding: \"gzip, deflate, br\";\n" +
+            "      };" +
+            "    }; " +
             "  }; " +
             "] ;";
 
@@ -205,6 +212,9 @@ public class ScenarioBuilderTest {
         Assert.assertEquals(2, params.size());
         Assert.assertEquals("lbg", params.get("q"));
         Assert.assertEquals("f", params.get("aq"));
+        Assert.assertFalse(step.getAssertions().getStatus().isPresent());
+        Assert.assertFalse(step.getAssertions().getBody().isPresent());
+        Assert.assertEquals(0, step.getAssertions().getHeaders().size());
 
         step = steps.get("step 32");
         Assert.assertEquals("POST", step.getOperation());
@@ -212,6 +222,9 @@ public class ScenarioBuilderTest {
         params = step.getParams();
         Assert.assertEquals(1, params.size());
         Assert.assertEquals("val", params.get("lbg"));
+        Assert.assertFalse(step.getAssertions().getStatus().isPresent());
+        Assert.assertFalse(step.getAssertions().getBody().isPresent());
+        Assert.assertEquals(0, step.getAssertions().getHeaders().size());
 
         step = steps.get("step 33");
         Assert.assertEquals("POST", step.getOperation());
@@ -219,6 +232,12 @@ public class ScenarioBuilderTest {
         params = step.getParams();
         Assert.assertEquals(1, params.size());
         Assert.assertEquals("val", params.get("lbg2"));
+        Assert.assertEquals(Integer.valueOf(200), step.getAssertions().getStatus().get());
+        Assert.assertEquals("{}", step.getAssertions().getBody().get());
+        Map<String, String> header = step.getAssertions().getHeaders();
+        Assert.assertEquals(1, header.size());
+        Assert.assertEquals("\"gzip, deflate, br\"", header.get("accept-encoding"));
+
 
         Assert.assertEquals(BODY.replaceAll(" ",""), step.getBody());
     }

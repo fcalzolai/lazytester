@@ -2,7 +2,7 @@ grammar LazyTester;
 
 import Json;
 
-@header {
+@headers {
 package com.lloyds.antlr.lazytester.autogen;
 }
 

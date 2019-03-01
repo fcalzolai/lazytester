@@ -3,6 +3,7 @@ package com.lloyds.builder;
 import com.google.common.collect.ImmutableMap;
 import com.lloyds.antlr.lazytester.autogen.LazyTesterBaseListener;
 import com.lloyds.antlr.lazytester.autogen.LazyTesterParser;
+import com.lloyds.model.Assertions;
 import com.lloyds.model.Scenario;
 import com.lloyds.model.Step;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -23,6 +24,7 @@ public class ScenarioListener extends LazyTesterBaseListener {
     private Map<String, Step> stepsMap;
     private Step.StepBuilder stepBuilder;
     private MapDef map;
+    private Assertions.AssertionBuilder assertionBuilder;
 
     public LinkedList<Scenario> getScenario() {
         return scenarios;
@@ -112,17 +114,28 @@ public class ScenarioListener extends LazyTesterBaseListener {
 
     @Override
     public void enterAssertion(LazyTesterParser.AssertionContext ctx) {
-//        stepBuilder.setAssertions(getEscapedChildText(ctx));
+        String child = ctx.getChild(0).getText();
+        if(child.equals("status")) {
+            assertionBuilder.setStatus(Integer.valueOf(ctx.getChild(2).toString()));
+        } else if(child.startsWith("headers")) {
+            map = MapDef.ASSERTIONS_HEADERS;
+        } else if(child.startsWith("body")) {
+            assertionBuilder.setBody(child.substring(child.indexOf(":")+1, child.length()-1));
+        } else {
+            throw new IllegalArgumentException("Unknown Assertion value: " + child);
+        }
     }
 
     @Override
     public void enterAssertions_def(LazyTesterParser.Assertions_defContext ctx) {
-        super.enterAssertions_def(ctx);
+        assertionBuilder = Assertions.getBuilder();
     }
 
     @Override
     public void exitAssertions_def(LazyTesterParser.Assertions_defContext ctx) {
-        super.exitAssertions_def(ctx);
+        stepBuilder.setAssertions(assertionBuilder.build());
+        assertionBuilder = null;
+        map = MapDef.NULL;
     }
 
     @Override
@@ -154,12 +167,16 @@ public class ScenarioListener extends LazyTesterBaseListener {
 
     @Override
     public void enterHeaders_def(LazyTesterParser.Headers_defContext ctx) {
-        map = MapDef.HEADERS;
+        if(map != MapDef.ASSERTIONS_HEADERS) {
+            map = MapDef.HEADERS;
+        }
     }
 
     @Override
     public void exitHeaders_def(LazyTesterParser.Headers_defContext ctx) {
-        map = MapDef.NULL;
+        if(map != MapDef.ASSERTIONS_HEADERS) {
+            map = MapDef.NULL;
+        }
     }
 
     @Override
@@ -205,6 +222,8 @@ public class ScenarioListener extends LazyTesterBaseListener {
                 return (k, v) -> stepBuilder.putHeaders(k, v);
             case QUERY_PARAMS:
                 return (k, v) -> stepBuilder.putParam(k, v);
+            case ASSERTIONS_HEADERS:
+                return (k, v) -> assertionBuilder.put(k, v);
             case NULL:
                 throw new IllegalArgumentException("Map has been set to NULL");
             default:

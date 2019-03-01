@@ -51,6 +51,9 @@ steps: [
     };
     assertions:{
       status:200;
+      headers: {
+        accept-encoding: "gzip, deflate, br";
+      };
     };
   };
 ];
@@ -76,7 +79,7 @@ scenarios: [
   {
     name: Scenario2;
     loop: 2;
-    steps: {
+    steps: [
       {
         extends: post_halifax;
       };
@@ -88,6 +91,6 @@ scenarios: [
         extends: get_lbg;
         loop: 2;
       };
-    };
+    ];
   };
 ];

@@ -35,7 +35,7 @@ public class LazyTesterLexer extends Lexer {
 		return new String[] {
 			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
 			"T__9", "T__10", "STEPS", "SCENARIOS", "NAME", "LOOP", "URL", "OPERATION", 
-			"HTTP_OPS", "ASSERTIONS", "STATUS", "PARAMS", "HEADERS", "BODY", "EXTEND", 
+			"HTTP_OPS", "ASSERTIONS_HEADERS", "STATUS", "PARAMS", "HEADERS", "BODY", "EXTEND",
 			"IMPORT", "INT", "STRING", "QSTRING", "WS", "ESC", "UNICODE", "HEX", 
 			"SAFECODEPOINT", "NUMBER", "EXP"
 		};
@@ -55,7 +55,7 @@ public class LazyTesterLexer extends Lexer {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			"STEPS", "SCENARIOS", "NAME", "LOOP", "URL", "OPERATION", "HTTP_OPS", 
-			"ASSERTIONS", "STATUS", "PARAMS", "HEADERS", "BODY", "EXTEND", "IMPORT", 
+			"ASSERTIONS_HEADERS", "STATUS", "PARAMS", "HEADERS", "BODY", "EXTEND", "IMPORT",
 			"INT", "STRING", "QSTRING", "WS", "NUMBER"
 		};
 	}

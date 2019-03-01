@@ -8,12 +8,12 @@ public class Assertions {
 
     private Step step;
     private Optional<Integer> status;
-    private Map<String, String> header;
+    private Map<String, String> headers;
     private Optional<String> body;
 
-    private Assertions(Optional<Integer> status, Map<String, String> header, Optional<String> body) {
+    private Assertions(Optional<Integer> status, Map<String, String> headers, Optional<String> body) {
         this.status = status;
-        this.header = header;
+        this.headers = headers;
         this.body = body;
     }
 
@@ -26,8 +26,8 @@ public class Assertions {
                         .orElse( null)));
     }
 
-    public Map<String, String> getHeader() {
-        return header;
+    public Map<String, String> getHeaders() {
+        return headers;
     }
 
     public Optional<String> getBody() {
@@ -72,6 +72,10 @@ public class Assertions {
         public AssertionBuilder setBody(String body) {
             this.body = Optional.ofNullable(body);
             return this;
+        }
+
+        public String put(String key, String value) {
+            return header.put(key, value);
         }
     }
 }
