@@ -234,13 +234,13 @@ public class LazyTesterBaseListener implements LazyTesterListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssertions(LazyTesterParser.AssertionsContext ctx) { }
+	@Override public void enterAssertion(LazyTesterParser.AssertionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssertions(LazyTesterParser.AssertionsContext ctx) { }
+	@Override public void exitAssertion(LazyTesterParser.AssertionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

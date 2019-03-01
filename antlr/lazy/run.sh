@@ -42,6 +42,10 @@ scenarios : [
         body: { };
         assertions:{
           status:200;
+          headers: {
+            accept-encoding: \"gzip, deflate, br\";
+          };
+          body: { };
         };
       };
     ];

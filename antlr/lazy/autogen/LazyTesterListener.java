@@ -190,15 +190,15 @@ public interface LazyTesterListener extends ParseTreeListener {
 	 */
 	void exitAssertions_def(LazyTesterParser.Assertions_defContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LazyTesterParser#assertions}.
+	 * Enter a parse tree produced by {@link LazyTesterParser#assertion}.
 	 * @param ctx the parse tree
 	 */
-	void enterAssertions(LazyTesterParser.AssertionsContext ctx);
+	void enterAssertion(LazyTesterParser.AssertionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LazyTesterParser#assertions}.
+	 * Exit a parse tree produced by {@link LazyTesterParser#assertion}.
 	 * @param ctx the parse tree
 	 */
-	void exitAssertions(LazyTesterParser.AssertionsContext ctx);
+	void exitAssertion(LazyTesterParser.AssertionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LazyTesterParser#loop_def}.
 	 * @param ctx the parse tree

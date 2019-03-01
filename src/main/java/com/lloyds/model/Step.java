@@ -30,7 +30,7 @@ public class Step {
     private Map<String, String> params;
     private Map<String, String> headers;
     private Optional<String> body;
-    private Optional<String> assertions;
+    private Assertions assertions;
 
     private HttpUriRequest httpRequest;
 
@@ -42,7 +42,7 @@ public class Step {
                 Map<String, String> params,
                 Map<String, String> headers,
                 Optional<String> body,
-                Optional<String> assertions) {
+                Assertions assertions) {
         this.name = name;
         this.parent = parent;
         this.loop = loop;
@@ -111,8 +111,8 @@ public class Step {
         return body.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "body")).getBody());
     }
 
-    public String getAssertions() {
-        return assertions.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "assertions")).getAssertions());
+    public Assertions getAssertions() {
+        return assertions;
     }
 
     public HttpUriRequest getHttpRequest() throws UnsupportedEncodingException {
@@ -150,7 +150,7 @@ public class Step {
         private Map<String, String> params;
         private Map<String, String> headers;
         private Optional<String> body;
-        private Optional<String> assertions;
+        private Assertions assertions;
 
         private StepBuilder() {
             this.name = null;
@@ -161,11 +161,13 @@ public class Step {
             this.headers = new HashMap<>();
             this.url = Optional.empty();
             this.body = Optional.empty();
-            this.assertions = Optional.empty();
+            this.assertions = Assertions.getBuilder().build();
         }
 
         public Step build(){
-            return new Step(name, parent, loop, operation, url, params, headers, body, assertions);
+            Step step = new Step(name, parent, loop, operation, url, params, headers, body, assertions);
+            assertions.setStep(step);
+            return step;
         }
 
         public StepBuilder setName(String name) {
@@ -208,8 +210,8 @@ public class Step {
             return this;
         }
 
-        public StepBuilder setAssertions(String assertions) {
-            this.assertions = Optional.of(assertions);
+        public StepBuilder setAssertions(Assertions assertions) {
+            this.assertions = assertions;
             return this;
         }
 

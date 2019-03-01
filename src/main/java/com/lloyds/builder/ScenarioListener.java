@@ -111,8 +111,18 @@ public class ScenarioListener extends LazyTesterBaseListener {
     }
 
     @Override
-    public void enterAssertions(LazyTesterParser.AssertionsContext ctx) {
-        stepBuilder.setAssertions(getEscapedChildText(ctx));
+    public void enterAssertion(LazyTesterParser.AssertionContext ctx) {
+//        stepBuilder.setAssertions(getEscapedChildText(ctx));
+    }
+
+    @Override
+    public void enterAssertions_def(LazyTesterParser.Assertions_defContext ctx) {
+        super.enterAssertions_def(ctx);
+    }
+
+    @Override
+    public void exitAssertions_def(LazyTesterParser.Assertions_defContext ctx) {
+        super.exitAssertions_def(ctx);
     }
 
     @Override
