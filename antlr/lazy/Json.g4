@@ -13,7 +13,7 @@ obj
    ;
 
 pair
-   : STRING ':' value
+   : QSTRING ':' value
    ;
 
 array
@@ -22,7 +22,7 @@ array
    ;
 
 value
-   : STRING
+   : QSTRING
    | NUMBER
    | obj
    | array
@@ -32,7 +32,7 @@ value
    ;
 
 
-STRING
+QSTRING
    : '"' (ESC | SAFECODEPOINT)* '"'
    ;
 

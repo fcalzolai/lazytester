@@ -120,7 +120,7 @@ public class ScenarioListener extends LazyTesterBaseListener {
         } else if(child.startsWith("headers")) {
             map = MapDef.ASSERTIONS_HEADERS;
         } else if(child.startsWith("body")) {
-            assertionBuilder.setBody(child.substring(child.indexOf(":")+1, child.length()-1));
+            map = MapDef.ASSERTIONS_BODY;
         } else {
             throw new IllegalArgumentException("Unknown Assertion value: " + child);
         }
@@ -141,7 +141,9 @@ public class ScenarioListener extends LazyTesterBaseListener {
     @Override
     public void enterParams(LazyTesterParser.ParamsContext ctx) {
         List<ParseTree> children = ctx.children;
-        BiConsumer<String, String> put = getPutParamConsumer();
+        if(children == null)
+            return;
+
         String k = "";
         String v = "";
         for (int i = 0; i < children.size(); i++) {
@@ -149,6 +151,7 @@ public class ScenarioListener extends LazyTesterBaseListener {
                 k = children.get(i).getText();
             } else if(i % 4 == 2) {
                 v = children.get(i).getText();
+                BiConsumer<String, String> put = getPutParamConsumer();
                 put.accept(k, v);
             }
         }
@@ -223,11 +226,13 @@ public class ScenarioListener extends LazyTesterBaseListener {
             case QUERY_PARAMS:
                 return (k, v) -> stepBuilder.putParam(k, v);
             case ASSERTIONS_HEADERS:
-                return (k, v) -> assertionBuilder.put(k, v);
+                return (k, v) -> assertionBuilder.putHeader(k, v);
+            case ASSERTIONS_BODY:
+                return (k, v) -> assertionBuilder.putBody(k, v);
             case NULL:
                 throw new IllegalArgumentException("Map has been set to NULL");
             default:
-                throw new IllegalArgumentException("Unknown map: unable to perform put.");
+                throw new IllegalArgumentException("Unknown map: unable to perform putHeader.");
         }
     }
 }

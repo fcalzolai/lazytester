@@ -2,10 +2,6 @@ grammar LazyTester;
 
 import Json;
 
-@headers {
-package com.lloyds.antlr.lazytester.autogen;
-}
-
 scenario_file  : import_section (steps_section)? scenarios_section ;
 
 import_section    : IMPORT* ;
@@ -28,7 +24,7 @@ operation      : OPERATION ':' HTTP_OPS ';' ;
 assertions_def : ASSERTIONS ':' '{' (assertion)* '}' ';' ;
 assertion      : STATUS ':' INT ';'
                | headers_def
-               | body_def
+               | BODY ':' '{' params '}' ';'
                ;
 
 loop_def       : LOOP ':' INT ';' ;
@@ -50,7 +46,6 @@ EXTEND        : 'extends' ;
 IMPORT        : 'import' ~[;]+ ';';
 INT           : [0-9]+ ;
 STRING        : [a-zA-Z0-9._/\-]+ ;
-QSTRING       : '"' ~["]+ '"' ;
 WS            :  [ \t\r\n\f]+ -> skip ;
 
 

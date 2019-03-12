@@ -5,7 +5,7 @@ export CLASSPATH=".:/usr/local/lib/antlr-4.7.2-complete.jar:$CLASSPATH"
 rm -rf ./autogen/
 mkdir -p ./autogen/target
 
-java -jar /usr/local/lib/antlr-4.7.2-complete.jar LazyTester.g4
+java -jar /usr/local/lib/antlr-4.7.2-complete.jar LazyTester.g4 -package com.lloyds.antlr.lazytester.autogen
 
 rm -rf ../../src/main/java/com/lloyds/antlr/lazytester/autogen
 mkdir -p ../../src/main/java/com/lloyds/antlr/lazytester/autogen
@@ -38,14 +38,19 @@ scenarios : [
           user-agent: \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36\";
           accept-encoding: \"gzip, deflate, br\";
         };
-        body: [];
-        body: { };
+        body: {
+          \"test\": true,
+          \"test2\": \"val2\"
+        };
         assertions:{
           status:200;
           headers: {
             accept-encoding: \"gzip, deflate, br\";
           };
-          body: { };
+          body: {
+            test1: test1;
+            test2: test2;
+          };
         };
       };
     ];
