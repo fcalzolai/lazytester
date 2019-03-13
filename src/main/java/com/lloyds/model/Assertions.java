@@ -11,10 +11,6 @@ public class Assertions {
     private Map<String, String> headers;
     private Map<String, String> body;
 
-    private Assertions(Optional<Integer> status, Map<String, String> headers, Map<String, String> body) {
-        this(null, status, headers, body);
-    }
-
     private Assertions(Step step, Optional<Integer> status, Map<String, String> headers, Map<String, String> body) {
         this.step = step;
         this.status = status;
@@ -76,13 +72,20 @@ public class Assertions {
         }
 
         public AssertionBuilder putBody(String key, String value) {
-            body.put(key, value);
+            body.put(key, removeDoulbeQuote(value));
             return this;
         }
 
         public AssertionBuilder putHeader(String key, String value) {
-            header.put(key, value);
+            header.put(key, removeDoulbeQuote(value));
             return this;
+        }
+
+        private String removeDoulbeQuote(String str) {
+            if(str.startsWith("\"") && str.endsWith("\"")){
+                str = str.replaceAll("\"", "");
+            }
+            return str;
         }
     }
 }

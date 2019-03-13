@@ -73,10 +73,13 @@ public class ScenarioRunnerTest {
             "        }; " +
             "        assertions: {\n" +
             "           status: 200;\n" +
-//            "           headers: {\n" +
-//            "              accept-encoding: \"gzip, deflate, br\";\n" +
-//            "           };\n" +
-//            "           body: { };\n" +
+            "           headers: {\n" +
+            "              Transfer-Encoding: chunked;\n" +
+            "              Cache-Control: \"private, max-age=0\";" +
+            "           };\n" +
+            "           body: { \n " +
+            "              test1: \"doctype html\";" +
+            "           };\n" +
             "        };" +
             "      };" +
             "    ]; " +
@@ -123,6 +126,8 @@ public class ScenarioRunnerTest {
         ScenarioRunner scenarioRunner = new ScenarioRunner(client, scenario);
         scenarioRunner.runAll();
         ImmutableTable<Integer, Integer, ValidateAssertions> results = scenarioRunner.getResults();
+        ValidateAssertions validated = results.row(0).get(0);
+        Assert.assertTrue(validated.toString(), validated.isValid());
         Assert.assertEquals(scenario.getLoop().intValue(), results.rowKeySet().size());
         Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.columnKeySet().size());
     }

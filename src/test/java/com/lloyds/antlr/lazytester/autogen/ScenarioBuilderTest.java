@@ -248,7 +248,7 @@ public class ScenarioBuilderTest {
 
         Map<String, String> header = step.getAssertions().getHeaders();
         Assert.assertEquals(1, header.size());
-        Assert.assertEquals("\"gzip, deflate, br\"", header.get("accept-encoding"));
+        Assert.assertEquals("gzip, deflate, br", header.get("accept-encoding"));
 
 
         Assert.assertEquals(EMPTY_BODY.replaceAll(" ",""), step.getBody());

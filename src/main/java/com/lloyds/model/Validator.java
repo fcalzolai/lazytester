@@ -1,6 +1,7 @@
 package com.lloyds.model;
 
 import io.vavr.Function3;
+import io.vavr.Value;
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
 import io.vavr.control.Validation;
@@ -10,6 +11,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -33,7 +35,14 @@ public class Validator {
                 .combine(validateBody());
 
         Function3<Optional<Integer>, Seq<Boolean>, Seq<Boolean>, Assertions> f = (p, q, r) -> assertions;
-        return new ValidateAssertions(combine.ap(f));
+        Validation<List<String>, Assertions> assertions = flatAssertionsError(combine.ap(f));
+        return new ValidateAssertions(assertions);
+    }
+
+    private Validation<List<String>, Assertions> flatAssertionsError(Validation<Seq<Seq<String>>, Assertions> ap) {
+        return ap.mapError(seq -> seq.toStream()
+                    .flatMap(Value::toStream)
+                    .collect(List.collector()));
     }
 
     private Validation<Seq<String>, Seq<Boolean>> validateHeaders() {
@@ -55,12 +64,12 @@ public class Validator {
         Map<String, String> bodyAssertions = assertions.getBody();
         String body;
         try {
-            HttpEntity entity1 = response.getEntity();
-            if(entity1 == null && bodyAssertions.size() == 0){
+            HttpEntity entity = response.getEntity();
+            if(entity == null && bodyAssertions.size() == 0){
                 return Validation.valid(io.vavr.collection.List.of(Boolean.TRUE));
             }
 
-            InputStream in = entity1.getContent();
+            InputStream in = entity.getContent();
             body = IOUtils.toString(in);
         } catch (Exception e) {
             return Validation.invalid(io.vavr.collection.List.of("Error: "+ e.getMessage()));
@@ -86,7 +95,9 @@ public class Validator {
                             : Validation.invalid(io.vavr.collection.List.of(format("Invalid assertion [%s] on header[%s]", jsonPath, header)));
                 }
             }
-            return Validation.invalid(io.vavr.collection.List.of(format("No header[%s] found in headers[%s]", entry.getKey(), headers)));
+            return Validation.invalid(io.vavr.collection.List.of(format("No header[%s] found in headers[%s]",
+                    entry.getKey(),
+                    Arrays.toString(headers))));
         });
     }
 
@@ -100,7 +111,7 @@ public class Validator {
     }
 
     private Validation<Seq<String>, Optional<Integer>> validateStatus() {
-        Validation<Seq<String>, Optional<Integer>> optionals = assertions.getStatus()
+        return assertions.getStatus()
                 .map((expectedStatus) -> {
                     Validation<Seq<String>, Optional<Integer>> res;
                     int actualStatus = response.getStatusLine().getStatusCode();
@@ -108,11 +119,10 @@ public class Validator {
                         res = Validation.valid(Optional.of(expectedStatus));
                     } else {
                         res = Validation.invalid(
-                                io.vavr.collection.List.of(
+                                List.of(
                                         format("Invalid Status: expected[%s] actual[%s]", expectedStatus, actualStatus)));
                     }
                     return res;
                 }).orElse(Validation.valid(Optional.empty()));
-        return optionals;
     }
 }
