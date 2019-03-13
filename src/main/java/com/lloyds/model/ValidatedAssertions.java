@@ -5,11 +5,11 @@ import io.vavr.control.Validation;
 
 import java.util.function.Function;
 
-public class ValidateAssertions {
+public class ValidatedAssertions {
 
     private Validation<List<String>, Assertions> validation;
 
-    public ValidateAssertions(Validation<List<String>, Assertions> validation) {
+    public ValidatedAssertions(Validation<List<String>, Assertions> validation) {
         this.validation = validation;
     }
 
@@ -33,5 +33,10 @@ public class ValidateAssertions {
     public List<String> getError() {
         List<String> error = validation.getError();
         return error != null? error: List.empty();
+    }
+
+    @Override
+    public String toString() {
+        return validation.toString();
     }
 }

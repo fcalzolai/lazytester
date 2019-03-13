@@ -26,7 +26,7 @@ public class ScenarioListener extends LazyTesterBaseListener {
     private LinkedList<Step> steps;
     private Map<String, Step> stepsMap;
     private Step.StepBuilder stepBuilder;
-    private MapDef map;
+    private ParamsDef map;
     private Assertions.AssertionBuilder assertionBuilder;
 
     public LinkedList<Scenario> getScenario() {
@@ -40,7 +40,7 @@ public class ScenarioListener extends LazyTesterBaseListener {
     @Override
     public void enterScenario_file(LazyTesterParser.Scenario_fileContext ctx) {
         isInStep = false;
-        map = MapDef.HEADERS;
+        map = ParamsDef.HEADERS;
         stepsMap = new HashMap<>();
         scenarios = new LinkedList<>();
     }
@@ -121,9 +121,9 @@ public class ScenarioListener extends LazyTesterBaseListener {
         if(child.equals("status")) {
             assertionBuilder.setStatus(Integer.valueOf(ctx.getChild(2).toString()));
         } else if(child.startsWith("headers")) {
-            map = MapDef.ASSERTIONS_HEADERS;
+            map = ParamsDef.ASSERTIONS_HEADERS;
         } else if(child.startsWith("body")) {
-            map = MapDef.ASSERTIONS_BODY;
+            map = ParamsDef.ASSERTIONS_BODY;
         } else {
             throw new IllegalArgumentException("Unknown Assertion value: " + child);
         }
@@ -138,7 +138,7 @@ public class ScenarioListener extends LazyTesterBaseListener {
     public void exitAssertions_def(LazyTesterParser.Assertions_defContext ctx) {
         stepBuilder.setAssertions(assertionBuilder.build());
         assertionBuilder = null;
-        map = MapDef.NULL;
+        map = ParamsDef.NULL;
     }
 
     @Override
@@ -163,25 +163,25 @@ public class ScenarioListener extends LazyTesterBaseListener {
 
     @Override
     public void enterParams_def(LazyTesterParser.Params_defContext ctx) {
-        map = MapDef.QUERY_PARAMS;
+        map = ParamsDef.QUERY_PARAMS;
     }
 
     @Override
     public void exitParams_def(LazyTesterParser.Params_defContext ctx) {
-        map = MapDef.NULL;
+        map = ParamsDef.NULL;
     }
 
     @Override
     public void enterHeaders_def(LazyTesterParser.Headers_defContext ctx) {
-        if(map != MapDef.ASSERTIONS_HEADERS) {
-            map = MapDef.HEADERS;
+        if(map != ParamsDef.ASSERTIONS_HEADERS) {
+            map = ParamsDef.HEADERS;
         }
     }
 
     @Override
     public void exitHeaders_def(LazyTesterParser.Headers_defContext ctx) {
-        if(map != MapDef.ASSERTIONS_HEADERS) {
-            map = MapDef.NULL;
+        if(map != ParamsDef.ASSERTIONS_HEADERS) {
+            map = ParamsDef.NULL;
         }
     }
 

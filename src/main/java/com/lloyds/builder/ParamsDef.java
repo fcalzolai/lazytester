@@ -1,6 +1,6 @@
 package com.lloyds.builder;
 
-public enum MapDef {
+public enum ParamsDef {
 
     HEADERS,
     QUERY_PARAMS,

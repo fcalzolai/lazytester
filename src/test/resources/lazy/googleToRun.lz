@@ -1,0 +1,36 @@
+steps: [
+  {
+    name: get_lbg;
+    url: "http://www.google.com/ncr";
+    operation: GET;
+    loop: 2;
+    params: {
+      q: lbg;
+      aq: f;
+    };
+    headers: {
+      user-agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36";
+      accept-encoding: "gzip, deflate, br";
+    };
+    assertions: {
+      status: 200;
+      headers: {
+        Transfer-Encoding: chunked;
+        Cache-Control: "private, max-age=0";
+      };
+      body: { };
+    };
+  };
+];
+
+scenarios: [
+  {
+    name: Scenario1;
+    loop: 1;
+    steps: [
+      {
+        extends: get_lbg;
+      };
+    ];
+  };
+];

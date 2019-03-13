@@ -28,7 +28,7 @@ public class Validator {
         this.response = response;
     }
 
-    public ValidateAssertions validate(){
+    public ValidatedAssertions validate(){
         Validation.Builder3<Seq<String>, Optional<Integer>, Seq<Boolean>, Seq<Boolean>> combine =
                 validateStatus()
                 .combine(validateHeaders())
@@ -36,7 +36,7 @@ public class Validator {
 
         Function3<Optional<Integer>, Seq<Boolean>, Seq<Boolean>, Assertions> f = (p, q, r) -> assertions;
         Validation<List<String>, Assertions> assertions = flatAssertionsError(combine.ap(f));
-        return new ValidateAssertions(assertions);
+        return new ValidatedAssertions(assertions);
     }
 
     private Validation<List<String>, Assertions> flatAssertionsError(Validation<Seq<Seq<String>>, Assertions> ap) {
@@ -92,10 +92,10 @@ public class Validator {
                 if(header.getName().equals(entry.getKey())){
                     return header.getValue().contains(jsonPath)?
                             Validation.valid(Boolean.TRUE)
-                            : Validation.invalid(io.vavr.collection.List.of(format("Invalid assertion [%s] on header[%s]", jsonPath, header)));
+                            : Validation.invalid(io.vavr.collection.List.of(format("Invalid header assertion [%s] on header[%s]", jsonPath, header)));
                 }
             }
-            return Validation.invalid(io.vavr.collection.List.of(format("No header[%s] found in headers[%s]",
+            return Validation.invalid(io.vavr.collection.List.of(format("No header key[%s] found in headers[%s]",
                     entry.getKey(),
                     Arrays.toString(headers))));
         });
@@ -106,7 +106,7 @@ public class Validator {
                 String jsonPath = entry.getValue();
                 return body.contains(jsonPath)?
                           Validation.valid(Boolean.TRUE)
-                        : Validation.invalid(io.vavr.collection.List.of(format("Invalid assertion [%s] on body[%s]", jsonPath, body)));
+                        : Validation.invalid(io.vavr.collection.List.of(format("Invalid body assertion [%s] on body[%s]", jsonPath, body)));
             });
     }
 

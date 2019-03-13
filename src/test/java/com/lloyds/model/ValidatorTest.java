@@ -29,7 +29,7 @@ public class ValidatorTest {
         Assertions assertions = getAssertions(CODE_201);
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY);
         Validator validator = new Validator(assertions, response);
-        ValidateAssertions validate = validator.validate();
+        ValidatedAssertions validate = validator.validate();
         Assert.assertTrue(validate.isValid());
     }
 
@@ -39,7 +39,7 @@ public class ValidatorTest {
         HttpResponse response = getHttpResponse(CODE_400, VALID_BODY);
 
         Validator validator = new Validator(assertions, response);
-        ValidateAssertions validate = validator.validate();
+        ValidatedAssertions validate = validator.validate();
         Assert.assertTrue(validate.isInvalid());
         Assert.assertEquals(1, (int)validate.fold(Seq::length, Assertions::hashCode));
     }
@@ -50,7 +50,7 @@ public class ValidatorTest {
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY);
 
         Validator validator = new Validator(assertions, response);
-        ValidateAssertions validate = validator.validate();
+        ValidatedAssertions validate = validator.validate();
         Assert.assertTrue(validate.isValid());
     }
 
@@ -60,7 +60,7 @@ public class ValidatorTest {
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY);
 
         Validator validator = new Validator(assertions, response);
-        ValidateAssertions validate = validator.validate();
+        ValidatedAssertions validate = validator.validate();
         Assert.assertTrue(validate.isValid());
     }
 
@@ -70,7 +70,7 @@ public class ValidatorTest {
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY, HEADERS);
 
         Validator validator = new Validator(assertions, response);
-        ValidateAssertions validate = validator.validate();
+        ValidatedAssertions validate = validator.validate();
         Assert.assertTrue(validate.isValid());
     }
 
@@ -80,7 +80,7 @@ public class ValidatorTest {
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY, HEADERS);
 
         Validator validator = new Validator(assertions, response);
-        ValidateAssertions validate = validator.validate();
+        ValidatedAssertions validate = validator.validate();
         Assert.assertTrue(validate.isInvalid());
     }
 
@@ -90,7 +90,7 @@ public class ValidatorTest {
         HttpResponse response = getHttpResponse(CODE_201, INVALID_BODY);
 
         Validator validator = new Validator(assertions, response);
-        ValidateAssertions validate = validator.validate();
+        ValidatedAssertions validate = validator.validate();
         Assert.assertTrue(validate.isInvalid());
         Assert.assertEquals(1, (int)validate.fold(Seq::length, Assertions::hashCode));
     }
@@ -102,7 +102,7 @@ public class ValidatorTest {
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY);
 
         Validator validator = new Validator(assertions, response);
-        ValidateAssertions validate = validator.validate();
+        ValidatedAssertions validate = validator.validate();
         Assert.assertTrue(validate.isValid());
     }
 
@@ -112,7 +112,7 @@ public class ValidatorTest {
         HttpResponse response = getHttpResponse(CODE_201, INVALID_BODY);
 
         Validator validator = new Validator(assertions, response);
-        ValidateAssertions validate = validator.validate();
+        ValidatedAssertions validate = validator.validate();
         Assert.assertTrue(validate.isInvalid());
         Assert.assertEquals(2, (int)validate.fold(Seq::length, Assertions::hashCode));
     }
@@ -130,7 +130,7 @@ public class ValidatorTest {
         HttpResponse response = getHttpResponse(CODE_400, INVALID_BODY, headers);
 
         Validator validator = new Validator(assertions, response);
-        ValidateAssertions validate = validator.validate();
+        ValidatedAssertions validate = validator.validate();
         Assert.assertTrue(validate.isInvalid());
         Assert.assertEquals(3, (int)validate.fold(Seq::length, Assertions::hashCode));
     }

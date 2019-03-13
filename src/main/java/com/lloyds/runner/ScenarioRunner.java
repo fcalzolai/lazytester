@@ -3,15 +3,10 @@ package com.lloyds.runner;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import com.lloyds.model.Scenario;
-import com.lloyds.model.Step;
-import com.lloyds.model.ValidateAssertions;
-import com.lloyds.model.Validator;
-import org.apache.http.HttpEntity;
+import com.lloyds.model.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,14 +20,14 @@ public class ScenarioRunner {
     private HttpClient httpClient;
     private Scenario scenario;
 
-    private Table<Integer, Integer, ValidateAssertions> results;
+    private Table<Integer, Integer, ValidatedAssertions> results;
 
     public ScenarioRunner(HttpClient httpClient, Scenario scenario) {
         this.httpClient = httpClient;
         this.scenario = scenario;
     }
 
-    public void runAll() throws IOException {
+    public void runScenario() throws IOException {
         results = TreeBasedTable.create();
         for (int i = 0; i < scenario.getLoop(); i++) {
             List<Step> steps = scenario.getSteps();
@@ -42,11 +37,11 @@ public class ScenarioRunner {
                     try {
                         HttpResponse response = httpClient.execute(httpRequest);
                         Validator validator = new Validator(step.getAssertions(), response);
-                        ValidateAssertions validate = validator.validate();
-
-                        results.put(i, j, validate);
-                        HttpEntity entity1 = response.getEntity();
-                        EntityUtils.consume(entity1);
+                        ValidatedAssertions validated = validator.validate();
+                        results.put(i, j, validated);
+                        if(validated.isInvalid() && scenario.getIgnoreStepFailures()) {
+                            throw new ValidationException(validated);
+                        }
                     } catch (IOException e) {
                         if(scenario.getIgnoreStepFailures()){
                             LOGGER.warn("Excpetion ignored.", e);
@@ -59,7 +54,7 @@ public class ScenarioRunner {
         }
     }
 
-    public ImmutableTable<Integer, Integer, ValidateAssertions> getResults() {
+    public ImmutableTable<Integer, Integer, ValidatedAssertions> getResults() {
         return ImmutableTable.copyOf(results);
     }
 }

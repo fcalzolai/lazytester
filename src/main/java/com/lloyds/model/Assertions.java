@@ -28,11 +28,17 @@ public class Assertions {
     }
 
     public Map<String, String> getHeaders() {
-        return headers;
+        HashMap<String, String> result = new HashMap<>();
+        step.getParent().ifPresent(s -> result.putAll(s.getAssertions().getHeaders()));
+        result.putAll(headers);
+        return result;
     }
 
     public Map<String, String> getBody() {
-        return body;
+        HashMap<String, String> result = new HashMap<>();
+        step.getParent().ifPresent(s -> result.putAll(s.getAssertions().getBody()));
+        result.putAll(body);
+        return result;
     }
 
     public void setStep(Step step) {
@@ -43,6 +49,15 @@ public class Assertions {
         return new AssertionBuilder();
     }
 
+    @Override
+    public String toString() {
+        return "Assertions{" +
+                "step=" + step +
+                ", status=" + status +
+                ", headers=" + headers +
+                ", body=" + body +
+                '}';
+    }
 
     public static class AssertionBuilder {
 
