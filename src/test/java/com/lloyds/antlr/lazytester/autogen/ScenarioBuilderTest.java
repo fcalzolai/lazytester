@@ -1,5 +1,6 @@
 package com.lloyds.antlr.lazytester.autogen;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.lloyds.builder.ScenarioListener;
 import com.lloyds.model.Scenario;
@@ -22,10 +23,17 @@ public class ScenarioBuilderTest {
     private static final String HEADERS_USER_AGENT = "\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 " +
                                                      "(KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36\"";
 
+    private static final String EMPTY_BODY =  "{ }";
+
     private static final String BODY =  "{ " +
-//                                        "  \"body_key_1\" : \"body_key_val_1\", " +
-//                                        "  \"body_key_2\" : \"body_key_val_2\" " +
+                                        " \"test\": true," +
+                                        " \"test2\": \"val2\"" +
                                         "}";
+
+    private static final String BODY_ASSERTION = "{ " +
+                                                  " test: true;" +
+                                                  " test2: val2;" +
+                                                  "}";
 
     private static final String SCENARIO_1 = "import test; " +
             " scenarios: [" +
@@ -63,7 +71,7 @@ public class ScenarioBuilderTest {
             "          user-agent : "+HEADERS_USER_AGENT+"; \n" +
             "          accept-encoding : \"gzip, deflate, br\"; \n" +
             "         }; \n" +
-            "        body : "+BODY+" ;\n" +
+            "        body : "+ EMPTY_BODY +" ;\n" +
             "      };\n" +
             "    ];\n" +
             "  }; \n" +
@@ -87,7 +95,7 @@ public class ScenarioBuilderTest {
             "    params: { " +
             "      lbg: val; " +
             "    }; " +
-            "    body : "+BODY+" ;\n" +
+            "    body : "+ EMPTY_BODY +" ;\n" +
             "  }; " +
             "] ;";
 
@@ -109,7 +117,7 @@ public class ScenarioBuilderTest {
             "    params: { " +
             "      lbg: val; " +
             "    }; " +
-            "    body : "+BODY+" ;\n" +
+            "    body : "+ BODY +" ;\n" +
             "  }; " +
             "  { " +
             "    name: \"step 33\"; " +
@@ -118,10 +126,10 @@ public class ScenarioBuilderTest {
             "    params: { " +
             "      lbg2: val; " +
             "    }; " +
-            "    body : "+BODY+" ;\n" +
+            "    body : "+ EMPTY_BODY +" ;\n" +
             "    assertions: { " +
             "      status:200; " +
-            "      body:{}; " +
+            "      body:"+ BODY_ASSERTION +"; " +
             "      headers: {\n" +
             "        accept-encoding: \"gzip, deflate, br\";\n" +
             "      };" +
@@ -170,7 +178,7 @@ public class ScenarioBuilderTest {
     public void testBodyCreation(){
         Scenario scenario = Utils.createScenario(SCENARIO_2).get(0);
         String body = scenario.getSteps().get(0).getBody();
-        Assert.assertEquals(BODY.replaceAll(" ",""), body);
+        Assert.assertEquals(EMPTY_BODY.replaceAll(" ",""), body);
     }
 
     @Test
@@ -195,7 +203,7 @@ public class ScenarioBuilderTest {
         Assert.assertEquals(1, params.size());
         Assert.assertEquals("val", params.get("lbg"));
 
-        Assert.assertEquals(BODY.replaceAll(" ",""), step.getBody());
+        Assert.assertEquals(EMPTY_BODY.replaceAll(" ",""), step.getBody());
     }
 
     @Test
@@ -233,13 +241,18 @@ public class ScenarioBuilderTest {
         Assert.assertEquals(1, params.size());
         Assert.assertEquals("val", params.get("lbg2"));
         Assert.assertEquals(Integer.valueOf(200), step.getAssertions().getStatus().get());
-        Assert.assertEquals(0, step.getAssertions().getBody().size());
+        Map<String, String> body = step.getAssertions().getBody();
+        Assert.assertEquals(2, body.size());
+        Assert.assertEquals("true", body.get("test"));
+        Assert.assertEquals("val2", body.get("test2"));
+
+
         Map<String, String> header = step.getAssertions().getHeaders();
         Assert.assertEquals(1, header.size());
         Assert.assertEquals("\"gzip, deflate, br\"", header.get("accept-encoding"));
 
 
-        Assert.assertEquals(BODY.replaceAll(" ",""), step.getBody());
+        Assert.assertEquals(EMPTY_BODY.replaceAll(" ",""), step.getBody());
     }
 
     private void runHttpGet(HttpClient client, HttpUriRequest http) throws IOException {

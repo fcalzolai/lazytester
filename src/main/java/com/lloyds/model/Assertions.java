@@ -12,6 +12,11 @@ public class Assertions {
     private Map<String, String> body;
 
     private Assertions(Optional<Integer> status, Map<String, String> headers, Map<String, String> body) {
+        this(null, status, headers, body);
+    }
+
+    private Assertions(Step step, Optional<Integer> status, Map<String, String> headers, Map<String, String> body) {
+        this.step = step;
         this.status = status;
         this.headers = headers;
         this.body = body;
@@ -45,6 +50,7 @@ public class Assertions {
 
     public static class AssertionBuilder {
 
+        private Step step;
         private Optional<Integer> status;
         private Map<String, String> header;
         private Map<String, String> body;
@@ -56,7 +62,7 @@ public class Assertions {
         }
 
         public Assertions build(){
-            return new Assertions(status, header, body);
+            return new Assertions(step, status, header, body);
         }
 
         public AssertionBuilder setStatus(Integer status) {
@@ -64,17 +70,19 @@ public class Assertions {
             return this;
         }
 
-        public AssertionBuilder setHeader(Map<String, String> header) {
-            this.header = header;
+        public AssertionBuilder setStep(Step step) {
+            this.step = step;
             return this;
         }
 
-        public String putBody(String key, String value) {
-            return body.put(key, value);
+        public AssertionBuilder putBody(String key, String value) {
+            body.put(key, value);
+            return this;
         }
 
-        public String putHeader(String key, String value) {
-            return header.put(key, value);
+        public AssertionBuilder putHeader(String key, String value) {
+            header.put(key, value);
+            return this;
         }
     }
 }
