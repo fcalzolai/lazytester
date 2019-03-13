@@ -1,7 +1,6 @@
 package com.lloyds.model;
 
 import io.vavr.collection.Seq;
-import io.vavr.control.Validation;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,7 +13,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 
-public class AssertionsValidatorTest {
+public class ValidatorTest {
 
     private static final int CODE_201 = 201;
     private static final int CODE_400 = 400;
@@ -29,8 +28,8 @@ public class AssertionsValidatorTest {
     public void valid_StatusCode() {
         Assertions assertions = getAssertions(CODE_201);
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY);
-        AssertionsValidator assertionsValidator = new AssertionsValidator(assertions, response);
-        Validation<Seq<Seq<String>>, Assertions> validate = assertionsValidator.validate();
+        Validator validator = new Validator(assertions, response);
+        ValidateAssertions validate = validator.validate();
         Assert.assertTrue(validate.isValid());
     }
 
@@ -39,8 +38,8 @@ public class AssertionsValidatorTest {
         Assertions assertions = getAssertions(CODE_201);
         HttpResponse response = getHttpResponse(CODE_400, VALID_BODY);
 
-        AssertionsValidator assertionsValidator = new AssertionsValidator(assertions, response);
-        Validation<Seq<Seq<String>>, Assertions> validate = assertionsValidator.validate();
+        Validator validator = new Validator(assertions, response);
+        ValidateAssertions validate = validator.validate();
         Assert.assertTrue(validate.isInvalid());
         Assert.assertEquals(1, (int)validate.fold(Seq::length, Assertions::hashCode));
     }
@@ -50,8 +49,8 @@ public class AssertionsValidatorTest {
         Assertions assertions = getAssertions(null, "description", VALID_BODY);
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY);
 
-        AssertionsValidator assertionsValidator = new AssertionsValidator(assertions, response);
-        Validation<Seq<Seq<String>>, Assertions> validate = assertionsValidator.validate();
+        Validator validator = new Validator(assertions, response);
+        ValidateAssertions validate = validator.validate();
         Assert.assertTrue(validate.isValid());
     }
 
@@ -60,8 +59,8 @@ public class AssertionsValidatorTest {
         Assertions assertions = getAssertions(null);
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY);
 
-        AssertionsValidator assertionsValidator = new AssertionsValidator(assertions, response);
-        Validation<Seq<Seq<String>>, Assertions> validate = assertionsValidator.validate();
+        Validator validator = new Validator(assertions, response);
+        ValidateAssertions validate = validator.validate();
         Assert.assertTrue(validate.isValid());
     }
 
@@ -70,8 +69,8 @@ public class AssertionsValidatorTest {
         Assertions assertions = getHeadersAssertions(HEADER_NAME, HEADER_VALUE);
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY, HEADERS);
 
-        AssertionsValidator assertionsValidator = new AssertionsValidator(assertions, response);
-        Validation<Seq<Seq<String>>, Assertions> validate = assertionsValidator.validate();
+        Validator validator = new Validator(assertions, response);
+        ValidateAssertions validate = validator.validate();
         Assert.assertTrue(validate.isValid());
     }
 
@@ -80,8 +79,8 @@ public class AssertionsValidatorTest {
         Assertions assertions = getHeadersAssertions(HEADER_NAME, "different header value");
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY, HEADERS);
 
-        AssertionsValidator assertionsValidator = new AssertionsValidator(assertions, response);
-        Validation<Seq<Seq<String>>, Assertions> validate = assertionsValidator.validate();
+        Validator validator = new Validator(assertions, response);
+        ValidateAssertions validate = validator.validate();
         Assert.assertTrue(validate.isInvalid());
     }
 
@@ -90,8 +89,8 @@ public class AssertionsValidatorTest {
         Assertions assertions = getAssertions(null, "description", VALID_BODY);
         HttpResponse response = getHttpResponse(CODE_201, INVALID_BODY);
 
-        AssertionsValidator assertionsValidator = new AssertionsValidator(assertions, response);
-        Validation<Seq<Seq<String>>, Assertions> validate = assertionsValidator.validate();
+        Validator validator = new Validator(assertions, response);
+        ValidateAssertions validate = validator.validate();
         Assert.assertTrue(validate.isInvalid());
         Assert.assertEquals(1, (int)validate.fold(Seq::length, Assertions::hashCode));
     }
@@ -102,8 +101,8 @@ public class AssertionsValidatorTest {
 
         HttpResponse response = getHttpResponse(CODE_201, VALID_BODY);
 
-        AssertionsValidator assertionsValidator = new AssertionsValidator(assertions, response);
-        Validation<Seq<Seq<String>>, Assertions> validate = assertionsValidator.validate();
+        Validator validator = new Validator(assertions, response);
+        ValidateAssertions validate = validator.validate();
         Assert.assertTrue(validate.isValid());
     }
 
@@ -112,10 +111,28 @@ public class AssertionsValidatorTest {
         Assertions assertions = getAssertions(400, "description", VALID_BODY);
         HttpResponse response = getHttpResponse(CODE_201, INVALID_BODY);
 
-        AssertionsValidator assertionsValidator = new AssertionsValidator(assertions, response);
-        Validation<Seq<Seq<String>>, Assertions> validate = assertionsValidator.validate();
+        Validator validator = new Validator(assertions, response);
+        ValidateAssertions validate = validator.validate();
         Assert.assertTrue(validate.isInvalid());
         Assert.assertEquals(2, (int)validate.fold(Seq::length, Assertions::hashCode));
+    }
+
+    @Test
+    public void invalid_StatusCode_Headers_And_Body() {
+        Assertions assertions = Assertions.getBuilder()
+                .setStep(Step.getStepBuilder().build())
+                .setStatus(CODE_201)
+                .putBody("description", VALID_BODY)
+                .putHeader(HEADER_NAME, HEADER_VALUE)
+                .build();
+
+        Header[] headers = {new BasicHeader("InvalidHeaderName", "InvalidHeaderValue")};
+        HttpResponse response = getHttpResponse(CODE_400, INVALID_BODY, headers);
+
+        Validator validator = new Validator(assertions, response);
+        ValidateAssertions validate = validator.validate();
+        Assert.assertTrue(validate.isInvalid());
+        Assert.assertEquals(3, (int)validate.fold(Seq::length, Assertions::hashCode));
     }
 
     private Assertions getAssertions(Integer statusCode) {

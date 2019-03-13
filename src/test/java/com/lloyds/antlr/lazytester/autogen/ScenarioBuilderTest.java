@@ -1,6 +1,5 @@
 package com.lloyds.antlr.lazytester.autogen;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.lloyds.builder.ScenarioListener;
 import com.lloyds.model.Scenario;

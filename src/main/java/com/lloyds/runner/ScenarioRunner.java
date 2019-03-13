@@ -3,9 +3,7 @@ package com.lloyds.runner;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
-import com.lloyds.model.Scenario;
-import com.lloyds.model.Step;
-import org.apache.commons.io.IOUtils;
+import com.lloyds.model.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -15,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 public class ScenarioRunner {
@@ -25,7 +22,7 @@ public class ScenarioRunner {
     private HttpClient httpClient;
     private Scenario scenario;
 
-    private Table<Integer, Integer, HttpResponse> results;
+    private Table<Integer, Integer, ValidateAssertions> results;
 
     public ScenarioRunner(HttpClient httpClient, Scenario scenario) {
         this.httpClient = httpClient;
@@ -33,7 +30,7 @@ public class ScenarioRunner {
     }
 
     public void runAll() throws IOException {
-        this.results = TreeBasedTable.create();
+        results = TreeBasedTable.create();
         for (int i = 0; i < scenario.getLoop(); i++) {
             List<Step> steps = scenario.getSteps();
             for (Step step: steps) {
@@ -41,12 +38,11 @@ public class ScenarioRunner {
                     HttpUriRequest httpRequest = step.getHttpRequest();
                     try {
                         HttpResponse response = httpClient.execute(httpRequest);
-                        results.put(i, j, response);
+                        Validator validator = new Validator(step.getAssertions(), response);
+                        ValidateAssertions validate = validator.validate();
+
+                        results.put(i, j, validate);
                         HttpEntity entity1 = response.getEntity();
-
-                        InputStream in = entity1.getContent();
-                        String body = IOUtils.toString(in);
-
                         EntityUtils.consume(entity1);
                     } catch (IOException e) {
                         if(scenario.getIgnoreStepFailures()){
@@ -60,7 +56,7 @@ public class ScenarioRunner {
         }
     }
 
-    public ImmutableTable<Integer, Integer, HttpResponse> getResults() {
+    public ImmutableTable<Integer, Integer, ValidateAssertions> getResults() {
         return ImmutableTable.copyOf(results);
     }
 }

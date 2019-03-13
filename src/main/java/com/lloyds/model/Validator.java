@@ -16,24 +16,24 @@ import java.util.function.Function;
 
 import static java.lang.String.format;
 
-public class AssertionsValidator {
+public class Validator {
 
     private Assertions assertions;
     private HttpResponse response;
 
-    public AssertionsValidator(Assertions assertions, HttpResponse response) {
+    public Validator(Assertions assertions, HttpResponse response) {
         this.assertions = assertions;
         this.response = response;
     }
 
-    public Validation<Seq<Seq<String>>, Assertions> validate(){
+    public ValidateAssertions validate(){
         Validation.Builder3<Seq<String>, Optional<Integer>, Seq<Boolean>, Seq<Boolean>> combine =
                 validateStatus()
                 .combine(validateHeaders())
                 .combine(validateBody());
 
         Function3<Optional<Integer>, Seq<Boolean>, Seq<Boolean>, Assertions> f = (p, q, r) -> assertions;
-        return combine.ap(f);
+        return new ValidateAssertions(combine.ap(f));
     }
 
     private Validation<Seq<String>, Seq<Boolean>> validateHeaders() {

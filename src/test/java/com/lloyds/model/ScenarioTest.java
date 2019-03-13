@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.LinkedList;
-import java.util.function.Supplier;
 
 public class ScenarioTest {
 
