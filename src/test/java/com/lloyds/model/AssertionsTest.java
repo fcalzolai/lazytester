@@ -1,5 +1,6 @@
 package com.lloyds.model;
 
+import org.apache.http.client.methods.HttpGet;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,9 +15,13 @@ public class AssertionsTest {
         Step parent = Step.getStepBuilder()
                 .setName("parent")
                 .setAssertions(parentAssertions)
+                .setOperation(HttpGet.METHOD_NAME)
+                .setUrl("")
                 .build();
 
         Step.StepBuilder childBuilder = Step.getStepBuilder()
+                .setOperation(HttpGet.METHOD_NAME)
+                .setUrl("")
                 .setName("child");
 
         Step child = childBuilder.build();

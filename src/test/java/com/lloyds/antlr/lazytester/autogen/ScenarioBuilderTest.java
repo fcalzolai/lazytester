@@ -178,7 +178,7 @@ public class ScenarioBuilderTest {
     @Test
     public void testBodyCreation(){
         Scenario scenario = Utils.createScenario(SCENARIO_2).get(0);
-        String body = scenario.getSteps().get(0).getBody();
+        String body = scenario.getSteps().get(0).getBody().get();
         Assert.assertEquals(EMPTY_BODY.replaceAll(" ",""), body);
     }
 
@@ -204,7 +204,7 @@ public class ScenarioBuilderTest {
         Assert.assertEquals(1, params.size());
         Assert.assertEquals("val", params.get("lbg"));
 
-        Assert.assertEquals(EMPTY_BODY.replaceAll(" ",""), step.getBody());
+        Assert.assertEquals(EMPTY_BODY.replaceAll(" ",""), step.getBody().get());
     }
 
     @Test
@@ -253,7 +253,7 @@ public class ScenarioBuilderTest {
         Assert.assertEquals("gzip, deflate, br", header.get("accept-encoding"));
 
 
-        Assert.assertEquals(EMPTY_BODY.replaceAll(" ",""), step.getBody());
+        Assert.assertEquals(EMPTY_BODY.replaceAll(" ",""), step.getBody().get());
     }
 
     private void runHttpGet(HttpClient client, HttpUriRequest http) throws IOException {

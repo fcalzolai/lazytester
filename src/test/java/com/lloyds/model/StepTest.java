@@ -1,11 +1,11 @@
 package com.lloyds.model;
 
 import com.google.common.collect.ImmutableMap;
+import org.apache.http.client.methods.HttpGet;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class StepTest {
 
@@ -19,41 +19,48 @@ public class StepTest {
             .put("aq", "f")
             .build();
 
-    private <T> void testIllegalStateException(Supplier<T> supplier){
-        try {
-            supplier.get();
-            Assert.fail("It should fail with an IllegalStateException");
-        } catch (IllegalStateException ex){
-
-        } catch (Exception ex) {
-            Assert.fail("Unexpected exception: "+ ex);
-        }
-    }
-
     private void testBasicGet(Step step) {
-        testIllegalStateException(() -> step.getUrl());
-        testIllegalStateException(() -> step.getBody());
-        testIllegalStateException(() -> step.getOperation());
+        Assert.assertFalse(step.getBody().isPresent());
     }
 
     @Test
     public void testBasicGets(){
-        Step step = Step.getStepBuilder().setName(STEP1).build();
+        Step step = Step.getStepBuilder()
+                .setName(STEP1)
+                .setOperation(HttpGet.METHOD_NAME)
+                .setUrl("")
+                .build();
+
         testBasicGet(step);
         Assert.assertEquals(Step.DEFAULT_LOOP, step.getLoop());
     }
 
     @Test
     public void testGets(){
-        Step parent = Step.getStepBuilder().setName(PARENT).build();
-        Step child = Step.getStepBuilder().setName(CHILD).setParent(parent).build();
+        Step parent = Step.getStepBuilder()
+                .setName(PARENT)
+                .setOperation(HttpGet.METHOD_NAME)
+                .setUrl("")
+                .build();
+
+        Step child = Step.getStepBuilder()
+                .setName(CHILD)
+                .setOperation(HttpGet.METHOD_NAME)
+                .setUrl("")
+                .setParent(parent)
+                .build();
+
         testBasicGet(child);
         Assert.assertEquals(Step.DEFAULT_LOOP, child.getLoop());
     }
 
     @Test
     public void testBasicGetName(){
-        Step step = Step.getStepBuilder().setName(STEP1).build();
+        Step step = Step.getStepBuilder()
+                .setName(STEP1)
+                .setOperation(HttpGet.METHOD_NAME)
+                .setUrl("")
+                .build();
         Assert.assertEquals(STEP1, step.getName());
     }
 
@@ -61,6 +68,8 @@ public class StepTest {
     public void testSets(){
         Step.StepBuilder parentBuilder = Step.getStepBuilder()
                 .setName(PARENT)
+                .setOperation(HttpGet.METHOD_NAME)
+                .setUrl("")
                 .setUrl(URL1);
 
         Step.StepBuilder childBuilder = Step.getStepBuilder()
@@ -85,6 +94,7 @@ public class StepTest {
         String url = "http://www.google.com/search";
         Step step = Step.getStepBuilder()
                 .setName(STEP1)
+                .setOperation(HttpGet.METHOD_NAME)
                 .setUrl(url)
                 .setParams(GOOGLE_VALID_QUERY_PARAM)
                 .build();
@@ -100,13 +110,13 @@ public class StepTest {
     public void testParams(){
         Step parent = Step.getStepBuilder()
                 .setParams(GOOGLE_VALID_QUERY_PARAM)
+                .setUrl("")
+                .setOperation(HttpGet.METHOD_NAME)
                 .build();
 
-        Step.StepBuilder childBuilder = Step.getStepBuilder()
-                .setParent(parent);
+        Step.StepBuilder childBuilder = Step.getStepBuilder().setParent(parent);
 
-        Step child = childBuilder
-                .build();
+        Step child = childBuilder.build();
 
         Assert.assertEquals(GOOGLE_VALID_QUERY_PARAM, child.getParams());
         ImmutableMap<String, String> params = ImmutableMap.<String, String>builder()

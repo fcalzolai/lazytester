@@ -5,6 +5,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicHttpResponse;
@@ -23,6 +24,11 @@ public class ValidatorTest {
     private static final String HEADER_NAME = "headerName";
     private static final String HEADER_VALUE = "headerValue";
     private static final Header[] HEADERS = {new BasicHeader(HEADER_NAME, HEADER_VALUE)};
+    private static final Step STEP = Step
+            .getStepBuilder()
+            .setOperation(HttpGet.METHOD_NAME)
+            .setUrl("")
+            .build();
 
     @Test
     public void valid_StatusCode() {
@@ -120,7 +126,7 @@ public class ValidatorTest {
     @Test
     public void invalid_StatusCode_Headers_And_Body() {
         Assertions assertions = Assertions.getBuilder()
-                .setStep(Step.getStepBuilder().build())
+                .setStep(STEP)
                 .setStatus(CODE_201)
                 .putBody("description", VALID_BODY)
                 .putHeader(HEADER_NAME, HEADER_VALUE)
@@ -141,7 +147,7 @@ public class ValidatorTest {
 
     private Assertions getAssertions(Integer statusCode, String bodyKey, String bodyVal) {
         return Assertions.getBuilder()
-                .setStep(Step.getStepBuilder().build())
+                .setStep(STEP)
                 .setStatus(statusCode)
                 .putBody(bodyKey, bodyVal)
                 .build();
@@ -149,7 +155,7 @@ public class ValidatorTest {
 
     private Assertions getHeadersAssertions(String headerKey, String headerVal) {
         return Assertions.getBuilder()
-                .setStep(Step.getStepBuilder().build())
+                .setStep(STEP)
                 .putHeader(headerKey, headerVal)
                 .build();
     }

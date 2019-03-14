@@ -1,5 +1,6 @@
 package com.lloyds.model;
 
+import com.google.common.collect.ImmutableMap;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -19,14 +20,14 @@ public class Step {
 
     public static final Integer DEFAULT_LOOP = 1;
 
-    private static final BiFunction<String, String, Supplier<IllegalStateException>> EXCEPTION_BUILDER = (name, attr) ->
-            () -> new IllegalStateException(format("%s Unable to find valid data for the attribute %s", name, attr));
+    private static final BiFunction<String, String, Supplier<IllegalStateException>> EXCEPTION_BUILDER = (stepName, attr) ->
+            () -> new IllegalStateException(format("%s Unable to find valid data for the attribute %s", stepName, attr));
 
     private String name;
     private Optional<Step> parent;
-    private Optional<Integer> loop;
-    private Optional<String> operation;
-    private Optional<String> url;
+    private Integer loop;
+    private String operation;
+    private String url;
     private Map<String, String> params;
     private Map<String, String> headers;
     private Optional<String> body;
@@ -35,21 +36,21 @@ public class Step {
     private HttpUriRequest httpRequest;
 
     private Step(String name,
-                Optional<Step> parent,
-                Optional<Integer> loop,
-                Optional<String> operation,
-                Optional<String> url,
-                Map<String, String> params,
-                Map<String, String> headers,
-                Optional<String> body,
-                Assertions assertions) {
+                 Optional<Step> parent,
+                 Integer loop,
+                 String operation,
+                 String url,
+                 Map<String, String> params,
+                 Map<String, String> headers,
+                 Optional<String> body,
+                 Assertions assertions) {
         this.name = name;
         this.parent = parent;
         this.loop = loop;
         this.operation = operation;
         this.url = url;
-        this.params = params;
-        this.headers = headers;
+        this.params = ImmutableMap.copyOf(params);
+        this.headers = ImmutableMap.copyOf(headers);
         this.body = body;
         this.assertions = assertions;
     }
@@ -63,23 +64,21 @@ public class Step {
     }
 
     public Integer getLoop() {
-        // Use local value, otherwise parent, otherwise default
-        return loop.orElseGet(() -> parent.map(Step::getLoop).orElse(DEFAULT_LOOP));
+        return loop;
     }
 
     public String getOperation() {
-        return operation.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "operation")).getOperation());
+        return operation;
     }
 
     public String getUrl() {
-        return url.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "url")).getUrl());
+        return url;
     }
 
     public String getFullUrl() {
         StringBuilder fullUrl = new StringBuilder()
                 .append(getUrl());
 
-        Map<String, String> params = getParams();
         if(params.size() > 0){
             String mappedParam = params.entrySet().stream()
                     .map(entry -> entry.getKey() + "=" + entry.getValue())
@@ -87,28 +86,21 @@ public class Step {
 
             fullUrl.append("?");
             fullUrl.append(mappedParam);
-
         }
 
         return fullUrl.toString();
     }
 
     public Map<String, String>  getParams() {
-        HashMap<String, String> result = new HashMap<>();
-        parent.ifPresent(s -> result.putAll(s.getParams()));
-        result.putAll(params);
-        return result;
+        return params;
     }
 
     public Map<String, String> getHeaders() {
-        HashMap<String, String> result = new HashMap<>();
-        parent.ifPresent(s -> result.putAll(s.getHeaders()));
-        result.putAll(headers);
-        return result;
+        return headers;
     }
 
-    public String getBody() {
-        return body.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "body")).getBody());
+    public Optional<String> getBody() {
+        return body;
     }
 
     public Assertions getAssertions() {
@@ -125,7 +117,11 @@ public class Step {
                 case HttpPost.METHOD_NAME:
                     HttpPost httpPost = new HttpPost(getUrl());
                     getHeaders().forEach((k, v) -> httpRequest.setHeader(k, v));
-                    httpPost.setEntity(new StringEntity(getBody()));
+
+                    if(getBody().isPresent()){
+                        httpPost.setEntity(new StringEntity(getBody().get()));
+                    }
+
                     httpRequest = httpPost;
                     break;
                 default:
@@ -165,7 +161,15 @@ public class Step {
         }
 
         public Step build(){
-            Step step = new Step(name, parent, loop, operation, url, params, headers, body, assertions);
+            Step step = new Step(name,
+                                 parent,
+                                 getLoop(),
+                                 getOperation(),
+                                 getUrl(),
+                                 getParams(),
+                                 getHeaders(),
+                                 getBody(),
+                                 assertions);
             assertions.setStep(step);
             return step;
         }
@@ -221,6 +225,46 @@ public class Step {
 
         public String putHeaders(String k, String v) {
             return headers.put(k, v);
+        }
+
+        private Integer getLoop() {
+            // Use local value, otherwise parent, otherwise default
+            return loop.orElseGet(
+                    () -> parent.map(Step::getLoop).orElse(DEFAULT_LOOP)
+            );
+        }
+
+        private String getOperation() {
+            return operation.orElseGet(
+                    () -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "operation")).getOperation()
+            );
+        }
+
+        private Map<String, String> getHeaders() {
+            HashMap<String, String> result = new HashMap<>();
+            parent.ifPresent(s -> result.putAll(s.getHeaders()));
+            result.putAll(headers);
+            return result;
+        }
+
+        private String getUrl() {
+            return url.orElseGet(() -> parent.orElseThrow(EXCEPTION_BUILDER.apply(name, "url")).getUrl());
+        }
+
+        private Map<String, String>  getParams() {
+            HashMap<String, String> result = new HashMap<>();
+            parent.ifPresent(s -> result.putAll(s.getParams()));
+            result.putAll(params);
+            return result;
+        }
+
+        private Optional<String> getBody() {
+            String nullableBody = body.orElseGet(
+                    () -> parent
+                            .flatMap(Step::getBody)
+                            .orElse(null)
+            );
+            return Optional.ofNullable(nullableBody);
         }
     }
 }

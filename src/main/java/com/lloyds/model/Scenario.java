@@ -1,5 +1,7 @@
 package com.lloyds.model;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class Scenario {
         this.name = name;
         this.loop = loop;
         this.ignoreStepFailures = ignoreStepFailures;
-        this.steps = steps;
+        this.steps = ImmutableList.copyOf(steps);
     }
 
     public String getName() {
