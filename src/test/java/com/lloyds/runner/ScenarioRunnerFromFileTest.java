@@ -16,7 +16,7 @@ public class ScenarioRunnerFromFileTest {
 
     private static final String PATH_1 = "lazy/googleToRun.lz";
 
-    @Ignore
+//    @Ignore
     @Test
     public void testGoogle() throws IOException {
         LinkedList<Scenario> scenarios = Utils.createScenarioFromResource(PATH_1);
@@ -26,6 +26,7 @@ public class ScenarioRunnerFromFileTest {
         scenarioRunner.runScenario();
         ImmutableTable<Integer, Integer, ValidatedAssertions> results = scenarioRunner.getResults();
         results.cellSet().forEach(cell -> {
+            System.out.println(cell);
             Assert.assertTrue(cell.getValue().isValid());
         });
     }

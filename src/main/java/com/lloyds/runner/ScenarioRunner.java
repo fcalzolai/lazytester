@@ -35,12 +35,7 @@ public class ScenarioRunner {
                 for (int j = 0; j < step.getLoop(); j++) {
                     HttpUriRequest httpRequest = step.getHttpRequest();
                     try {
-                        long start = System.currentTimeMillis();
-                        HttpResponse response = httpClient.execute(httpRequest);
-                        long executionTime = System.currentTimeMillis()-start;
-                        Validator validator = new Validator(step.getAssertions(), response);
-                        ValidatedAssertions validated = validator.validate();
-                        validated.setExecutionTime(executionTime);
+                        ValidatedAssertions validated = getValidatedAssertions(step, httpRequest);
                         results.put(i, j, validated);
                         if(validated.isInvalid() && scenario.getIgnoreStepFailures()) {
                             throw new ValidationException(validated);
@@ -55,6 +50,16 @@ public class ScenarioRunner {
                 }
             }
         }
+    }
+
+    private ValidatedAssertions getValidatedAssertions(Step step, HttpUriRequest httpRequest) throws IOException {
+        long start = System.currentTimeMillis();
+        HttpResponse response = httpClient.execute(httpRequest);
+        long executionTime = System.currentTimeMillis()-start;
+        Validator validator = new Validator(step.getAssertions(), response);
+        ValidatedAssertions validated = validator.validate();
+        validated.setExecutionTime(executionTime);
+        return validated;
     }
 
     public ImmutableTable<Integer, Integer, ValidatedAssertions> getResults() {
