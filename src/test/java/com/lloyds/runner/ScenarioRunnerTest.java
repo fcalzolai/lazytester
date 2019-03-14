@@ -87,6 +87,29 @@ public class ScenarioRunnerTest {
             "  };" +
             "]; ";
 
+    private static final String SCENARIO_4 =
+            " scenarios: [ \n" +
+                    "  { \n" +
+                    "    name: \"GET\"; \n" +
+                    "    steps: [ \n" +
+                    "      {\n" +
+                    "        name: \"step 1\"; \n" +
+                    "        operation: GET; \n" +
+                    "        url: \"https://jsonplaceholder.typicode.com/todos/1\"; \n" +
+                    "        assertions: {\n" +
+                    "           status: 200;\n" +
+                    "           body: { \n " +
+                    "              userId: 1; " +
+                    "              id: 1; " +
+                    "              title: \"delectus aut autem\"; " +
+                    "              completed: false; " +
+                    "           };\n" +
+                    "        };" +
+                    "      };\n" +
+                    "    ];\n" +
+                    "  }; \n" +
+                    "];\n";
+
     @Test
     public void testResults() throws IOException {
         Scenario scenario = getScenario(SCENARIO_1).get(0);
@@ -114,6 +137,19 @@ public class ScenarioRunnerTest {
         scenarioRunner.runScenario();
         ImmutableTable<Integer, Integer, ValidatedAssertions> results = scenarioRunner.getResults();
         ValidatedAssertions validated = results.row(0).get(0);
+        Assert.assertTrue(validated.toString(), validated.isValid());
+        Assert.assertEquals(scenario.getLoop().intValue(), results.rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.columnKeySet().size());
+    }
+
+    @Test
+    public void testAssertionJson() throws IOException {
+        Scenario scenario = getScenario(SCENARIO_4).get(0);
+        ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenario);
+        scenarioRunner.runScenario();
+        ImmutableTable<Integer, Integer, ValidatedAssertions> results = scenarioRunner.getResults();
+        ValidatedAssertions validated = results.row(0).get(0);
+        System.out.println(validated);
         Assert.assertTrue(validated.toString(), validated.isValid());
         Assert.assertEquals(scenario.getLoop().intValue(), results.rowKeySet().size());
         Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.columnKeySet().size());

@@ -33,21 +33,25 @@ public class ScenarioRunner {
             List<Step> steps = scenario.getSteps();
             for (Step step: steps) {
                 for (int j = 0; j < step.getLoop(); j++) {
-                    HttpUriRequest httpRequest = step.getHttpRequest();
-                    try {
-                        ValidatedAssertions validated = getValidatedAssertions(step, httpRequest);
-                        results.put(i, j, validated);
-                        if(validated.isInvalid() && scenario.getIgnoreStepFailures()) {
-                            throw new ValidationException(validated);
-                        }
-                    } catch (IOException e) {
-                        if(scenario.getIgnoreStepFailures()){
-                            LOGGER.warn("Excpetion ignored.", e);
-                        } else {
-                            throw e;
-                        }
-                    }
+                    runStep(i, j, step);
                 }
+            }
+        }
+    }
+
+    private void runStep(int scenarioNum, int stepNum, Step step) throws IOException {
+        HttpUriRequest httpRequest = step.getHttpRequest();
+        try {
+            ValidatedAssertions validated = getValidatedAssertions(step, httpRequest);
+            results.put(scenarioNum, stepNum, validated);
+            if(validated.isInvalid() && scenario.getIgnoreStepFailures()) {
+                throw new ValidationException(validated);
+            }
+        } catch (IOException e) {
+            if(scenario.getIgnoreStepFailures()){
+                LOGGER.warn("Excpetion ignored.", e);
+            } else {
+                throw e;
             }
         }
     }

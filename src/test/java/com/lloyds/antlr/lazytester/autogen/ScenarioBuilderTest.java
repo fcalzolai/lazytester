@@ -181,7 +181,6 @@ public class ScenarioBuilderTest {
         String body = scenario.getSteps().get(0).getBody().get();
         Assert.assertEquals(EMPTY_BODY.replaceAll(" ",""), body);
     }
-
     @Test
     public void testTwoStepsCreation(){
         ScenarioListener scenarioListener = Utils.createScenarioListener(SCENARIO_3);
