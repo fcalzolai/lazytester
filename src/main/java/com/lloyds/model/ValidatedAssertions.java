@@ -8,6 +8,7 @@ import java.util.function.Function;
 public class ValidatedAssertions {
 
     private Validation<List<String>, Assertions> validation;
+    private long executionTime;
 
     public ValidatedAssertions(Validation<List<String>, Assertions> validation) {
         this.validation = validation;
@@ -37,6 +38,13 @@ public class ValidatedAssertions {
 
     @Override
     public String toString() {
-        return validation.toString();
+        return "ValidatedAssertions{" +
+                "executionTime=" + executionTime +
+                ", validation=" + validation +
+                '}';
+    }
+
+    public void setExecutionTime(long executionTime) {
+        this.executionTime = executionTime;
     }
 }

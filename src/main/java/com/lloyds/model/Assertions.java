@@ -53,9 +53,9 @@ public class Assertions {
     public String toString() {
         return "Assertions{" +
                 "step=" + step +
-                ", status=" + status +
-                ", headers=" + headers +
-                ", body=" + body +
+                ", status=" + getStatus() +
+                ", headers=" + getHeaders() +
+                ", body=" + getBody() +
                 '}';
     }
 

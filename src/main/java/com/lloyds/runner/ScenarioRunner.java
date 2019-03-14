@@ -35,9 +35,12 @@ public class ScenarioRunner {
                 for (int j = 0; j < step.getLoop(); j++) {
                     HttpUriRequest httpRequest = step.getHttpRequest();
                     try {
+                        long start = System.currentTimeMillis();
                         HttpResponse response = httpClient.execute(httpRequest);
+                        long executionTime = System.currentTimeMillis()-start;
                         Validator validator = new Validator(step.getAssertions(), response);
                         ValidatedAssertions validated = validator.validate();
+                        validated.setExecutionTime(executionTime);
                         results.put(i, j, validated);
                         if(validated.isInvalid() && scenario.getIgnoreStepFailures()) {
                             throw new ValidationException(validated);

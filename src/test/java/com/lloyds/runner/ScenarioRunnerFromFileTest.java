@@ -22,13 +22,12 @@ public class ScenarioRunnerFromFileTest {
         LinkedList<Scenario> scenarios = Utils.createScenarioFromResource(PATH_1);
         Scenario scenario = scenarios.get(0);
 
-//        ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenario);
-//        scenarioRunner.runScenario();
-//        ImmutableTable<Integer, Integer, ValidatedAssertions> results = scenarioRunner.getResults();
-//        results.cellSet().forEach(cell -> {
-//            System.out.println(cell);
-//            Assert.assertTrue(cell.getValue().isValid());
-//        });
+        ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenario);
+        scenarioRunner.runScenario();
+        ImmutableTable<Integer, Integer, ValidatedAssertions> results = scenarioRunner.getResults();
+        results.cellSet().forEach(cell -> {
+            Assert.assertTrue(cell.getValue().isValid());
+        });
     }
 
 }
