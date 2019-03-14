@@ -11,11 +11,16 @@ public class Assertions {
     private Map<String, String> headers;
     private Map<String, String> body;
 
+    private Map<String, String> bodyToReturn;
+    private Map<String, String> headersToReturn;
+
     private Assertions(Step step, Optional<Integer> status, Map<String, String> headers, Map<String, String> body) {
         this.step = step;
         this.status = status;
         this.headers = headers;
         this.body = body;
+        this.bodyToReturn = null;
+        this.headersToReturn = null;
     }
 
     public Optional<Integer> getStatus() {
@@ -28,17 +33,22 @@ public class Assertions {
     }
 
     public Map<String, String> getHeaders() {
-        HashMap<String, String> result = new HashMap<>();
-        step.getParent().ifPresent(s -> result.putAll(s.getAssertions().getHeaders()));
-        result.putAll(headers);
-        return result;
+        if(headersToReturn == null) {
+            headersToReturn = new HashMap<>();
+            step.getParent().ifPresent(s -> headersToReturn.putAll(s.getAssertions().getHeaders()));
+            headersToReturn.putAll(headers);
+        }
+        return headersToReturn;
     }
 
     public Map<String, String> getBody() {
-        HashMap<String, String> result = new HashMap<>();
-        step.getParent().ifPresent(s -> result.putAll(s.getAssertions().getBody()));
-        result.putAll(body);
-        return result;
+        if(bodyToReturn == null) {
+            bodyToReturn = new HashMap<>();
+            step.getParent().ifPresent(s -> bodyToReturn.putAll(s.getAssertions().getBody()));
+            bodyToReturn.putAll(body);
+        }
+
+        return bodyToReturn;
     }
 
     public void setStep(Step step) {
