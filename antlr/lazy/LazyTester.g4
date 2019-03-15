@@ -22,12 +22,12 @@ step_name      : NAME ':' (STRING | QSTRING) ';' ;
 url_def        : URL ':' (STRING | QSTRING) ';' ;
 operation      : OPERATION ':' HTTP_OPS ';' ;
 assertions_def : ASSERTIONS ':' '{' (assertion)* '}' ';' ;
-assertion      : STATUS ':' INT ';'
+assertion      : STATUS ':' (STRING | QSTRING) ';'
                | headers_def
                | BODY ':' '{' params '}' ';'
                ;
 
-loop_def       : LOOP ':' INT ';' ;
+loop_def       : LOOP ':' (STRING | QSTRING) ';' ;
 ignore_step_failures_def : 'ignoreStepFailures' ':' ('true' | 'false') ';' ;
 
 STEPS         : 'steps' ;
@@ -44,7 +44,7 @@ HEADERS       : 'headers' ;
 BODY          : 'body' ;
 EXTEND        : 'extends' ;
 IMPORT        : 'import' ~[;]+ ';';
-INT           : [0-9]+ ;
+//INT           : [0-9]+ ;
 STRING        : [a-zA-Z0-9._/\-]+ ;
 WS            :  [ \t\r\n\f]+ -> skip ;
 

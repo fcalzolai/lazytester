@@ -20,7 +20,7 @@ public class LazyTesterParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, STEPS=12, SCENARIOS=13, NAME=14, LOOP=15, URL=16, OPERATION=17, 
 		HTTP_OPS=18, ASSERTIONS=19, STATUS=20, PARAMS=21, HEADERS=22, BODY=23, 
-		EXTEND=24, IMPORT=25, INT=26, STRING=27, WS=28, QSTRING=29, NUMBER=30;
+		EXTEND=24, IMPORT=25, STRING=26, WS=27, QSTRING=28, NUMBER=29;
 	public static final int
 		RULE_scenario_file = 0, RULE_import_section = 1, RULE_steps_section = 2, 
 		RULE_scenarios_section = 3, RULE_step_def = 4, RULE_step_component = 5, 
@@ -54,7 +54,7 @@ public class LazyTesterParser extends Parser {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			"STEPS", "SCENARIOS", "NAME", "LOOP", "URL", "OPERATION", "HTTP_OPS", 
 			"ASSERTIONS", "STATUS", "PARAMS", "HEADERS", "BODY", "EXTEND", "IMPORT", 
-			"INT", "STRING", "WS", "QSTRING", "NUMBER"
+			"STRING", "WS", "QSTRING", "NUMBER"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -1227,7 +1227,8 @@ public class LazyTesterParser extends Parser {
 
 	public static class AssertionContext extends ParserRuleContext {
 		public TerminalNode STATUS() { return getToken(LazyTesterParser.STATUS, 0); }
-		public TerminalNode INT() { return getToken(LazyTesterParser.INT, 0); }
+		public TerminalNode STRING() { return getToken(LazyTesterParser.STRING, 0); }
+		public TerminalNode QSTRING() { return getToken(LazyTesterParser.QSTRING, 0); }
 		public Headers_defContext headers_def() {
 			return getRuleContext(Headers_defContext.class,0);
 		}
@@ -1252,6 +1253,7 @@ public class LazyTesterParser extends Parser {
 	public final AssertionContext assertion() throws RecognitionException {
 		AssertionContext _localctx = new AssertionContext(_ctx, getState());
 		enterRule(_localctx, 36, RULE_assertion);
+		int _la;
 		try {
 			setState(202);
 			_errHandler.sync(this);
@@ -1264,7 +1266,15 @@ public class LazyTesterParser extends Parser {
 				setState(191);
 				match(T__0);
 				setState(192);
-				match(INT);
+				_la = _input.LA(1);
+				if ( !(_la==STRING || _la==QSTRING) ) {
+				_errHandler.recoverInline(this);
+				}
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
+					consume();
+				}
 				setState(193);
 				match(T__3);
 				}
@@ -1310,7 +1320,8 @@ public class LazyTesterParser extends Parser {
 
 	public static class Loop_defContext extends ParserRuleContext {
 		public TerminalNode LOOP() { return getToken(LazyTesterParser.LOOP, 0); }
-		public TerminalNode INT() { return getToken(LazyTesterParser.INT, 0); }
+		public TerminalNode STRING() { return getToken(LazyTesterParser.STRING, 0); }
+		public TerminalNode QSTRING() { return getToken(LazyTesterParser.QSTRING, 0); }
 		public Loop_defContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1328,6 +1339,7 @@ public class LazyTesterParser extends Parser {
 	public final Loop_defContext loop_def() throws RecognitionException {
 		Loop_defContext _localctx = new Loop_defContext(_ctx, getState());
 		enterRule(_localctx, 38, RULE_loop_def);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -1336,7 +1348,15 @@ public class LazyTesterParser extends Parser {
 			setState(205);
 			match(T__0);
 			setState(206);
-			match(INT);
+			_la = _input.LA(1);
+			if ( !(_la==STRING || _la==QSTRING) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
 			setState(207);
 			match(T__3);
 			}
@@ -1737,9 +1757,9 @@ public class LazyTesterParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3 \u0106\4\2\t\2\4"+
-		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\37\u0106\4\2\t\2"+
+		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
+		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
 		"\4\32\t\32\4\33\t\33\3\2\3\2\5\29\n\2\3\2\3\2\3\3\7\3>\n\3\f\3\16\3A\13"+
 		"\3\3\4\3\4\3\4\3\4\7\4G\n\4\f\4\16\4J\13\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5"+
@@ -1757,7 +1777,7 @@ public class LazyTesterParser extends Parser {
 		"\3\31\3\31\3\32\3\32\3\32\3\32\7\32\u00f2\n\32\f\32\16\32\u00f5\13\32"+
 		"\3\32\3\32\3\32\3\32\5\32\u00fb\n\32\3\33\3\33\3\33\3\33\3\33\3\33\3\33"+
 		"\5\33\u0104\n\33\3\33\2\2\34\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \""+
-		"$&(*,.\60\62\64\2\4\4\2\35\35\37\37\3\2\n\13\2\u010b\2\66\3\2\2\2\4?\3"+
+		"$&(*,.\60\62\64\2\4\4\2\34\34\36\36\3\2\n\13\2\u010b\2\66\3\2\2\2\4?\3"+
 		"\2\2\2\6B\3\2\2\2\bX\3\2\2\2\nZ\3\2\2\2\fm\3\2\2\2\16o\3\2\2\2\20}\3\2"+
 		"\2\2\22\177\3\2\2\2\24\u0084\3\2\2\2\26\u0089\3\2\2\2\30\u0090\3\2\2\2"+
 		"\32\u009d\3\2\2\2\34\u00a0\3\2\2\2\36\u00a5\3\2\2\2 \u00aa\3\2\2\2\"\u00af"+
@@ -1783,7 +1803,7 @@ public class LazyTesterParser extends Parser {
 		"\2\u008b\u008c\7\7\2\2\u008c\u008d\5\32\16\2\u008d\u008e\7\b\2\2\u008e"+
 		"\u008f\7\6\2\2\u008f\27\3\2\2\2\u0090\u0091\7\30\2\2\u0091\u0092\7\3\2"+
 		"\2\u0092\u0093\7\7\2\2\u0093\u0094\5\32\16\2\u0094\u0095\7\b\2\2\u0095"+
-		"\u0096\7\6\2\2\u0096\31\3\2\2\2\u0097\u0098\7\35\2\2\u0098\u0099\7\3\2"+
+		"\u0096\7\6\2\2\u0096\31\3\2\2\2\u0097\u0098\7\34\2\2\u0098\u0099\7\3\2"+
 		"\2\u0099\u009a\t\2\2\2\u009a\u009c\7\6\2\2\u009b\u0097\3\2\2\2\u009c\u009f"+
 		"\3\2\2\2\u009d\u009b\3\2\2\2\u009d\u009e\3\2\2\2\u009e\33\3\2\2\2\u009f"+
 		"\u009d\3\2\2\2\u00a0\u00a1\7\31\2\2\u00a1\u00a2\7\3\2\2\u00a2\u00a3\5"+
@@ -1796,11 +1816,11 @@ public class LazyTesterParser extends Parser {
 		"\u00b7\3\2\2\2\u00b9\u00bc\3\2\2\2\u00ba\u00b8\3\2\2\2\u00ba\u00bb\3\2"+
 		"\2\2\u00bb\u00bd\3\2\2\2\u00bc\u00ba\3\2\2\2\u00bd\u00be\7\b\2\2\u00be"+
 		"\u00bf\7\6\2\2\u00bf%\3\2\2\2\u00c0\u00c1\7\26\2\2\u00c1\u00c2\7\3\2\2"+
-		"\u00c2\u00c3\7\34\2\2\u00c3\u00cd\7\6\2\2\u00c4\u00cd\5\30\r\2\u00c5\u00c6"+
+		"\u00c2\u00c3\t\2\2\2\u00c3\u00cd\7\6\2\2\u00c4\u00cd\5\30\r\2\u00c5\u00c6"+
 		"\7\31\2\2\u00c6\u00c7\7\3\2\2\u00c7\u00c8\7\7\2\2\u00c8\u00c9\5\32\16"+
 		"\2\u00c9\u00ca\7\b\2\2\u00ca\u00cb\7\6\2\2\u00cb\u00cd\3\2\2\2\u00cc\u00c0"+
 		"\3\2\2\2\u00cc\u00c4\3\2\2\2\u00cc\u00c5\3\2\2\2\u00cd\'\3\2\2\2\u00ce"+
-		"\u00cf\7\21\2\2\u00cf\u00d0\7\3\2\2\u00d0\u00d1\7\34\2\2\u00d1\u00d2\7"+
+		"\u00cf\7\21\2\2\u00cf\u00d0\7\3\2\2\u00d0\u00d1\t\2\2\2\u00d1\u00d2\7"+
 		"\6\2\2\u00d2)\3\2\2\2\u00d3\u00d4\7\t\2\2\u00d4\u00d5\7\3\2\2\u00d5\u00d6"+
 		"\t\3\2\2\u00d6\u00d7\7\6\2\2\u00d7+\3\2\2\2\u00d8\u00d9\5\64\33\2\u00d9"+
 		"-\3\2\2\2\u00da\u00db\7\7\2\2\u00db\u00e0\5\60\31\2\u00dc\u00dd\7\f\2"+
@@ -1808,17 +1828,18 @@ public class LazyTesterParser extends Parser {
 		"\u00de\3\2\2\2\u00e0\u00e1\3\2\2\2\u00e1\u00e3\3\2\2\2\u00e2\u00e0\3\2"+
 		"\2\2\u00e3\u00e4\7\b\2\2\u00e4\u00e8\3\2\2\2\u00e5\u00e6\7\7\2\2\u00e6"+
 		"\u00e8\7\b\2\2\u00e7\u00da\3\2\2\2\u00e7\u00e5\3\2\2\2\u00e8/\3\2\2\2"+
-		"\u00e9\u00ea\7\37\2\2\u00ea\u00eb\7\3\2\2\u00eb\u00ec\5\64\33\2\u00ec"+
+		"\u00e9\u00ea\7\36\2\2\u00ea\u00eb\7\3\2\2\u00eb\u00ec\5\64\33\2\u00ec"+
 		"\61\3\2\2\2\u00ed\u00ee\7\4\2\2\u00ee\u00f3\5\64\33\2\u00ef\u00f0\7\f"+
 		"\2\2\u00f0\u00f2\5\64\33\2\u00f1\u00ef\3\2\2\2\u00f2\u00f5\3\2\2\2\u00f3"+
 		"\u00f1\3\2\2\2\u00f3\u00f4\3\2\2\2\u00f4\u00f6\3\2\2\2\u00f5\u00f3\3\2"+
 		"\2\2\u00f6\u00f7\7\5\2\2\u00f7\u00fb\3\2\2\2\u00f8\u00f9\7\4\2\2\u00f9"+
 		"\u00fb\7\5\2\2\u00fa\u00ed\3\2\2\2\u00fa\u00f8\3\2\2\2\u00fb\63\3\2\2"+
-		"\2\u00fc\u0104\7\37\2\2\u00fd\u0104\7 \2\2\u00fe\u0104\5.\30\2\u00ff\u0104"+
-		"\5\62\32\2\u0100\u0104\7\n\2\2\u0101\u0104\7\13\2\2\u0102\u0104\7\r\2"+
-		"\2\u0103\u00fc\3\2\2\2\u0103\u00fd\3\2\2\2\u0103\u00fe\3\2\2\2\u0103\u00ff"+
-		"\3\2\2\2\u0103\u0100\3\2\2\2\u0103\u0101\3\2\2\2\u0103\u0102\3\2\2\2\u0104"+
-		"\65\3\2\2\2\238?HTX^ms}\u009d\u00ba\u00cc\u00e0\u00e7\u00f3\u00fa\u0103";
+		"\2\u00fc\u0104\7\36\2\2\u00fd\u0104\7\37\2\2\u00fe\u0104\5.\30\2\u00ff"+
+		"\u0104\5\62\32\2\u0100\u0104\7\n\2\2\u0101\u0104\7\13\2\2\u0102\u0104"+
+		"\7\r\2\2\u0103\u00fc\3\2\2\2\u0103\u00fd\3\2\2\2\u0103\u00fe\3\2\2\2\u0103"+
+		"\u00ff\3\2\2\2\u0103\u0100\3\2\2\2\u0103\u0101\3\2\2\2\u0103\u0102\3\2"+
+		"\2\2\u0104\65\3\2\2\2\238?HTX^ms}\u009d\u00ba\u00cc\u00e0\u00e7\u00f3"+
+		"\u00fa\u0103";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
