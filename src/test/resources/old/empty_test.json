@@ -1,9 +1,9 @@
 {
-  "name": "As simple GET request response",
+  "name": "As simple GET request scenario",
   "stepLoop": 2,
   "steps": [
     {
-      "name": "get google",
+      "name": "Perform a get",
       "stepLoop": 3,
       "url": "/",
       "operation": "GET",

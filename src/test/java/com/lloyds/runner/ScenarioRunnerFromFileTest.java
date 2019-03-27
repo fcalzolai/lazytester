@@ -6,7 +6,6 @@ import com.lloyds.model.ValidatedAssertions;
 import com.lloyds.utils.Utils;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,11 +14,11 @@ import java.util.LinkedList;
 public class ScenarioRunnerFromFileTest {
 
     private static final String PATH_1 = "lazy/googleToRun.lz";
+    private static final String PATH = "lazy/jsonPlaceHolder.lz";
 
-//    @Ignore
     @Test
     public void testGoogle() throws IOException {
-        LinkedList<Scenario> scenarios = Utils.createScenarioFromResource(PATH_1);
+        LinkedList<Scenario> scenarios = Utils.createScenarioFromResource(PATH);
         Scenario scenario = scenarios.get(0);
 
         ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenario);

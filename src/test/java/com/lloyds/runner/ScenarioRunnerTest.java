@@ -19,7 +19,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.LinkedList;
 
-@Ignore
 public class ScenarioRunnerTest {
 
     private static int SCENARIO_LOOP = 2;
@@ -35,7 +34,7 @@ public class ScenarioRunnerTest {
             "        name: \"step 1\"; " +
             "        operation: GET; " +
             "        loop: "+ STEP_LOOP +"; " +
-            "        url: \"http://www.google.com\" ; " +
+            "        url: \"http://jsonplaceholder.typicode.com\" ; " +
             "      };" +
             "    ];" +
             "  };" +
@@ -49,7 +48,7 @@ public class ScenarioRunnerTest {
             "      {" +
             "        name: \"step 1\"; " +
             "        operation: GET; " +
-            "        url: \"http://www.google.com\"; " +
+            "        url: \"http://jsonplaceholder.typicode.com\" ; " +
             "        params: { " +
             "          q: lbg; " +
             "          aq: f;  " +
@@ -67,19 +66,12 @@ public class ScenarioRunnerTest {
             "      {" +
             "        name: \"step 1\"; " +
             "        operation: GET; " +
-            "        url: \"http://www.google.com\"; " +
-            "        params: { " +
-            "          q: lbg; " +
-            "          aq: f;  " +
-            "        }; " +
+            "        url: \"http://jsonplaceholder.typicode.com\" ; " +
             "        assertions: {\n" +
             "           status: 200;\n" +
             "           headers: {\n" +
-            "              Transfer-Encoding: chunked;\n" +
-            "              Cache-Control: \"private, max-age=0\";" +
-            "           };\n" +
-            "           body: { \n " +
-            "              test1: \"doctype html\";" +
+            "              CF-Cache-Status: HIT;\n" +
+            "              Cache-Control: \"public, max-age=14400\";" +
             "           };\n" +
             "        };" +
             "      };" +

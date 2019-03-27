@@ -1,19 +1,19 @@
 steps: [
   {
-    name: get_lbg;
-    url: www.google.com/ncr;
+    name: get_placeholder1;
+    url: "https://jsonplaceholder.typicode.com/comments";
     operation: GET;
     loop: 2;
     params: {
-      q: lbg;
-      aq: f;
+      postId: 1;
+      id: 2;
     };
     headers: {
       user-agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36";
       accept-encoding: "gzip, deflate, br";
     };
     assertions: {
-      status: 200;
+      status: 304;
       headers: {
         accept-encoding: "gzip, deflate, br";
       };
@@ -21,13 +21,12 @@ steps: [
     };
   };
   {
-    name: get_halifax;
-    url: www.google.com/ncr;
+    name: get_placeholder2;
+    url: "https://jsonplaceholder.typicode.com/comments";
     operation: GET;
     loop: 10;
     params: {
-      q: halifax;
-      aq: f;
+      id: 2;
     };
     headers: {
       user-agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36";
@@ -35,24 +34,26 @@ steps: [
     };
   };
   {
-    name: post_halifax;
-    url: www.google.com/ncr;
+    name: post_placeholder1;
+    url: "https://jsonplaceholder.typicode.com/posts";
     operation: POST;
     loop: 5;
-    params: {
-      q: halifax;
-      aq: f;
-    };
     headers: {
       user-agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36";
       accept-encoding: "gzip, deflate, br";
+      Content-type: "application/json; charset=UTF-8";
     };
     body: {
+      "title": "foo",
+      "body": "bar"
     };
     assertions:{
-      status:200;
+      status:200 ;
       headers: {
         accept-encoding: "gzip, deflate, br";
+      };
+      body: {
+        id: 101;
       };
     };
   };
@@ -64,15 +65,16 @@ scenarios: [
     loop: 1;
     steps: [
       {
-        extends: post_halifax;
+        extends: post_placeholder1;
       };
       {
-        extends: get_halifax;
+        extends: get_placeholder1;
         loop: 2;
+        url: "https://jsonplaceholder.typicode.com/posts";
       };
       {
-        extends: get_lbg;
-        url: www.lbg.com;
+        extends: get_placeholder2;
+        url: "https://jsonplaceholder.typicode.com/posts";
       };
     ];
   };
@@ -81,14 +83,14 @@ scenarios: [
     loop: 2;
     steps: [
       {
-        extends: post_halifax;
+        extends: post_placeholder1;
       };
       {
-        extends: get_halifax;
-        url: www.lbg.com;
+        extends: get_placeholder1;
+        url: "https://jsonplaceholder.typicode.com/posts";
       };
       {
-        extends: get_lbg;
+        extends: get_placeholder2;
         loop: 2;
       };
     ];

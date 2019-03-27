@@ -39,8 +39,7 @@ scenarios : [
           accept-encoding: \"gzip, deflate, br\";
         };
         body: {
-          \"test\": true,
-          \"test2\": \"val2\"
+          \"test3\": 2
         };
         assertions:{
           status:200;

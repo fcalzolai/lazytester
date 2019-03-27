@@ -35,6 +35,8 @@ public class ScenarioBuilderTest {
                                                   " test2: val2;" +
                                                   "}";
 
+    public static final String URL = "https://jsonplaceholder.typicode.com/";
+
     private static final String SCENARIO_1 = "import test; " +
             " scenarios: [" +
             "  {  " +
@@ -45,7 +47,7 @@ public class ScenarioBuilderTest {
             "        name: \"step 1\"; " +
             "        operation: GET; " +
             "        loop: 3; " +
-            "        url: \"http://www.google.com\"; " +
+            "        url: \"" + URL + "\"; " +
             "        assertions: {" +
             "          status:200;" +
             "        }; " +
@@ -62,7 +64,7 @@ public class ScenarioBuilderTest {
             "      {\n" +
             "        name: \"step 1\"; \n" +
             "        operation: GET; \n" +
-            "        url: \"http://www.google.com\"; \n" +
+                    "        url: \"" + URL + "\"; \n" +
             "        params: {\n" +
             "          q: lbg; \n" +
             "          aq: f;  \n" +
@@ -82,7 +84,7 @@ public class ScenarioBuilderTest {
             "  { " +
             "    name: \"step 31\"; " +
             "    operation: GET; " +
-            "    url: \"http://www.google.com\"; " +
+                    "    url: \"" + URL + "\"; " +
             "    params: { " +
             "      q: lbg; " +
             "      aq: f; " +
@@ -104,7 +106,7 @@ public class ScenarioBuilderTest {
             "  { " +
             "    name: \"step 31\"; " +
             "    operation: GET; " +
-            "    url: \"http://www.google.com\"; " +
+                    "    url: \"" + URL + "\"; " +
             "    params: { " +
             "      q: lbg; " +
             "      aq: f; " +
@@ -142,7 +144,6 @@ public class ScenarioBuilderTest {
         System.out.println(Utils.createScenario(SCENARIO_1));
     }
 
-    @Ignore
     @Test
     public void test2() throws IOException {
         Scenario scenario = Utils.createScenario(SCENARIO_1).get(0);
@@ -190,7 +191,7 @@ public class ScenarioBuilderTest {
         Step step;
         step = steps.get("step 31");
         Assert.assertEquals("GET", step.getOperation());
-        Assert.assertEquals("http://www.google.com", step.getUrl());
+        Assert.assertEquals(URL, step.getUrl());
         Map<String, String> params = step.getParams();
         Assert.assertEquals(2, params.size());
         Assert.assertEquals("lbg", params.get("q"));
@@ -215,7 +216,7 @@ public class ScenarioBuilderTest {
         Step step;
         step = steps.get("step 31");
         Assert.assertEquals("GET", step.getOperation());
-        Assert.assertEquals("http://www.google.com", step.getUrl());
+        Assert.assertEquals(URL, step.getUrl());
         Map<String, String> params = step.getParams();
         Assert.assertEquals(2, params.size());
         Assert.assertEquals("lbg", params.get("q"));

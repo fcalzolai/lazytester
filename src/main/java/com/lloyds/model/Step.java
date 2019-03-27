@@ -116,7 +116,7 @@ public class Step {
                     break;
                 case HttpPost.METHOD_NAME:
                     HttpPost httpPost = new HttpPost(getUrl());
-                    getHeaders().forEach((k, v) -> httpRequest.setHeader(k, v));
+                    getHeaders().forEach((k, v) -> httpPost.setHeader(k, v));
 
                     if(getBody().isPresent()){
                         httpPost.setEntity(new StringEntity(getBody().get()));

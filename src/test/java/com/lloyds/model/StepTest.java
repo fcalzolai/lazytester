@@ -91,7 +91,7 @@ public class StepTest {
 
     @Test
     public void testFullUrl(){
-        String url = "http://www.google.com/search";
+        String url = "http://www.lbg.com/search";
         Step step = Step.getStepBuilder()
                 .setName(STEP1)
                 .setOperation(HttpGet.METHOD_NAME)
@@ -99,8 +99,8 @@ public class StepTest {
                 .setParams(GOOGLE_VALID_QUERY_PARAM)
                 .build();
 
-        String expectedRes1 = "http://www.google.com/search?q=lbg&aq=f";
-        String expectedRes2 = "http://www.google.com/search?aq=f&q=lbg";
+        String expectedRes1 = "http://www.lbg.com/search?q=lbg&aq=f";
+        String expectedRes2 = "http://www.lbg.com/search?aq=f&q=lbg";
         String fullUrl = step.getFullUrl();
 
         Assert.assertTrue(fullUrl.equals(expectedRes1) || fullUrl.equals(expectedRes2));
