@@ -13,11 +13,10 @@ import java.util.LinkedList;
 
 public class ScenarioRunnerFromFileTest {
 
-    private static final String PATH_1 = "lazy/googleToRun.lz";
     private static final String PATH = "lazy/jsonPlaceHolder.lz";
 
     @Test
-    public void testGoogle() throws IOException {
+    public void testJsonPlaceHolder() throws IOException {
         LinkedList<Scenario> scenarios = Utils.createScenarioFromResource(PATH);
         Scenario scenario = scenarios.get(0);
 
