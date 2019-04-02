@@ -18,7 +18,7 @@ scenarios: [
     }
   };
   {
-    name: scenario two;
+    name: scenarios two;
     description: description;
     loop: 3;
     steps: {

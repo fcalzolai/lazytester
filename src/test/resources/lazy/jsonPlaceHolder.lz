@@ -13,9 +13,9 @@ steps: [
       accept-encoding: "gzip, deflate, br";
     };
     assertions: {
-      status: 304;
+      status: 200;
       headers: {
-        accept-encoding: "gzip, deflate, br";
+        Connection: keep-alive;
       };
       body: { };
     };
@@ -48,9 +48,9 @@ steps: [
       "body": "bar"
     };
     assertions:{
-      status:200 ;
+      status:201 ;
       headers: {
-        accept-encoding: "gzip, deflate, br";
+        Connection: keep-alive;
       };
       body: {
         id: 101;
@@ -62,7 +62,7 @@ steps: [
 scenarios: [
   {
     name: Scenario1;
-    loop: 1;
+    loop: 2;
     steps: [
       {
         extends: post_placeholder1;

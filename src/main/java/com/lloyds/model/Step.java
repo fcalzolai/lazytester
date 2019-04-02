@@ -132,6 +132,21 @@ public class Step {
         return httpRequest;
     }
 
+//    @Override
+//    public String toString() {
+//        return "Step{" +
+//                "name='" + name + '\'' +
+//                ", parent=" + parent +
+//                ", loop=" + loop +
+//                ", operation='" + operation + '\'' +
+//                ", url='" + url + '\'' +
+//                ", params=" + params +
+//                ", headers=" + headers +
+//                ", body=" + body +
+//                ", httpRequest=" + httpRequest +
+//                '}';
+//    }
+
     public static StepBuilder getStepBuilder(){
         return new StepBuilder();
     }

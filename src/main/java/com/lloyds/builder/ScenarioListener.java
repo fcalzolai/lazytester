@@ -206,6 +206,8 @@ public class ScenarioListener extends LazyTesterBaseListener {
         String terminal = node.toString();
 
         if(terminal.startsWith(IMPORT)) {
+
+            //TODO Implements import correctly
             String toImport = terminal
                     .substring(IMPORT.length(), terminal.lastIndexOf(';'))
                     .trim();

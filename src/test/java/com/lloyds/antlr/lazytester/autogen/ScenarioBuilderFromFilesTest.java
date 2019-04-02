@@ -23,7 +23,7 @@ public class ScenarioBuilderFromFilesTest {
         Assert.assertNotNull(scenario);
         Assert.assertEquals("Scenario1", scenario.getName());
         Assert.assertFalse(scenario.getIgnoreStepFailures());
-        Assert.assertEquals(1, scenario.getLoop().intValue());
+        Assert.assertEquals(2, scenario.getLoop().intValue());
         List<Step> steps = scenario.getSteps();
         Assert.assertNotNull(steps);
         Assert.assertEquals(3, steps.size());

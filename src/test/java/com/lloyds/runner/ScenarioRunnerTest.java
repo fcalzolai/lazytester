@@ -1,6 +1,6 @@
 package com.lloyds.runner;
 
-import com.google.common.collect.ImmutableTable;
+import com.google.common.collect.Table;
 import com.lloyds.antlr.lazytester.autogen.LazyTesterLexer;
 import com.lloyds.antlr.lazytester.autogen.LazyTesterParser;
 import com.lloyds.builder.ScenarioListener;
@@ -13,11 +13,11 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class ScenarioRunnerTest {
 
@@ -104,47 +104,50 @@ public class ScenarioRunnerTest {
 
     @Test
     public void testResults() throws IOException {
-        Scenario scenario = getScenario(SCENARIO_1).get(0);
-        ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenario);
-        scenarioRunner.runScenario();
-        ImmutableTable<Integer, Integer, ValidatedAssertions> results = scenarioRunner.getResults();
-        Assert.assertEquals(scenario.getLoop().intValue(), results.rowKeySet().size());
-        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.columnKeySet().size());
+        LinkedList<Scenario> scenarios = getScenario(SCENARIO_1);
+        ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
+        scenarioRunner.runScenarios();
+        Map<Scenario, Table<Integer, Integer, ValidatedAssertions>> results = scenarioRunner.getResults();
+        Scenario scenario = scenarios.get(0);
+        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).columnKeySet().size());
     }
 
     @Test
     public void testGetFullUrlAndParams() throws IOException {
-        Scenario scenario = getScenario(SCENARIO_2).get(0);
-        ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenario);
-        scenarioRunner.runScenario();
-        ImmutableTable<Integer, Integer, ValidatedAssertions> results = scenarioRunner.getResults();
-        Assert.assertEquals(scenario.getLoop().intValue(), results.rowKeySet().size());
-        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.columnKeySet().size());
+        LinkedList<Scenario> scenarios = getScenario(SCENARIO_2);
+        ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
+        scenarioRunner.runScenarios();
+        Map<Scenario, Table<Integer, Integer, ValidatedAssertions>> results = scenarioRunner.getResults();
+        Scenario scenario = scenarios.get(0);
+        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).columnKeySet().size());
     }
 
     @Test
     public void testAssertions() throws IOException {
-        Scenario scenario = getScenario(SCENARIO_3).get(0);
-        ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenario);
-        scenarioRunner.runScenario();
-        ImmutableTable<Integer, Integer, ValidatedAssertions> results = scenarioRunner.getResults();
-        ValidatedAssertions validated = results.row(0).get(0);
+        LinkedList<Scenario> scenarios = getScenario(SCENARIO_3);
+        ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
+        scenarioRunner.runScenarios();
+        Map<Scenario, Table<Integer, Integer, ValidatedAssertions>> results = scenarioRunner.getResults();
+        Scenario scenario = scenarios.get(0);
+        ValidatedAssertions validated = results.get(scenario).row(0).get(0);
         Assert.assertTrue(validated.toString(), validated.isValid());
-        Assert.assertEquals(scenario.getLoop().intValue(), results.rowKeySet().size());
-        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.columnKeySet().size());
+        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).columnKeySet().size());
     }
 
     @Test
     public void testAssertionJson() throws IOException {
-        Scenario scenario = getScenario(SCENARIO_4).get(0);
-        ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenario);
-        scenarioRunner.runScenario();
-        ImmutableTable<Integer, Integer, ValidatedAssertions> results = scenarioRunner.getResults();
-        ValidatedAssertions validated = results.row(0).get(0);
-        System.out.println(validated);
+        LinkedList<Scenario> scenarios = getScenario(SCENARIO_4);
+        ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
+        scenarioRunner.runScenarios();
+        Map<Scenario, Table<Integer, Integer, ValidatedAssertions>> results = scenarioRunner.getResults();
+        Scenario scenario = scenarios.get(0);
+        ValidatedAssertions validated = results.get(scenario).row(0).get(0);
         Assert.assertTrue(validated.toString(), validated.isValid());
-        Assert.assertEquals(scenario.getLoop().intValue(), results.rowKeySet().size());
-        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.columnKeySet().size());
+        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).columnKeySet().size());
     }
 
     private LinkedList<Scenario> getScenario(String scenario) {
