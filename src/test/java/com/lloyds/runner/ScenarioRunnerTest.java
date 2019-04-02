@@ -1,10 +1,10 @@
 package com.lloyds.runner;
 
-import com.google.common.collect.Table;
 import com.lloyds.antlr.lazytester.autogen.LazyTesterLexer;
 import com.lloyds.antlr.lazytester.autogen.LazyTesterParser;
 import com.lloyds.builder.ScenarioListener;
 import com.lloyds.model.Scenario;
+import com.lloyds.model.ScenariosResult;
 import com.lloyds.model.ValidatedAssertions;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -17,7 +17,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Map;
 
 public class ScenarioRunnerTest {
 
@@ -107,7 +106,7 @@ public class ScenarioRunnerTest {
         LinkedList<Scenario> scenarios = getScenario(SCENARIO_1);
         ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
         scenarioRunner.runScenarios();
-        Map<Scenario, Table<Integer, Integer, ValidatedAssertions>> results = scenarioRunner.getResults();
+        ScenariosResult results = scenarioRunner.getResults();
         Scenario scenario = scenarios.get(0);
         Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).rowKeySet().size());
         Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).columnKeySet().size());
@@ -118,7 +117,7 @@ public class ScenarioRunnerTest {
         LinkedList<Scenario> scenarios = getScenario(SCENARIO_2);
         ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
         scenarioRunner.runScenarios();
-        Map<Scenario, Table<Integer, Integer, ValidatedAssertions>> results = scenarioRunner.getResults();
+        ScenariosResult results = scenarioRunner.getResults();
         Scenario scenario = scenarios.get(0);
         Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).rowKeySet().size());
         Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).columnKeySet().size());
@@ -129,7 +128,7 @@ public class ScenarioRunnerTest {
         LinkedList<Scenario> scenarios = getScenario(SCENARIO_3);
         ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
         scenarioRunner.runScenarios();
-        Map<Scenario, Table<Integer, Integer, ValidatedAssertions>> results = scenarioRunner.getResults();
+        ScenariosResult results = scenarioRunner.getResults();
         Scenario scenario = scenarios.get(0);
         ValidatedAssertions validated = results.get(scenario).row(0).get(0);
         Assert.assertTrue(validated.toString(), validated.isValid());
@@ -142,7 +141,7 @@ public class ScenarioRunnerTest {
         LinkedList<Scenario> scenarios = getScenario(SCENARIO_4);
         ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
         scenarioRunner.runScenarios();
-        Map<Scenario, Table<Integer, Integer, ValidatedAssertions>> results = scenarioRunner.getResults();
+        ScenariosResult results = scenarioRunner.getResults();
         Scenario scenario = scenarios.get(0);
         ValidatedAssertions validated = results.get(scenario).row(0).get(0);
         Assert.assertTrue(validated.toString(), validated.isValid());
