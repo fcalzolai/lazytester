@@ -106,10 +106,10 @@ public class ScenarioRunnerTest {
         LinkedList<Scenario> scenarios = getScenario(SCENARIO_1);
         ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
         scenarioRunner.runScenarios();
-        ScenariosResult results = scenarioRunner.getResults();
+        ScenariosResult results = scenarioRunner.getScenariosResult();
         Scenario scenario = scenarios.get(0);
-        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).rowKeySet().size());
-        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).columnKeySet().size());
+        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).getTable().rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).getTable().columnKeySet().size());
     }
 
     @Test
@@ -117,10 +117,10 @@ public class ScenarioRunnerTest {
         LinkedList<Scenario> scenarios = getScenario(SCENARIO_2);
         ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
         scenarioRunner.runScenarios();
-        ScenariosResult results = scenarioRunner.getResults();
+        ScenariosResult results = scenarioRunner.getScenariosResult();
         Scenario scenario = scenarios.get(0);
-        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).rowKeySet().size());
-        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).columnKeySet().size());
+        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).getTable().rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).getTable().columnKeySet().size());
     }
 
     @Test
@@ -128,12 +128,12 @@ public class ScenarioRunnerTest {
         LinkedList<Scenario> scenarios = getScenario(SCENARIO_3);
         ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
         scenarioRunner.runScenarios();
-        ScenariosResult results = scenarioRunner.getResults();
+        ScenariosResult results = scenarioRunner.getScenariosResult();
         Scenario scenario = scenarios.get(0);
-        ValidatedAssertions validated = results.get(scenario).row(0).get(0);
+        ValidatedAssertions validated = results.get(scenario).getTable().row(0).get(0);
         Assert.assertTrue(validated.toString(), validated.isValid());
-        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).rowKeySet().size());
-        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).columnKeySet().size());
+        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).getTable().rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).getTable().columnKeySet().size());
     }
 
     @Test
@@ -141,12 +141,12 @@ public class ScenarioRunnerTest {
         LinkedList<Scenario> scenarios = getScenario(SCENARIO_4);
         ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
         scenarioRunner.runScenarios();
-        ScenariosResult results = scenarioRunner.getResults();
+        ScenariosResult results = scenarioRunner.getScenariosResult();
         Scenario scenario = scenarios.get(0);
-        ValidatedAssertions validated = results.get(scenario).row(0).get(0);
+        ValidatedAssertions validated = results.get(scenario).getTable().row(0).get(0);
         Assert.assertTrue(validated.toString(), validated.isValid());
-        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).rowKeySet().size());
-        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).columnKeySet().size());
+        Assert.assertEquals(scenario.getLoop().intValue(), results.get(scenario).getTable().rowKeySet().size());
+        Assert.assertEquals(scenario.getSteps().get(0).getLoop().intValue(), results.get(scenario).getTable().columnKeySet().size());
     }
 
     private LinkedList<Scenario> getScenario(String scenario) {

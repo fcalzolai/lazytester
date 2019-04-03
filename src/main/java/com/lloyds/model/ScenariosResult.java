@@ -1,30 +1,37 @@
 package com.lloyds.model;
 
-import com.google.common.collect.Table;
-import com.google.common.collect.TreeBasedTable;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class ScenariosResult {
 
-    private Map<Scenario, Table<Integer, Integer, ValidatedAssertions>> results;
+    private Map<Scenario, ScenarioResult> results;
+    private long executionTime;
 
     public ScenariosResult() {
         results = new HashMap<>();
+        executionTime = -1;
+    }
+
+    public long getExecutionTime() {
+        return executionTime;
     }
 
     public ValidatedAssertions put(Scenario scenario, int i, int j, ValidatedAssertions validatedAssertions) {
-        Table<Integer, Integer, ValidatedAssertions> scenarioResult = results.computeIfAbsent(scenario, s -> TreeBasedTable.create());
+        ScenarioResult scenarioResult = results.computeIfAbsent(scenario, s -> new ScenarioResult());
         return scenarioResult.put(i, j, validatedAssertions);
     }
 
-    public Table<Integer, Integer, ValidatedAssertions> get(Scenario scenario) {
+    public ScenarioResult get(Scenario scenario) {
         return results.get(scenario);
     }
 
-    public void forEachScenario(BiConsumer<? super Scenario, ? super Table<Integer, Integer, ValidatedAssertions>> action){
+    public void forEachScenario(BiConsumer<? super Scenario, ? super ScenarioResult> action){
         results.forEach(action);
+    }
+
+    public void setExecutionTime(long executionTime) {
+        this.executionTime = executionTime;
     }
 }

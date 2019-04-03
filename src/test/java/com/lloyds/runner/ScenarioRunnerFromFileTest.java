@@ -20,12 +20,13 @@ public class ScenarioRunnerFromFileTest {
 
         ScenarioRunner scenarioRunner = new ScenarioRunner(HttpClients.createDefault(), scenarios);
         scenarioRunner.runScenarios();
-        ScenariosResult results = scenarioRunner.getResults();
-        results.forEachScenario((scenario, table) ->
-                table.cellSet().forEach(cell -> {
-                    System.out.println(scenario + " --> " + cell);
+        ScenariosResult results = scenarioRunner.getScenariosResult();
+        results.forEachScenario(
+                (scenario, sr) -> sr.forEach(cell -> {
+                    System.out.println(scenario + "["+results.get(scenario).getExecutionTime()+" ms] --> " + cell);
                     Assert.assertTrue(cell.getValue().isValid());
                 }));
+        System.out.println(results.getExecutionTime() + " ms");
     }
 
 }

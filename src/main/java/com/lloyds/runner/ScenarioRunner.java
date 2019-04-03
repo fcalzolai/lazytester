@@ -19,38 +19,43 @@ public class ScenarioRunner {
     //TODO create synchronous and asynchronous Scenario runners
     private HttpClient httpClient;
     private List<Scenario> scenarios;
-
-    private ScenariosResult results;
+    private ScenariosResult scenariosResult;
 
     public ScenarioRunner(HttpClient httpClient, List<Scenario> scenarios) {
         this.httpClient = httpClient;
         this.scenarios = scenarios;
-        this.results = new ScenariosResult();
+        this.scenariosResult = new ScenariosResult();
     }
 
-    public ScenariosResult getResults() {
-        return results;
+    public ScenariosResult getScenariosResult() {
+        return scenariosResult;
     }
 
     public void runScenarios() throws IOException {
+        long start = System.currentTimeMillis();
         for (Scenario scenario : scenarios) {
             runScenario(scenario);
         }
+        long executionTime = System.currentTimeMillis()-start;
+        scenariosResult.setExecutionTime(executionTime);
     }
 
-    public void runScenario(Scenario scenario) throws IOException {
+    private void runScenario(Scenario scenario) throws IOException {
+        long start = System.currentTimeMillis();
         for (int i = 0; i < scenario.getLoop(); i++) {
             List<Step> steps = scenario.getSteps();
             for (Step step : steps) {
                 for (int j = 0; j < step.getLoop(); j++) {
                     ValidatedAssertions validatedAssertions = runStep(step);
-                    results.put(scenario, i, j, validatedAssertions);
+                    scenariosResult.put(scenario, i, j, validatedAssertions);
                     if (validatedAssertions.isInvalid() && !scenario.getIgnoreStepFailures()) {
                         throw new ValidationException(validatedAssertions);
                     }
                 }
             }
         }
+        long executionTime = System.currentTimeMillis()-start;
+        scenariosResult.get(scenario).setExecutionTime(executionTime);
     }
 
     private ValidatedAssertions runStep(Step step) {
@@ -58,7 +63,7 @@ public class ScenarioRunner {
             HttpUriRequest httpRequest = step.getHttpRequest();
             return getValidatedAssertions(step, httpRequest);
         } catch (Exception e) {
-            return new ValidatedAssertions(Validation.invalid(io.vavr.collection.List.of("Exception ignored: "+ e.getMessage())));
+            return new ValidatedAssertions(Validation.invalid(io.vavr.collection.List.of("Error: "+ e.getMessage())));
         }
     }
 
