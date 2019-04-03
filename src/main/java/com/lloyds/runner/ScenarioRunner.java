@@ -1,7 +1,8 @@
 package com.lloyds.runner;
 
+import com.google.common.collect.Table;
+import com.google.common.collect.TreeBasedTable;
 import com.lloyds.model.Scenario;
-import com.lloyds.model.ScenariosResult;
 import com.lloyds.model.Step;
 import com.lloyds.model.ValidatedAssertions;
 import com.lloyds.model.ValidationException;
@@ -13,41 +14,49 @@ import org.apache.http.client.methods.HttpUriRequest;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ScenarioRunner {
 
-    //TODO create synchronous and asynchronous Scenario runners
     private HttpClient httpClient;
-    private List<Scenario> scenarios;
-    private ScenariosResult scenariosResult;
+    private Scenario scenario;
+    private Table<Integer, Integer, ValidatedAssertions> results;
+    private long executionTime;
 
-    public ScenarioRunner(HttpClient httpClient, List<Scenario> scenarios) {
+    public ScenarioRunner(HttpClient httpClient, Scenario scenario) {
         this.httpClient = httpClient;
-        this.scenarios = scenarios;
-        this.scenariosResult = new ScenariosResult();
+        this.scenario = scenario;
+        this.results = TreeBasedTable.create();
     }
 
-    public ScenariosResult getScenariosResult() {
-        return scenariosResult;
+    public long getExecutionTime() {
+        return executionTime;
     }
 
-    public void runScenarios() throws IOException {
-        long start = System.currentTimeMillis();
-        for (Scenario scenario : scenarios) {
-            runScenario(scenario);
-        }
-        long executionTime = System.currentTimeMillis()-start;
-        scenariosResult.setExecutionTime(executionTime);
+    public Scenario getScenario() {
+        return scenario;
     }
 
-    private void runScenario(Scenario scenario) throws IOException {
+    public void setExecutionTime(long executionTime) {
+        this.executionTime = executionTime;
+    }
+
+    public Table<Integer, Integer, ValidatedAssertions> getResults() {
+        return results;
+    }
+
+    public void forEach(Consumer<? super Table.Cell<Integer, Integer, ValidatedAssertions>> consumer){
+        results.cellSet().forEach(consumer);
+    }
+
+    public void runScenario() throws IOException {
         long start = System.currentTimeMillis();
         for (int i = 0; i < scenario.getLoop(); i++) {
             List<Step> steps = scenario.getSteps();
             for (Step step : steps) {
                 for (int j = 0; j < step.getLoop(); j++) {
                     ValidatedAssertions validatedAssertions = runStep(step);
-                    scenariosResult.put(scenario, i, j, validatedAssertions);
+                    results.put(i, j, validatedAssertions);
                     if (validatedAssertions.isInvalid() && !scenario.getIgnoreStepFailures()) {
                         throw new ValidationException(validatedAssertions);
                     }
@@ -55,7 +64,7 @@ public class ScenarioRunner {
             }
         }
         long executionTime = System.currentTimeMillis()-start;
-        scenariosResult.get(scenario).setExecutionTime(executionTime);
+        setExecutionTime(executionTime);
     }
 
     private ValidatedAssertions runStep(Step step) {
@@ -76,4 +85,5 @@ public class ScenarioRunner {
         validated.setExecutionTime(executionTime);
         return validated;
     }
+
 }

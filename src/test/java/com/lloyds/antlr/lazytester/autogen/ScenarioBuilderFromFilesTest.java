@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ScenarioBuilderFromFilesTest {
@@ -16,7 +15,7 @@ public class ScenarioBuilderFromFilesTest {
 
     @Test
     public void testJsonPlaceHolder() throws IOException {
-        LinkedList<Scenario> scenarios = Utils.createScenarioFromResource(PATH);
+        List<Scenario> scenarios = Utils.createScenarioFromResource(PATH);
         Assert.assertEquals(2, scenarios.size());
 
         Scenario scenario = scenarios.get(0);
