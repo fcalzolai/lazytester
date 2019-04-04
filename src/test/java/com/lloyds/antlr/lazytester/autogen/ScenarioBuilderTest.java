@@ -34,9 +34,9 @@ public class ScenarioBuilderTest {
                                                   " test2: val2;" +
                                                   "}";
 
-    public static final String URL = "https://jsonplaceholder.typicode.com/";
+    private static final String URL = "https://jsonplaceholder.typicode.com/";
 
-    private static final String SCENARIO_1 = "import test; " +
+    private static final String SCENARIO_1 =
             " scenarios: [" +
             "  {  " +
             "    name: \"scenario 1\"; " +
@@ -138,22 +138,15 @@ public class ScenarioBuilderTest {
             "  }; " +
             "] ;";
 
-    @Test
-    public void test1(){
-        System.out.println(Utils.createScenario(SCENARIO_1));
-    }
 
     @Test
-    public void test2() throws IOException {
+    public void testScenario1() throws IOException {
         Scenario scenario = Utils.createScenario(SCENARIO_1).get(0);
 
         Step step = scenario.getSteps().get(0);
         HttpClient client = HttpClients.createDefault();
         HttpUriRequest http = step.getHttpRequest();
 
-        runHttpGet(client, http);
-        runHttpGet(client, http);
-        runHttpGet(client, http);
         runHttpGet(client, http);
     }
 

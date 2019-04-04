@@ -6,15 +6,19 @@ import com.lloyds.antlr.lazytester.autogen.LazyTesterParser;
 import com.lloyds.model.Assertions;
 import com.lloyds.model.Scenario;
 import com.lloyds.model.Step;
+import com.lloyds.utils.Utils;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
+
+import static java.lang.String.format;
 
 public class ScenarioListener extends LazyTesterBaseListener {
 
@@ -212,11 +216,18 @@ public class ScenarioListener extends LazyTesterBaseListener {
                     .substring(IMPORT.length(), terminal.lastIndexOf(';'))
                     .trim();
 
-//            try {
-//                Utils.createScenarioFromFileName(toImport);
-//            } catch (IOException e) {
-//                throw new IllegalArgumentException("Exception while parsing file: "+toImport);
-//            }
+            try {
+                ScenarioListener scenarioListener = Utils.createScenarioListerFromResource(toImport);
+                ImmutableMap<String, Step> importedSteps = scenarioListener.getAllSteps();
+                for (Map.Entry<String, Step> entry: importedSteps.entrySet()) {
+                    if(stepsMap.containsKey(entry.getKey())){
+                        throw new IllegalArgumentException(format("Step[%s] already defined.", entry));
+                    }
+                    stepsMap.put(entry.getKey(), entry.getValue());
+                }
+            } catch (IOException e) {
+                throw new IllegalArgumentException(format("Exception while parsing file [%s]", toImport), e);
+            }
         }
     }
 
