@@ -17,7 +17,7 @@ steps:
       loop: 5
       <<: *google
 
-#scenario: &getScenario
+#scenario: &getFeature
 #  name: As simple GET request response
 #  loop: 2
 #  steps:

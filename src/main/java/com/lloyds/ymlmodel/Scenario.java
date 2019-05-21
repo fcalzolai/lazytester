@@ -11,5 +11,4 @@ public class Scenario {
     private Integer loop;
     private Boolean ignoreStepFailures;
     private List<String> steps;
-
 }
