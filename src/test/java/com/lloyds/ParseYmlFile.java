@@ -17,9 +17,9 @@ public class ParseYmlFile {
     private static final String SCENARIO = "yaml/scenario.yaml";
 
     public static void main(String[] args) throws IOException {
-//        buildAndPrint(SIMPLE);
-//        buildAndPrint(STEPS);
-//        buildAndPrint(ANCHOR);
+        buildAndPrint(SIMPLE);
+        buildAndPrint(STEPS);
+        buildAndPrint(ANCHOR);
         buildAndPrint(SCENARIO);
     }
 
