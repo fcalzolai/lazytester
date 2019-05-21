@@ -21,6 +21,7 @@ public class Step {
     private String body;
     private Map<String, String> params = new HashMap<>();
     private Map<String, String> headers = new HashMap<>();
+    private Assertions assertions;
 
     public String getFullUrl() {
         StringBuilder fullUrl = new StringBuilder()

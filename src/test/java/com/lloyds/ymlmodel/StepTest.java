@@ -50,6 +50,8 @@ public class StepTest {
             "params:\n" +
             "   postId: 1\n" +
             "   id: 2\n" +
+            "assertions:\n" +
+            "   status: 201 \n" +
             "\n"
             ;
 
@@ -66,15 +68,24 @@ public class StepTest {
         String expectedUrl = "http://www.google.com?postId=1&id=2";
         Assert.assertEquals(expectedUrl, parse.getFullUrl());
         Assert.assertNotNull(parse.getHttpRequest());
+        Assert.assertEquals(2, parse.getParams().size());
+        Assert.assertEquals(0, parse.getHeaders().size());
+        Assert.assertNull(parse.getAssertions());
     }
 
     @Test
     public void stepWithHeadersCreation() {
-        Utils.parse(STEP_5, Step.class);
+        Step parse = Utils.parse(STEP_5, Step.class);
+        Assert.assertEquals(2, parse.getHeaders().size());
+        Assert.assertEquals(0, parse.getParams().size());
+        Assert.assertNull(parse.getAssertions());
     }
 
     @Test
     public void stepWithHeadersAndParamsCreation() {
-        Utils.parse(STEP_6, Step.class);
+        Step parse = Utils.parse(STEP_6, Step.class);
+        Assert.assertNotNull(parse.getHeaders());
+        Assert.assertEquals(2, parse.getParams().size());
+        Assert.assertNotNull(parse.getAssertions());
     }
 }
