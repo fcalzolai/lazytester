@@ -45,6 +45,7 @@ public class Step {
                 "name='" + name + '\'' +
                 ", loop=" + loop +
                 ", url='" + url + '\'' +
+                ", operation=" + operation +
                 '}';
     }
 }

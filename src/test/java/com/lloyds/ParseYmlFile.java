@@ -1,6 +1,7 @@
-package com.lloyds.ymlmodel;
+package com.lloyds;
 
 import com.lloyds.utils.Utils;
+import com.lloyds.ymlmodel.Steps;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -9,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 
-public class Factory {
+public class ParseYmlFile {
 
     private static final String STEPS = "yaml/steps.yaml";
     private static final String ANCHOR = "yaml/anchor.yaml";
