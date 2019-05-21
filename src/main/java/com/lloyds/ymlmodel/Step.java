@@ -6,6 +6,30 @@ public class Step {
     private Integer loop;
     private String url;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getLoop() {
+        return loop;
+    }
+
+    public void setLoop(Integer loop) {
+        this.loop = loop;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public String toString() {
         return "Step{" +
