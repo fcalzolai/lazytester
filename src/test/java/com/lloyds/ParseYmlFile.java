@@ -1,7 +1,6 @@
 package com.lloyds;
 
-import com.lloyds.utils.Utils;
-import com.lloyds.ymlmodel.Steps;
+import com.lloyds.lazytester.model.Steps;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -25,7 +24,7 @@ public class ParseYmlFile {
     }
 
     private static void buildAndPrint(String path) throws FileNotFoundException {
-        URL is = Utils.class.getClassLoader().getResource(path);
+        URL is = ParseYmlFile.class.getClassLoader().getResource(path);
         Yaml yaml = new Yaml(new Constructor(Steps.class));
         Object load = yaml.load(new FileReader(is.getPath()));
         System.out.println("\n\n++++++++++++++++++");
