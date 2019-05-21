@@ -11,14 +11,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ScenarioRunner {
+public class FeatureRunner {
 
     private HttpClient httpClient;
     private Feature feature;
     private Table<Integer, Integer, ValidatedAssertions> results;
     private long executionTime;
 
-    public ScenarioRunner(HttpClient httpClient, Feature feature) {
+    public FeatureRunner(HttpClient httpClient, Feature feature) {
         this.httpClient = httpClient;
         this.feature = feature;
         this.results = TreeBasedTable.create();
@@ -79,10 +79,15 @@ public class ScenarioRunner {
         long start = System.currentTimeMillis();
         HttpResponse response = httpClient.execute(httpRequest);
         long executionTime = System.currentTimeMillis()-start;
-        Validator validator = new Validator(step.getAssertions(), response);
-        ValidatedAssertions validated = validator.validate();
-        validated.setExecutionTime(executionTime);
-        return validated;
+        Assertions assertions = step.getAssertions();
+        if (assertions != null) {
+            Validator validator = new Validator(assertions, response);
+            ValidatedAssertions validated = validator.validate();
+            validated.setExecutionTime(executionTime);
+            return validated;
+        } else {
+            return ValidatedAssertions.EMPTY;
+        }
     }
 
 }

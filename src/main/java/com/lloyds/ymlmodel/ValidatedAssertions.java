@@ -7,6 +7,8 @@ import java.util.function.Function;
 
 public class ValidatedAssertions {
 
+    public static final ValidatedAssertions EMPTY = new ValidatedAssertions(Validation.valid(null));
+
     private Validation<List<String>, Assertions> validation;
     private long executionTime;
 
