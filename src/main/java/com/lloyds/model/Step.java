@@ -1,5 +1,6 @@
 package com.lloyds.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -23,11 +24,17 @@ public class Step {
     private static final BiFunction<String, String, Supplier<IllegalStateException>> EXCEPTION_BUILDER = (stepName, attr) ->
             () -> new IllegalStateException(format("%s Unable to find valid data for the attribute %s", stepName, attr));
 
+    @JsonProperty
     private String name;
-    private Optional<Step> parent;
+
+    @JsonProperty
     private Integer loop;
-    private String operation;
+
+    @JsonProperty
     private String url;
+
+    private Optional<Step> parent;
+    private String operation;
     private Map<String, String> params;
     private Map<String, String> headers;
     private Optional<String> body;
@@ -35,15 +42,15 @@ public class Step {
 
     private HttpUriRequest httpRequest;
 
-    private Step(String name,
-                 Optional<Step> parent,
-                 Integer loop,
-                 String operation,
-                 String url,
-                 Map<String, String> params,
-                 Map<String, String> headers,
-                 Optional<String> body,
-                 Assertions assertions) {
+    public Step(String name,
+                Optional<Step> parent,
+                Integer loop,
+                String operation,
+                String url,
+                Map<String, String> params,
+                Map<String, String> headers,
+                Optional<String> body,
+                Assertions assertions) {
         this.name = name;
         this.parent = parent;
         this.loop = loop;

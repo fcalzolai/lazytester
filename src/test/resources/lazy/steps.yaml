@@ -1,0 +1,13 @@
+steps:
+  - name: google
+    loop: 3
+    url: http://www.google.com
+
+  - name: yahoo
+    loop: 1
+    url: http://www.yahoo.com
+
+  - name: test
+    loop: 1
+
+
