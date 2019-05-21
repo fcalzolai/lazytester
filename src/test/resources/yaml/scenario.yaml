@@ -19,14 +19,14 @@ steps:
 
 #scenario: &getScenario
 #  name: As simple GET request response
-#  stepLoop: 2
+#  loop: 2
 #  steps:
 #    - getGoogle
 #    - postGoogle
 #
 #scenario: &getAndPostScenario
 #  name: GET and POST scenario
-#  stepLoop: 2
+#  loop: 2
 #  steps:
 #    - getGoogle
 #    - postGoogle

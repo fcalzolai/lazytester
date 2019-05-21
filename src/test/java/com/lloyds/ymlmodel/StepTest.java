@@ -66,7 +66,6 @@ public class StepTest {
         String expectedUrl = "http://www.google.com?postId=1&id=2";
         Assert.assertEquals(expectedUrl, parse.getFullUrl());
         Assert.assertNotNull(parse.getHttpRequest());
-
     }
 
     @Test
