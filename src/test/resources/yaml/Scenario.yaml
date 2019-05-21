@@ -1,10 +1,10 @@
 steps:
   - step: &google
       name: google
-      stepLoop: 3
+      loop: 3
       url: http://www.google.com
-      assertions:
-        - status: 200
+#      assertions:
+#        - status: 200
 
   - step: &getGoogle
       name: getGoogle
@@ -14,7 +14,7 @@ steps:
   - step: &postGoogle
       name: postGoogle
       operation: POST
-      stepLoop: 5
+      loop: 5
       <<: *google
 
 #scenario: &getScenario

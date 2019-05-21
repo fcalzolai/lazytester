@@ -5,6 +5,15 @@ public class Step {
     private String name;
     private Integer loop;
     private String url;
+    private Operation operation;
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+    }
 
     public String getName() {
         return name;

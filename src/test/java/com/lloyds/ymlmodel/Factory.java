@@ -14,11 +14,13 @@ public class Factory {
     private static final String STEPS = "yaml/steps.yaml";
     private static final String ANCHOR = "yaml/anchor.yaml";
     private static final String SIMPLE = "yaml/simple.yaml";
+    private static final String SCENARIO = "yaml/scenario.yaml";
 
     public static void main(String[] args) throws IOException {
-        buildAndPrint(SIMPLE);
-        buildAndPrint(STEPS);
-        buildAndPrint(ANCHOR);
+//        buildAndPrint(SIMPLE);
+//        buildAndPrint(STEPS);
+//        buildAndPrint(ANCHOR);
+        buildAndPrint(SCENARIO);
     }
 
     private static void buildAndPrint(String path) throws FileNotFoundException {
