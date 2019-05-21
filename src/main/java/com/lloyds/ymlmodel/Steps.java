@@ -1,4 +1,4 @@
-package com.lloyds.model;
+package com.lloyds.ymlmodel;
 
 import java.util.List;
 

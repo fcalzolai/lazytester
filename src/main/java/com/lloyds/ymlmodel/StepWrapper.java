@@ -1,8 +1,8 @@
-package com.lloyds.model;
+package com.lloyds.ymlmodel;
 
 public class StepWrapper {
 
-    private Step2 step;
+    private Step step;
 
     @Override
     public String toString() {

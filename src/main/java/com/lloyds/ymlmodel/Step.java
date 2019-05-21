@@ -1,16 +1,14 @@
-package com.lloyds.model;
+package com.lloyds.ymlmodel;
 
-public class Step2 {
+public class Step {
 
     private String name;
-
     private Integer loop;
-
     private String url;
 
     @Override
     public String toString() {
-        return "Step2{" +
+        return "Step{" +
                 "name='" + name + '\'' +
                 ", loop=" + loop +
                 ", url='" + url + '\'' +

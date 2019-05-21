@@ -1,9 +1,6 @@
-package com.lloyds;
+package com.lloyds.ymlmodel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.lloyds.model.StepWrapper;
-import com.lloyds.model.Steps;
 import com.lloyds.utils.Utils;
 import org.yaml.snakeyaml.Yaml;
 
@@ -13,8 +10,8 @@ import java.net.URL;
 
 public class Factory {
 
-    private static final String PATH = "lazy/steps.yaml";
-    private static final String PATH2 = "lazy/anchor.yaml";
+    private static final String PATH = "yaml/steps.yaml";
+    private static final String PATH2 = "yaml/anchor.yaml";
 
     public static void main(String[] args) throws IOException {
         URL is, is2;
