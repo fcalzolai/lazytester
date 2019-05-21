@@ -1,10 +1,7 @@
 package com.lloyds.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class StepWrapper {
 
-    @JsonProperty
     private Step2 step;
 
     @Override

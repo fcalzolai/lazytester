@@ -1,16 +1,11 @@
 package com.lloyds.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Step2 {
 
-    @JsonProperty
     private String name;
 
-    @JsonProperty
     private Integer loop;
 
-    @JsonProperty
     private String url;
 
     @Override
