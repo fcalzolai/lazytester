@@ -1,6 +1,9 @@
 package com.lloyds.ymlmodel;
 
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.UnsupportedEncodingException;
 
 public class StepTest {
 
@@ -20,7 +23,7 @@ public class StepTest {
     private static final String STEP_4 = "name: google\n" +
             "loop: 3\n" +
             "url: http://www.google.com\n" +
-            "operation: DELETE\n" +
+            "operation: POST\n" +
             "params:\n" +
             "   postId: 1\n" +
             "   id: 2\n" +
@@ -58,8 +61,12 @@ public class StepTest {
     }
 
     @Test
-    public void stepWithParamsCreation() {
-        Utils.parse(STEP_4, Step.class);
+    public void stepWithParamsCreation() throws UnsupportedEncodingException {
+        Step parse = Utils.parse(STEP_4, Step.class);
+        String expectedUrl = "http://www.google.com?postId=1&id=2";
+        Assert.assertEquals(expectedUrl, parse.getFullUrl());
+        Assert.assertNotNull(parse.getHttpRequest());
+
     }
 
     @Test
