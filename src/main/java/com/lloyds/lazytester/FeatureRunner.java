@@ -8,9 +8,11 @@ import com.lloyds.lazytester.model.Scenario;
 import com.lloyds.lazytester.model.ScenarioWrapper;
 import com.lloyds.lazytester.model.Step;
 import io.vavr.control.Validation;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,7 +51,7 @@ public class FeatureRunner {
         results.cellSet().forEach(consumer);
     }
 
-    public void runScenario() throws IOException {
+    public void runFeature() throws IOException {
         long start = System.currentTimeMillis();
         for (ScenarioWrapper scenarioWrapper : feature.getScenarios()){
             Scenario scenario = scenarioWrapper.getScenario();
@@ -82,17 +84,25 @@ public class FeatureRunner {
     }
 
     private ValidatedAssertions getValidatedAssertions(Step step, HttpUriRequest httpRequest) throws IOException {
-        long start = System.currentTimeMillis();
-        HttpResponse response = httpClient.execute(httpRequest);
-        long executionTime = System.currentTimeMillis()-start;
-        Assertions assertions = step.getAssertions();
-        if (assertions != null) {
-            Validator validator = new Validator(assertions, response);
-            ValidatedAssertions validated = validator.validate();
-            validated.setExecutionTime(executionTime);
-            return validated;
-        } else {
-            return ValidatedAssertions.EMPTY;
+        HttpEntity entity = null;
+        try {
+            long start = System.currentTimeMillis();
+            HttpResponse response = httpClient.execute(httpRequest);
+            entity = response.getEntity();
+            long executionTime = System.currentTimeMillis() - start;
+            Assertions assertions = step.getAssertions();
+            if (assertions != null) {
+                Validator validator = new Validator(assertions, response);
+                ValidatedAssertions validated = validator.validate();
+                validated.setExecutionTime(executionTime);
+                return validated;
+            } else {
+                return ValidatedAssertions.EMPTY;
+            }
+        } finally {
+            if(entity != null) {
+                EntityUtils.consume(entity);
+            }
         }
     }
 

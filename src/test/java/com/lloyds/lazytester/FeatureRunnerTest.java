@@ -1,9 +1,11 @@
 package com.lloyds.lazytester;
 
+import com.google.common.collect.Table;
 import com.lloyds.lazytester.model.Feature;
 import com.lloyds.lazytester.model.Utils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +16,7 @@ public class FeatureRunnerTest {
             "   - step: \n" +
             "       name: get\n" +
             "       operation: GET \n" +
-            "       loop: 2\n" +
+            "       loop: 4\n" +
             "       url: \"http://jsonplaceholder.typicode.com\" \n" +
             "       assertions: \n" +
             "           status: 200\n" +
@@ -33,6 +35,11 @@ public class FeatureRunnerTest {
         Feature parse = Utils.parse(FEATURE_1, Feature.class);
 
         FeatureRunner featureRunner = new FeatureRunner(httpClient, parse);
-        featureRunner.runScenario();
+        featureRunner.runFeature();
+
+        Table<Integer, Integer, ValidatedAssertions> results = featureRunner.getResults();
+        Assert.assertEquals(4, results.columnKeySet().size());
+        Assert.assertEquals(1, results.rowKeySet().size());
+
     }
 }
