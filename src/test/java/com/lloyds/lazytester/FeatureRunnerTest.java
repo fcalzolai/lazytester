@@ -40,6 +40,5 @@ public class FeatureRunnerTest {
         Table<Integer, Integer, ValidatedAssertions> results = featureRunner.getResults();
         Assert.assertEquals(4, results.columnKeySet().size());
         Assert.assertEquals(1, results.rowKeySet().size());
-
     }
 }

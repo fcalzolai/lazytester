@@ -3,8 +3,8 @@ steps:
       name: google
       loop: 3
       url: http://www.google.com
-#      assertions:
-#        - status: 200
+      assertions:
+        status: 200
 
   - step: &getGoogle
       name: getGoogle
