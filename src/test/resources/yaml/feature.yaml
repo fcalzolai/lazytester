@@ -17,16 +17,17 @@ steps:
       loop: 5
       <<: *google
 
-#scenario: &getFeature
-#  name: As simple GET request response
-#  loop: 2
-#  steps:
-#    - getGoogle
-#    - postGoogle
-#
-#scenario: &getAndPostScenario
-#  name: GET and POST scenario
-#  loop: 2
-#  steps:
-#    - getGoogle
-#    - postGoogle
+scenarios:
+  - scenario: &getFeature
+      name: As simple GET request response
+      loop: 2
+      steps:
+        - getGoogle
+        - postGoogle
+
+  - scenario: &getAndPostScenario
+      name: GET and POST scenario
+      loop: 2
+      steps:
+        - getGoogle
+        - postGoogle

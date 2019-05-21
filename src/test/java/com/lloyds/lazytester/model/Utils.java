@@ -1,6 +1,5 @@
 package com.lloyds.lazytester.model;
 
-import com.lloyds.ParseYmlFileTest;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 

@@ -1,5 +1,6 @@
 package com.lloyds;
 
+import com.lloyds.lazytester.model.Feature;
 import com.lloyds.lazytester.model.Steps;
 import com.lloyds.lazytester.model.Utils;
 import org.junit.Test;
@@ -12,7 +13,7 @@ public class ParseYmlFileTest {
     private static final String STEPS = "yaml/steps.yaml";
     private static final String ANCHOR = "yaml/anchor.yaml";
     private static final String SIMPLE = "yaml/simple.yaml";
-    private static final String SCENARIO = "yaml/scenario.yaml";
+    private static final String FEATURE = "yaml/feature.yaml";
 
     @Test
     public void steps() throws FileNotFoundException {
@@ -34,7 +35,7 @@ public class ParseYmlFileTest {
 
     @Test
     public void scenario() throws FileNotFoundException {
-        URL is = ParseYmlFileTest.class.getClassLoader().getResource(SCENARIO);
-        Steps parse = Utils.parse(is, Steps.class);
+        URL is = ParseYmlFileTest.class.getClassLoader().getResource(FEATURE);
+        Feature parse = Utils.parse(is, Feature.class);
     }
 }
