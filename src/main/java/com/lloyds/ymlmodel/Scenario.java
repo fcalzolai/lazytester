@@ -9,6 +9,7 @@ public class Scenario {
 
     private String name;
     private Integer loop;
+    private Boolean ignoreStepFailures;
     private List<String> steps;
 
 }
