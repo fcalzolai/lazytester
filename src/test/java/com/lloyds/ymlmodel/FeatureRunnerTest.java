@@ -14,6 +14,8 @@ public class FeatureRunnerTest {
             "       operation: GET \n" +
             "       loop: 2\n" +
             "       url: \"http://jsonplaceholder.typicode.com\" \n" +
+            "       assertions: \n" +
+            "           status: 200\n" +
             "\n" +
             "scenarios:\n" +
             "   - scenario: \n" +

@@ -69,7 +69,8 @@ public class FeatureRunner {
     private ValidatedAssertions runStep(Step step) {
         try {
             HttpUriRequest httpRequest = step.getHttpRequest();
-            return getValidatedAssertions(step, httpRequest);
+            ValidatedAssertions validatedAssertions = getValidatedAssertions(step, httpRequest);
+            return validatedAssertions;
         } catch (Exception e) {
             return new ValidatedAssertions(Validation.invalid(io.vavr.collection.List.of("Error: "+ e.getMessage())));
         }
