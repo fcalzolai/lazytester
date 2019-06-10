@@ -32,9 +32,9 @@ public class FeatureRunnerTest {
     @Test
     public void featureCreation() throws IOException {
         HttpClient httpClient = HttpClients.createDefault();
-        Feature parse = Utils.parse(FEATURE_1, Feature.class);
+        Feature feature = Utils.parse(FEATURE_1, Feature.class);
 
-        FeatureRunner featureRunner = new FeatureRunner(httpClient, parse);
+        FeatureRunner featureRunner = new FeatureRunner(httpClient, feature);
         featureRunner.runFeature();
 
         Table<Integer, Integer, ValidatedAssertions> results = featureRunner.getResults();

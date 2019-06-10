@@ -69,15 +69,13 @@ public class FeatureRunner {
             }
         }
 
-        long executionTime = System.currentTimeMillis()-start;
-        setExecutionTime(executionTime);
+        setExecutionTime(System.currentTimeMillis()-start);
     }
 
     private ValidatedAssertions runStep(Step step) {
         try {
             HttpUriRequest httpRequest = step.getHttpRequest();
-            ValidatedAssertions validatedAssertions = getValidatedAssertions(step, httpRequest);
-            return validatedAssertions;
+            return getValidatedAssertions(step, httpRequest);
         } catch (Exception e) {
             return new ValidatedAssertions(Validation.invalid(io.vavr.collection.List.of("Error: "+ e.getMessage())));
         }
@@ -89,12 +87,12 @@ public class FeatureRunner {
             long start = System.currentTimeMillis();
             HttpResponse response = httpClient.execute(httpRequest);
             entity = response.getEntity();
-            long executionTime = System.currentTimeMillis() - start;
+            long execTime = System.currentTimeMillis() - start;
             Assertions assertions = step.getAssertions();
             if (assertions != null) {
                 Validator validator = new Validator(assertions, response);
                 ValidatedAssertions validated = validator.validate();
-                validated.setExecutionTime(executionTime);
+                validated.setExecutionTime(execTime);
                 return validated;
             } else {
                 return ValidatedAssertions.EMPTY;
