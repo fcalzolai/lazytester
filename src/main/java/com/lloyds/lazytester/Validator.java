@@ -11,6 +11,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Map;
@@ -63,15 +64,13 @@ public class Validator {
 
     private Validation<Seq<String>, Seq<Boolean>> validateBody() {
         Map<String, String> bodyAssertions = assertions.getBody();
+        if(bodyAssertions.size() == 0){
+            return Validation.valid(List.of(Boolean.TRUE));
+        }
+
         String body;
         try {
-            HttpEntity entity = response.getEntity();
-            if(entity == null && bodyAssertions.size() == 0){
-                return Validation.valid(List.of(Boolean.TRUE));
-            }
-
-            InputStream in = entity.getContent();
-            body = IOUtils.toString(in);
+            body = getBodyAsString();
         } catch (Exception e) {
             return Validation.invalid(List.of("Error: "+ e.getMessage()));
         }
@@ -84,6 +83,15 @@ public class Validator {
                 .map(mapper.apply(body))
                 .collect(List.collector());
         return Validation.sequence(collect);
+    }
+
+    private String getBodyAsString() throws IOException {
+        String body;
+        HttpEntity entity = response.getEntity();
+
+        InputStream in = entity.getContent();
+        body = IOUtils.toString(in);
+        return body;
     }
 
     private Function<Header[], Function<Map.Entry<String, String>, Validation<Seq<String>, Boolean>>> getHeaderValidator() {

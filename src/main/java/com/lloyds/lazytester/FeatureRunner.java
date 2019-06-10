@@ -69,6 +69,8 @@ public class FeatureRunner {
             }
         }
 
+        System.out.println(results);
+
         setExecutionTime(System.currentTimeMillis()-start);
     }
 
