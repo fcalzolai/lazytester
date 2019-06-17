@@ -89,53 +89,41 @@ public class FeatureRunnerTest {
 
     @Test
     public void featureCreation() throws IOException {
-        HttpClient httpClient = HttpClients.createDefault();
-        Feature feature = Utils.parse(FEATURE_1, Feature.class);
-
-        FeatureRunner featureRunner = new FeatureRunner(httpClient, feature);
-        featureRunner.runFeature();
-
-        Table<Integer, Integer, ValidatedAssertions> results = featureRunner.getResults();
+        Table<Integer, Integer, ValidatedAssertions> results = runFeature(FEATURE_1);
         Assert.assertEquals(4, results.columnKeySet().size());
         Assert.assertEquals(1, results.rowKeySet().size());
     }
 
     @Test
     public void featureCreation_2() throws IOException {
-        HttpClient httpClient = HttpClients.createDefault();
-        Feature feature = Utils.parse(FEATURE_2, Feature.class);
-
-        FeatureRunner featureRunner = new FeatureRunner(httpClient, feature);
-        featureRunner.runFeature();
-
-        Table<Integer, Integer, ValidatedAssertions> results = featureRunner.getResults();
+        Table<Integer, Integer, ValidatedAssertions> results = runFeature(FEATURE_2);
         Assert.assertEquals(4, results.columnKeySet().size());
         Assert.assertEquals(1, results.rowKeySet().size());
     }
 
     @Test
     public void featureCreation_3() throws IOException {
-        HttpClient httpClient = HttpClients.createDefault();
-        Feature feature = Utils.parse(FEATURE_3, Feature.class);
-
-        FeatureRunner featureRunner = new FeatureRunner(httpClient, feature);
-        featureRunner.runFeature();
-
-        Table<Integer, Integer, ValidatedAssertions> results = featureRunner.getResults();
+        Table<Integer, Integer, ValidatedAssertions> results = runFeature(FEATURE_3);
         Assert.assertEquals(4, results.columnKeySet().size());
         Assert.assertEquals(1, results.rowKeySet().size());
     }
 
     @Test
     public void featureCreation_4() throws IOException {
+        Table<Integer, Integer, ValidatedAssertions> results = runFeature(FEATURE_4);
+        Assert.assertEquals(1, results.columnKeySet().size());
+        Assert.assertEquals(1, results.rowKeySet().size());
+    }
+
+    private Table<Integer, Integer, ValidatedAssertions> runFeature(String feature4) throws IOException {
         HttpClient httpClient = HttpClients.createDefault();
-        Feature feature = Utils.parse(FEATURE_4, Feature.class);
+        Feature feature = Utils.parse(feature4, Feature.class);
 
         FeatureRunner featureRunner = new FeatureRunner(httpClient, feature);
         featureRunner.runFeature();
 
         Table<Integer, Integer, ValidatedAssertions> results = featureRunner.getResults();
-        Assert.assertEquals(1, results.columnKeySet().size());
-        Assert.assertEquals(1, results.rowKeySet().size());
+        System.out.println(results);
+        return results;
     }
 }

@@ -18,6 +18,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -26,12 +27,14 @@ public class FeatureRunner {
     private HttpClient httpClient;
     private Feature feature;
     private Table<Integer, Integer, ValidatedAssertions> results;
+    private HashMap<Assertions, Validator> validators;
     private long executionTime;
 
     public FeatureRunner(HttpClient httpClient, Feature feature) {
         this.httpClient = httpClient;
         this.feature = feature;
         this.results = TreeBasedTable.create();
+        this.validators = new HashMap<>();
     }
 
     public long getExecutionTime() {
@@ -72,8 +75,6 @@ public class FeatureRunner {
             }
         }
 
-        System.out.println(results);
-
         setExecutionTime(System.currentTimeMillis()-start);
     }
 
@@ -95,8 +96,8 @@ public class FeatureRunner {
             long execTime = System.currentTimeMillis() - start;
             Assertions assertions = step.getAssertions();
             if (assertions != null) {
-                Validator validator = new Validator(assertions, response);
-                ValidatedAssertions validated = validator.validate();
+                Validator validator = getOrCreateValidator(assertions);
+                ValidatedAssertions validated = validator.validate(response);
                 validated.setExecutionTime(execTime);
                 return validated;
             } else {
@@ -109,4 +110,7 @@ public class FeatureRunner {
         }
     }
 
+    private Validator getOrCreateValidator(Assertions assertions) {
+        return validators.computeIfAbsent(assertions, Validator::new);
+    }
 }

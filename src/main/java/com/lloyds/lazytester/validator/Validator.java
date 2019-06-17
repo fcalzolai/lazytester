@@ -24,26 +24,24 @@ import static java.lang.String.format;
 public class Validator {
 
     private Assertions assertions;
-    private HttpResponse response;
     private Map<String, BodyValidator> bodyValidators = ImmutableMap.<String, BodyValidator>builder()
             .put("contains", new ContainsValidator())
             .put("xpath", new JSonPathValidator())
             .build();
 
-    public Validator(Assertions assertions, HttpResponse response) {
+    public Validator(Assertions assertions) {
         this.assertions = assertions;
-        this.response = response;
     }
 
-    public ValidatedAssertions validate(){
+    public ValidatedAssertions validate(HttpResponse response){
         Validation.Builder3<Seq<String>, Optional<Integer>, Seq<Boolean>, Seq<Boolean>> combine =
-                validateStatus()
-                .combine(validateHeaders())
-                .combine(validateBody());
+                validateStatus(response)
+                .combine(validateHeaders(response))
+                .combine(validateBody(response));
 
         Function3<Optional<Integer>, Seq<Boolean>, Seq<Boolean>, Assertions> f = (p, q, r) -> assertions;
-        Validation<List<String>, Assertions> assertions = flatAssertionsError(combine.ap(f));
-        return new ValidatedAssertions(assertions);
+        Validation<List<String>, Assertions> validation = flatAssertionsError(combine.ap(f));
+        return new ValidatedAssertions(validation);
     }
 
     private Validation<List<String>, Assertions> flatAssertionsError(Validation<Seq<Seq<String>>, Assertions> ap) {
@@ -52,7 +50,7 @@ public class Validator {
                     .collect(List.collector()));
     }
 
-    private Validation<Seq<String>, Seq<Boolean>> validateHeaders() {
+    private Validation<Seq<String>, Seq<Boolean>> validateHeaders(HttpResponse response) {
         Header[] allHeaders = response.getAllHeaders();
 
         Function<Header[], Function<Map.Entry<String, String>, Validation<Seq<String>, Boolean>>> mapper = getHeaderValidator();
@@ -67,7 +65,7 @@ public class Validator {
         return Validation.sequence(collect);
     }
 
-    private Validation<Seq<String>, Seq<Boolean>> validateBody() {
+    private Validation<Seq<String>, Seq<Boolean>> validateBody(HttpResponse response) {
         Map<String, String> bodyAssertions = assertions.getBody();
         if(bodyAssertions.size() == 0){
             return Validation.valid(List.of(Boolean.TRUE));
@@ -75,7 +73,7 @@ public class Validator {
 
         String body;
         try {
-            body = getBodyAsString();
+            body = getBodyAsString(response);
         } catch (Exception e) {
             return Validation.invalid(List.of("Error: "+ e.getMessage()));
         }
@@ -91,7 +89,7 @@ public class Validator {
         return Validation.sequence(collect);
     }
 
-    private String getBodyAsString() throws IOException {
+    private String getBodyAsString(HttpResponse response) throws IOException {
         String body;
         HttpEntity entity = response.getEntity();
 
@@ -120,7 +118,7 @@ public class Validator {
         return bodyValidators.getOrDefault(key, new ContainsValidator());
     }
 
-    private Validation<Seq<String>, Optional<Integer>> validateStatus() {
+    private Validation<Seq<String>, Optional<Integer>> validateStatus(HttpResponse response) {
         return assertions.getOptionalStatus()
                 .map(expectedStatus -> {
                     Validation<Seq<String>, Optional<Integer>> res;
