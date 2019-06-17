@@ -1,5 +1,6 @@
-package com.lloyds.lazytester;
+package com.lloyds.lazytester.validator;
 
+import com.google.common.collect.ImmutableMap;
 import com.lloyds.lazytester.model.Assertions;
 import io.vavr.Function3;
 import io.vavr.Value;
@@ -24,6 +25,10 @@ public class Validator {
 
     private Assertions assertions;
     private HttpResponse response;
+    private Map<String, BodyValidator> bodyValidators = ImmutableMap.<String, BodyValidator>builder()
+            .put("contains", new ContainsValidator())
+            .put("xpath", new JSonPathValidator())
+            .build();
 
     public Validator(Assertions assertions, HttpResponse response) {
         this.assertions = assertions;
@@ -75,12 +80,13 @@ public class Validator {
             return Validation.invalid(List.of("Error: "+ e.getMessage()));
         }
 
-        Function<String, Function<Map.Entry<String, String>, Validation<Seq<String>, Boolean>>> mapper = getBodyValidator();
-
         List<Validation<Seq<String>, Boolean>> collect = bodyAssertions
                 .entrySet()
                 .stream()
-                .map(mapper.apply(body))
+                .map(e -> {
+                    BodyValidator mapper = getBodyValidator(e.getKey());
+                    return mapper.apply(body).apply(e);
+                })
                 .collect(List.collector());
         return Validation.sequence(collect);
     }
@@ -110,13 +116,8 @@ public class Validator {
         });
     }
 
-    private Function<String, Function<Map.Entry<String, String>, Validation<Seq<String>, Boolean>>> getBodyValidator() {
-        return (body -> entry -> {
-                String jsonPath = entry.getValue();
-                return body.contains(jsonPath)?
-                          Validation.valid(Boolean.TRUE)
-                        : Validation.invalid(List.of(format("Invalid body assertion [%s] on body[%s]", jsonPath, body)));
-            });
+    private BodyValidator getBodyValidator(String key) {
+        return bodyValidators.getOrDefault(key, new ContainsValidator());
     }
 
     private Validation<Seq<String>, Optional<Integer>> validateStatus() {

@@ -1,4 +1,4 @@
-package com.lloyds.lazytester;
+package com.lloyds.lazytester.validator;
 
 import com.lloyds.lazytester.model.Assertions;
 import io.vavr.collection.List;

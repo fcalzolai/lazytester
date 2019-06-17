@@ -3,6 +3,7 @@ package com.lloyds.lazytester;
 import com.google.common.collect.Table;
 import com.lloyds.lazytester.model.Feature;
 import com.lloyds.lazytester.model.Utils;
+import com.lloyds.lazytester.validator.ValidatedAssertions;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Assert;
@@ -76,8 +77,8 @@ public class FeatureRunnerTest {
             "       assertions: \n" +
             "           status: 200\n" +
             "           body: \n" +
-//            "              json1: '{ \"userId\": 1,\"id\": 1,\"title\": \"delectus aut autem\",\"completed\": false}' \n" +
-            "              json2: userId\n" +
+            "              contains: \"userId\"\n" +
+            "              xpath: $[?(@.userId==1)]\n" +
             "scenarios:\n" +
             "   - scenario: \n" +
             "       name: As simple GET request response\n" +

@@ -1,4 +1,4 @@
-package com.lloyds.lazytester;
+package com.lloyds.lazytester.validator;
 
 import java.io.IOException;
 
