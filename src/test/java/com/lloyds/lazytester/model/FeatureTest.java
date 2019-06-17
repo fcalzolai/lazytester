@@ -3,6 +3,8 @@ package com.lloyds.lazytester.model;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
+
 public class FeatureTest {
 
     private static final String FEATURE_1 = "steps: \n" +
@@ -36,11 +38,23 @@ public class FeatureTest {
             "           - postYahoo\n" +
             "";
 
-
     @Test
     public void featureCreation() {
         Feature parse = Utils.parse(FEATURE_1, Feature.class);
         Assert.assertNotNull(parse);
-    }
 
+        List<StepWrapper> steps = parse.getSteps();
+        Assert.assertEquals(3, steps.size());
+        Assert.assertNull(steps.get(0).getStep().getOperation());
+        Assert.assertEquals(Operation.GET, steps.get(1).getStep().getOperation());
+        Assert.assertNotNull(steps.get(1).getStep().getUrl());
+
+        Assert.assertEquals(Operation.POST, steps.get(2).getStep().getOperation());
+        Assert.assertNotNull(steps.get(2).getStep().getUrl());
+
+        List<ScenarioWrapper> scenarios = parse.getScenarios();
+        Assert.assertEquals(2, scenarios.size());
+        Assert.assertEquals(2, scenarios.get(0).getScenario().getSteps().size());
+        Assert.assertEquals(3, scenarios.get(1).getScenario().getSteps().size());
+    }
 }

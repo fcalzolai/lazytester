@@ -1,8 +1,7 @@
-package com.lloyds;
+package com.lloyds.lazytester;
 
 import com.lloyds.lazytester.model.Feature;
 import com.lloyds.lazytester.model.Step;
-import com.lloyds.lazytester.model.StepWrapper;
 import com.lloyds.lazytester.model.Steps;
 import com.lloyds.lazytester.model.Utils;
 import org.junit.Assert;

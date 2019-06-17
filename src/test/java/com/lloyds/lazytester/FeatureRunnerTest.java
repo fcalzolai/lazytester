@@ -67,6 +67,25 @@ public class FeatureRunnerTest {
             "           - get\n" +
             "";
 
+    private static final String FEATURE_4 = "steps: \n" +
+            "   - step: \n" +
+            "       name: get\n" +
+            "       operation: GET \n" +
+            "       loop: 1\n" +
+            "       url: \"https://jsonplaceholder.typicode.com/todos/1\" \n" +
+            "       assertions: \n" +
+            "           status: 200\n" +
+            "           body: \n" +
+//            "              json1: '{ \"userId\": 1,\"id\": 1,\"title\": \"delectus aut autem\",\"completed\": false}' \n" +
+            "              json2: userId\n" +
+            "scenarios:\n" +
+            "   - scenario: \n" +
+            "       name: As simple GET request response\n" +
+            "       loop: 1\n" +
+            "       steps:\n" +
+            "           - get\n" +
+            "";
+
     @Test
     public void featureCreation() throws IOException {
         HttpClient httpClient = HttpClients.createDefault();
@@ -103,6 +122,19 @@ public class FeatureRunnerTest {
 
         Table<Integer, Integer, ValidatedAssertions> results = featureRunner.getResults();
         Assert.assertEquals(4, results.columnKeySet().size());
+        Assert.assertEquals(1, results.rowKeySet().size());
+    }
+
+    @Test
+    public void featureCreation_4() throws IOException {
+        HttpClient httpClient = HttpClients.createDefault();
+        Feature feature = Utils.parse(FEATURE_4, Feature.class);
+
+        FeatureRunner featureRunner = new FeatureRunner(httpClient, feature);
+        featureRunner.runFeature();
+
+        Table<Integer, Integer, ValidatedAssertions> results = featureRunner.getResults();
+        Assert.assertEquals(1, results.columnKeySet().size());
         Assert.assertEquals(1, results.rowKeySet().size());
     }
 }

@@ -121,7 +121,7 @@ public class Validator {
 
     private Validation<Seq<String>, Optional<Integer>> validateStatus() {
         return assertions.getOptionalStatus()
-                .map((expectedStatus) -> {
+                .map(expectedStatus -> {
                     Validation<Seq<String>, Optional<Integer>> res;
                     int actualStatus = response.getStatusLine().getStatusCode();
                     if (expectedStatus.equals(actualStatus)) {
