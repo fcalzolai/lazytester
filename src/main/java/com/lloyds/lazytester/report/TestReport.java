@@ -1,6 +1,6 @@
 package com.lloyds.lazytester.report;
 
-import com.google.common.collect.Table;
+import com.lloyds.lazytester.model.FeatureResult;
 import com.lloyds.lazytester.validator.ValidatedAssertions;
 
 import java.io.File;
@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.function.Consumer;
 
-public class TestReport implements Consumer<Table<Integer, Integer, ValidatedAssertions>> {
+public class TestReport implements Consumer<FeatureResult> {
 
     private final RandomAccessFile stream;
 
@@ -20,7 +20,7 @@ public class TestReport implements Consumer<Table<Integer, Integer, ValidatedAss
     }
 
     @Override
-    public void accept(Table<Integer, Integer, ValidatedAssertions> results) {
+    public void accept(FeatureResult results) {
         FileChannel channel = stream.getChannel();
 
         results.rowKeySet().forEach(row ->

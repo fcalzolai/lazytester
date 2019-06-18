@@ -1,9 +1,8 @@
 package com.lloyds.lazytester;
 
-import com.google.common.collect.Table;
 import com.lloyds.lazytester.model.Feature;
+import com.lloyds.lazytester.model.FeatureResult;
 import com.lloyds.lazytester.model.Utils;
-import com.lloyds.lazytester.validator.ValidatedAssertions;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.Assert;
@@ -89,40 +88,40 @@ public class FeatureRunnerTest {
 
     @Test
     public void featureCreation() throws IOException {
-        Table<Integer, Integer, ValidatedAssertions> results = runFeature(FEATURE_1);
+        FeatureResult results = runFeature(FEATURE_1);
         Assert.assertEquals(4, results.columnKeySet().size());
         Assert.assertEquals(1, results.rowKeySet().size());
     }
 
     @Test
     public void featureCreation_2() throws IOException {
-        Table<Integer, Integer, ValidatedAssertions> results = runFeature(FEATURE_2);
+        FeatureResult results = runFeature(FEATURE_2);
         Assert.assertEquals(4, results.columnKeySet().size());
         Assert.assertEquals(1, results.rowKeySet().size());
     }
 
     @Test
     public void featureCreation_3() throws IOException {
-        Table<Integer, Integer, ValidatedAssertions> results = runFeature(FEATURE_3);
+        FeatureResult results = runFeature(FEATURE_3);
         Assert.assertEquals(4, results.columnKeySet().size());
         Assert.assertEquals(1, results.rowKeySet().size());
     }
 
     @Test
     public void featureCreation_4() throws IOException {
-        Table<Integer, Integer, ValidatedAssertions> results = runFeature(FEATURE_4);
+        FeatureResult results = runFeature(FEATURE_4);
         Assert.assertEquals(1, results.rowKeySet().size());
         Assert.assertEquals(2, results.columnKeySet().size());
     }
 
-    private Table<Integer, Integer, ValidatedAssertions> runFeature(String feature4) throws IOException {
+    private FeatureResult runFeature(String feature4) throws IOException {
         HttpClient httpClient = HttpClients.createDefault();
         Feature feature = Utils.parse(feature4, Feature.class);
 
         FeatureRunner featureRunner = new FeatureRunner(httpClient, feature);
         featureRunner.runFeature();
 
-        Table<Integer, Integer, ValidatedAssertions> results = featureRunner.getResults();
+        FeatureResult results = featureRunner.getResults();
         System.out.println(results);
         return results;
     }

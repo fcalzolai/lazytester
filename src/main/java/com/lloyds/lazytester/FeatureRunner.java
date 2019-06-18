@@ -1,9 +1,9 @@
 package com.lloyds.lazytester;
 
 import com.google.common.collect.Table;
-import com.google.common.collect.TreeBasedTable;
 import com.lloyds.lazytester.model.Assertions;
 import com.lloyds.lazytester.model.Feature;
+import com.lloyds.lazytester.model.FeatureResult;
 import com.lloyds.lazytester.model.Scenario;
 import com.lloyds.lazytester.model.ScenarioWrapper;
 import com.lloyds.lazytester.model.Step;
@@ -31,14 +31,14 @@ public class FeatureRunner {
 
     private HttpClient httpClient; //TODO use react WebCLient
     private Feature feature;
-    private Table<Integer, Integer, ValidatedAssertions> results;
+    private FeatureResult results;
     private HashMap<Assertions, Validator> validators;
     private long executionTime;
 
     public FeatureRunner(HttpClient httpClient, Feature feature) {
         this.httpClient = httpClient;
         this.feature = feature;
-        this.results = TreeBasedTable.create();
+        this.results = new FeatureResult();
         this.validators = new HashMap<>();
     }
 
@@ -54,7 +54,7 @@ public class FeatureRunner {
         this.executionTime = executionTime;
     }
 
-    public Table<Integer, Integer, ValidatedAssertions> getResults() {
+    public FeatureResult getResults() {
         return results;
     }
 

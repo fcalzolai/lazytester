@@ -1,10 +1,9 @@
 package com.lloyds.lazytester.report;
 
-import com.google.common.collect.Table;
 import com.lloyds.lazytester.FeatureRunner;
 import com.lloyds.lazytester.model.Feature;
+import com.lloyds.lazytester.model.FeatureResult;
 import com.lloyds.lazytester.model.Utils;
-import com.lloyds.lazytester.validator.ValidatedAssertions;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -54,7 +53,7 @@ public class TestReportTest {
 
     @Test
     public void saveAsCsv() throws IOException {
-        Table<Integer, Integer, ValidatedAssertions> results = runFeature(SCENARIO);
+        FeatureResult results = runFeature(SCENARIO);
 
         String csvpath = csvFile.getAbsolutePath();
         File file = new File(csvpath);
@@ -67,7 +66,7 @@ public class TestReportTest {
         Assert.assertEquals(actualRows, rows);
     }
 
-    private Table<Integer, Integer, ValidatedAssertions> runFeature(String scenario) throws IOException {
+    private FeatureResult runFeature(String scenario) throws IOException {
         HttpClient httpClient = HttpClients.createDefault();
         Feature feature = Utils.parse(scenario, Feature.class);
 
