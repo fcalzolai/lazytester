@@ -39,12 +39,12 @@ public class Validator {
                 .combine(validateHeaders(response))
                 .combine(validateBody(response));
 
-        Function3<Optional<Integer>, Seq<Boolean>, Seq<Boolean>, Assertions> f = (p, q, r) -> assertions;
-        Validation<List<String>, Assertions> validation = flatAssertionsError(combine.ap(f));
+        Function3<Optional<Integer>, Seq<Boolean>, Seq<Boolean>, Object> f = (p, q, r) -> assertions;
+        Validation<List<String>, Object> validation = flatAssertionsError(combine.ap(f));
         return new ValidatedAssertions(validation);
     }
 
-    private Validation<List<String>, Assertions> flatAssertionsError(Validation<Seq<Seq<String>>, Assertions> ap) {
+    private Validation<List<String>, Object> flatAssertionsError(Validation<Seq<Seq<String>>, Object> ap) {
         return ap.mapError(seq -> seq.toStream()
                     .flatMap(Value::toStream)
                     .collect(List.collector()));

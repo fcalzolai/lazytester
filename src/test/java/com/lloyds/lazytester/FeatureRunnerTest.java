@@ -72,7 +72,7 @@ public class FeatureRunnerTest {
             "   - step: \n" +
             "       name: get\n" +
             "       operation: GET \n" +
-            "       loop: 1\n" +
+            "       loop: 2\n" +
             "       url: \"https://jsonplaceholder.typicode.com/todos/1\" \n" +
             "       assertions: \n" +
             "           status: 200\n" +
@@ -111,8 +111,8 @@ public class FeatureRunnerTest {
     @Test
     public void featureCreation_4() throws IOException {
         Table<Integer, Integer, ValidatedAssertions> results = runFeature(FEATURE_4);
-        Assert.assertEquals(1, results.columnKeySet().size());
         Assert.assertEquals(1, results.rowKeySet().size());
+        Assert.assertEquals(2, results.columnKeySet().size());
     }
 
     private Table<Integer, Integer, ValidatedAssertions> runFeature(String feature4) throws IOException {

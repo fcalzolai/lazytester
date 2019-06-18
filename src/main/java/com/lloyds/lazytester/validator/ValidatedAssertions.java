@@ -1,42 +1,27 @@
 package com.lloyds.lazytester.validator;
 
-import com.lloyds.lazytester.model.Assertions;
 import io.vavr.collection.List;
 import io.vavr.control.Validation;
 
-import java.util.function.Function;
-
 public class ValidatedAssertions {
 
-    public static final ValidatedAssertions EMPTY = new ValidatedAssertions(Validation.valid(null));
-
-    private Validation<List<String>, Assertions> validation;
+    private List<String> validation;
     private long executionTime;
 
-    public ValidatedAssertions(Validation<List<String>, Assertions> validation) {
-        this.validation = validation;
-    }
-
-    public Validation<List<String>, Assertions> getValidation() {
-        return validation;
+    public ValidatedAssertions(Validation<List<String>, Object> validation) {
+        this.validation = validation.isValid() ? List.empty() : validation.getError();
     }
 
     public boolean isValid() {
-        return validation.isValid();
+        return validation.isEmpty();
     }
 
     public boolean isInvalid() {
-        return validation.isInvalid();
-    }
-
-    public <U> U fold(Function<? super List<String>, ? extends U> fInvalid
-                       , Function<? super Assertions, ? extends U> fValid ) {
-        return validation.fold(fInvalid, fValid);
+        return !isValid();
     }
 
     public List<String> getError() {
-        List<String> error = validation.getError();
-        return error != null? error: List.empty();
+        return validation;
     }
 
     @Override
@@ -49,5 +34,9 @@ public class ValidatedAssertions {
 
     public void setExecutionTime(long executionTime) {
         this.executionTime = executionTime;
+    }
+
+    public long getExecutionTime() {
+        return executionTime;
     }
 }

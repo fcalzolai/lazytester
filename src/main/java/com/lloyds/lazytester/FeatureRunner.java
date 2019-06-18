@@ -24,7 +24,12 @@ import java.util.function.Consumer;
 
 public class FeatureRunner {
 
-    private HttpClient httpClient;
+    //TODO Add test report
+    //TODO Add test log
+
+    public static final ValidatedAssertions EMPTY = new ValidatedAssertions(Validation.valid(null));
+
+    private HttpClient httpClient; //TODO use react WebCLient
     private Feature feature;
     private Table<Integer, Integer, ValidatedAssertions> results;
     private HashMap<Assertions, Validator> validators;
@@ -101,7 +106,7 @@ public class FeatureRunner {
                 validated.setExecutionTime(execTime);
                 return validated;
             } else {
-                return ValidatedAssertions.EMPTY;
+                return EMPTY;
             }
         } finally {
             if(entity != null) {
