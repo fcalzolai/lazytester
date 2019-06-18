@@ -1,6 +1,6 @@
 package com.lloyds.lazytester.report;
 
-import com.lloyds.lazytester.FeatureRunner;
+import com.lloyds.lazytester.runner.FeatureRunner;
 import com.lloyds.lazytester.model.Feature;
 import com.lloyds.lazytester.model.FeatureResult;
 import com.lloyds.lazytester.model.Utils;

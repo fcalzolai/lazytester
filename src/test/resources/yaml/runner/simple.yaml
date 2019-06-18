@@ -1,0 +1,18 @@
+steps:
+  - step:
+      name: get
+      operation: GET
+      loop: 2
+      url: https://jsonplaceholder.typicode.com/todos/1
+      assertions:
+        status: 200
+        body:
+          contains: userId
+          xpath: $[?(@.userId==1)]
+
+scenarios:
+   - scenario:
+       name: As simple GET request response
+       loop: 1
+       steps:
+           - get

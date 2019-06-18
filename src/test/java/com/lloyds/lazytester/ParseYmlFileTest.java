@@ -16,10 +16,10 @@ import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInA
 
 public class ParseYmlFileTest {
 
-    private static final String STEPS = "yaml/steps.yaml";
-    private static final String ANCHOR = "yaml/anchor.yaml";
-    private static final String SIMPLE = "yaml/simple.yaml";
-    private static final String FEATURE = "yaml/feature.yaml";
+    private static final String STEPS = "yaml/model/steps.yaml";
+    private static final String ANCHOR = "yaml/model/anchor.yaml";
+    private static final String SIMPLE = "yaml/model/simple.yaml";
+    private static final String FEATURE = "yaml/model/feature.yaml";
 
     @Test
     public void steps() throws FileNotFoundException {

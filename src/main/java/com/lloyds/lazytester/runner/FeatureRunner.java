@@ -1,4 +1,4 @@
-package com.lloyds.lazytester;
+package com.lloyds.lazytester.runner;
 
 import com.google.common.collect.Table;
 import com.lloyds.lazytester.model.Assertions;
@@ -24,8 +24,7 @@ import java.util.function.Consumer;
 
 public class FeatureRunner {
 
-    //TODO Add test report
-    //TODO Add test log
+    //TODO Add log
 
     public static final ValidatedAssertions EMPTY = new ValidatedAssertions(Validation.valid(null));
 
