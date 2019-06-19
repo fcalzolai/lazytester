@@ -13,17 +13,11 @@ public class Utils {
     public static <T> T parse(String toParse, Class<T> clazz) {
         StringReader sr = new StringReader(toParse);
         Yaml yaml = new Yaml(new Constructor(clazz));
-        T load = yaml.load(sr);
-//        System.out.println("\n\n++++++++++++++++++");
-//        System.out.println(load);
-        return load;
+        return yaml.load(sr);
     }
 
     public static <T> T parse(URL url, Class<T> clazz) throws FileNotFoundException {
         Yaml yaml = new Yaml(new Constructor(clazz));
-        T load = yaml.load(new FileReader(url.getPath()));
-//        System.out.println("\n\n++++++++++++++++++");
-//        System.out.println(load);
-        return load;
+        return yaml.load(new FileReader(url.getPath()));
     }
 }

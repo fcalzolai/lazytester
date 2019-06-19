@@ -5,8 +5,8 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertTrue;
 
-@RunWith(LazyTesterRunner.class)
-public class LazyTesterRunnerTest {
+@RunWith(AnnotationRunner.class)
+public class AnnotationRunnerTest {
 
     @Test
     public void shouldAnswerWithTrue(){
@@ -14,7 +14,7 @@ public class LazyTesterRunnerTest {
     }
 
     @Test
-    @JsonTestCase("yaml/runner/simple.yaml")
+    @YamlTestCase("yaml/runner/simple.yaml")
     public void testGet() {
 
     }

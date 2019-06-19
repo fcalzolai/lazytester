@@ -1,6 +1,6 @@
 package com.lloyds.lazytester.report;
 
-import com.lloyds.lazytester.model.FeatureResult;
+import com.lloyds.lazytester.runner.FeatureResult;
 import com.lloyds.lazytester.validator.ValidatedAssertions;
 
 import java.io.File;
@@ -11,11 +11,11 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.function.Consumer;
 
-public class TestReport implements Consumer<FeatureResult> {
+public class CsvReport implements Consumer<FeatureResult> {
 
     private final RandomAccessFile stream;
 
-    public TestReport(File file) throws FileNotFoundException {
+    public CsvReport(File file) throws FileNotFoundException {
         stream = new RandomAccessFile(file, "rw");
     }
 

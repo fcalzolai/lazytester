@@ -3,7 +3,6 @@ package com.lloyds.lazytester.runner;
 import com.google.common.collect.Table;
 import com.lloyds.lazytester.model.Assertions;
 import com.lloyds.lazytester.model.Feature;
-import com.lloyds.lazytester.model.FeatureResult;
 import com.lloyds.lazytester.model.Scenario;
 import com.lloyds.lazytester.model.ScenarioWrapper;
 import com.lloyds.lazytester.model.Step;

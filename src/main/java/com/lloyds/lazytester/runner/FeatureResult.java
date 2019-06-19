@@ -1,4 +1,4 @@
-package com.lloyds.lazytester.model;
+package com.lloyds.lazytester.runner;
 
 import com.google.common.collect.ForwardingTable;
 import com.google.common.collect.Table;

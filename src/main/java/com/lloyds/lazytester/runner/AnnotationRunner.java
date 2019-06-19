@@ -16,15 +16,13 @@ import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.net.URL;
+import java.io.InputStream;
 
-public class LazyTesterRunner extends BlockJUnit4ClassRunner {
+public class AnnotationRunner extends BlockJUnit4ClassRunner {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LazyTesterRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnnotationRunner.class);
 
-    public LazyTesterRunner(Class<?> klass) throws InitializationError {
+    public AnnotationRunner(Class<?> klass) throws InitializationError {
         super(klass);
     }
 
@@ -32,12 +30,12 @@ public class LazyTesterRunner extends BlockJUnit4ClassRunner {
     protected void runChild(FrameworkMethod method, RunNotifier notifier) {
 
         final Description description = describeChild(method);
-        JsonTestCase annotation = method.getMethod().getAnnotation(JsonTestCase.class);
+        YamlTestCase annotation = method.getMethod().getAnnotation(YamlTestCase.class);
 
         if (isIgnored(method)) {
             notifier.fireTestIgnored(description);
         } else if (annotation != null) {
-            runLeafJsonTest(notifier, description, annotation);
+            runLeafYamlTest(notifier, description, annotation);
         } else {
             // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
             // It is an usual Junit test, not the JSON test case
@@ -48,14 +46,14 @@ public class LazyTesterRunner extends BlockJUnit4ClassRunner {
     }
 
     //TODO move into Utils class
-    private static <T> T yamlToJava(String fileName, Class<T> clazz) throws FileNotFoundException {
-        URL url = LazyTesterRunner.class.getClassLoader().getResource(fileName);
+    private static <T> T yamlToJava(String fileName, Class<T> clazz) {
+        InputStream inputStream = AnnotationRunner.class.getClassLoader().getResourceAsStream(fileName);
         Yaml yaml = new Yaml(new Constructor(clazz));
-        return yaml.load(new FileReader(url.getPath()));
+        return yaml.load(inputStream);
     }
 
-    private void runLeafJsonTest(RunNotifier notifier, Description description, JsonTestCase annotation) {
-        LOGGER.trace("Running a json JUnit test...");
+    private void runLeafYamlTest(RunNotifier notifier, Description description, YamlTestCase annotation) {
+        LOGGER.trace("Running a json Yaml test...");
         String currentTestCase = annotation.value();
 
         notifier.fireTestStarted(description);
@@ -74,7 +72,7 @@ public class LazyTesterRunner extends BlockJUnit4ClassRunner {
     }
 
     private void runLeafJUnitTest(Statement statement, Description description, RunNotifier notifier) {
-        LOGGER.trace("Running a pure JUnit test...");
+        LOGGER.trace("Running a pure Yaml test...");
 
         EachTestNotifier eachNotifier = new EachTestNotifier(notifier, description);
         eachNotifier.fireTestStarted();

@@ -2,7 +2,7 @@ package com.lloyds.lazytester.report;
 
 import com.lloyds.lazytester.runner.FeatureRunner;
 import com.lloyds.lazytester.model.Feature;
-import com.lloyds.lazytester.model.FeatureResult;
+import com.lloyds.lazytester.runner.FeatureResult;
 import com.lloyds.lazytester.model.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
@@ -18,7 +18,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class TestReportTest {
+public class TestReportCsv {
 
     private static final String SCENARIO = "steps: \n" +
             "   - step: \n" +
@@ -43,7 +43,7 @@ public class TestReportTest {
 
     @Before
     public void before() throws IOException {
-        csvFile = File.createTempFile("TestReport", ".csv");
+        csvFile = File.createTempFile("CsvReport", ".csv");
     }
 
     @After
@@ -57,8 +57,8 @@ public class TestReportTest {
 
         String csvpath = csvFile.getAbsolutePath();
         File file = new File(csvpath);
-        TestReport testReport = new TestReport(file);
-        testReport.accept(results);
+        CsvReport csvReport = new CsvReport(file);
+        csvReport.accept(results);
 
         String csvLines = readFile(csvpath, Charset.forName("UTF-8"));
         int rows = StringUtils.countMatches(csvLines, "\n");
