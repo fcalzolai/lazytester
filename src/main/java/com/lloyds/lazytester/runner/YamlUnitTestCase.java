@@ -11,7 +11,7 @@ public @interface YamlUnitTestCase {
 
     String[] features() default {};
 
-    String[] tags() default {};
+    String[] tags() default {};   //TODO implement
 
-    String[] plugin() default {};
+    String[] plugin() default {}; //TODO implement
 }
