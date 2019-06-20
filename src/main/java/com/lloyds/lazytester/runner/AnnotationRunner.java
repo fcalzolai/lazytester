@@ -2,91 +2,133 @@ package com.lloyds.lazytester.runner;
 
 import com.lloyds.lazytester.model.Feature;
 import org.apache.http.impl.client.HttpClients;
-import org.junit.internal.AssumptionViolatedException;
-import org.junit.internal.runners.model.EachTestNotifier;
 import org.junit.runner.Description;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
-import org.junit.runners.model.Statement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class AnnotationRunner extends BlockJUnit4ClassRunner {
+public class AnnotationRunner extends ParentRunner<FeatureRunner> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AnnotationRunner.class);
+    private static final URL BASE_URL = AnnotationRunner.class.getClassLoader().getResource(".");
+    private static final String GLOB_SYNTAX = "glob:";
+    private static final String REGEX_SYNTAX = "regex:";
+    private static final String DEFAULT_SYNTAX = "regex:";
+
+    private Map<FeatureRunner, String> featureToName;
 
     public AnnotationRunner(Class<?> klass) throws InitializationError {
         super(klass);
+        featureToName = new HashMap<>();
     }
 
     @Override
-    protected void runChild(FrameworkMethod method, RunNotifier notifier) {
-
-        final Description description = describeChild(method);
-        YamlTestCase annotation = method.getMethod().getAnnotation(YamlTestCase.class);
-
-        if (isIgnored(method)) {
-            notifier.fireTestIgnored(description);
-        } else if (annotation != null) {
-            runLeafYamlTest(notifier, description, annotation);
-        } else {
-            // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-            // It is an usual Junit test, not the JSON test case
-            // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-            runLeafJUnitTest(methodBlock(method), description, notifier);
-        }
-
+    protected List<FeatureRunner> getChildren() {
+        YamlUnitTestCase yamlAnnotation = getAnnotations();
+        Path path = Paths.get(BASE_URL.getPath());
+        PathMatcher pathMatcher = getPathMatcher(yamlAnnotation, path);
+        List<Path> paths = getPaths(yamlAnnotation, path, pathMatcher);
+        return getFeatureRunner(paths);
     }
 
-    //TODO move into Utils class
-    private static <T> T yamlToJava(String fileName, Class<T> clazz) {
-        InputStream inputStream = AnnotationRunner.class.getClassLoader().getResourceAsStream(fileName);
-        Yaml yaml = new Yaml(new Constructor(clazz));
-        return yaml.load(inputStream);
+    @Override
+    protected Description describeChild(FeatureRunner child) {
+        //TODO check the method public static Description createTestDescription(Class<?> clazz, String name, Annotation... annotations)
+
+        return Description.createTestDescription(
+                getTestClass().getJavaClass(),
+                featureToName.get(child));
     }
 
-    private void runLeafYamlTest(RunNotifier notifier, Description description, YamlTestCase annotation) {
-        LOGGER.trace("Running a json Yaml test...");
-        String currentTestCase = annotation.value();
+    @Override
+    protected void runChild(FeatureRunner featureRunner, RunNotifier notifier) {
+        Description description = describeChild(featureRunner);
 
         notifier.fireTestStarted(description);
-
         try {
-            Feature feature = yamlToJava(currentTestCase, Feature.class);
-            FeatureRunner fr = new FeatureRunner(HttpClients.createDefault(), feature);
-            fr.runFeature();
-            System.out.println(fr.getResults());
+            featureRunner.runFeature();
+            System.out.println(featureRunner.getResults());
         } catch (Exception ioEx) {
-            ioEx.printStackTrace();
             notifier.fireTestFailure(new Failure(description, ioEx));
         }
 
         notifier.fireTestFinished(description);
     }
 
-    private void runLeafJUnitTest(Statement statement, Description description, RunNotifier notifier) {
-        LOGGER.trace("Running a pure Yaml test...");
-
-        EachTestNotifier eachNotifier = new EachTestNotifier(notifier, description);
-        eachNotifier.fireTestStarted();
-
-        try {
-            statement.evaluate();
-            LOGGER.trace("JUnit test passed = {} ", true);
-        } catch (AssumptionViolatedException e) {
-            LOGGER.trace("JUnit test failed due to : {},  passed = {}", e, false);
-            eachNotifier.addFailedAssumption(e);
-        } catch (Throwable e) {
-            LOGGER.trace("JUnit test failed due to : {},  passed = {}", e, false);
-            eachNotifier.addFailure(e);
+    private PathMatcher getPathMatcher(YamlUnitTestCase yamlAnnotation, Path path) {
+        String filter = yamlAnnotation.features()[0];
+        if(!(filter.startsWith(GLOB_SYNTAX) || filter.startsWith(REGEX_SYNTAX))){
+            filter = DEFAULT_SYNTAX+ filter;
         }
-            eachNotifier.fireTestFinished();
+        return path.getFileSystem().getPathMatcher(filter);
+    }
+
+    private YamlUnitTestCase getAnnotations() {
+        Annotation[] annotations = getTestClass().getAnnotations();
+
+        List<Annotation> collect = Arrays.stream(annotations)
+                .filter(annotation -> annotation.annotationType().equals(YamlUnitTestCase.class))
+                .collect(Collectors.toList());
+
+        if(collect.isEmpty()){
+            throw new IllegalArgumentException("Unable to find @YamlUnitTestCase annotation");
+        } else if (collect.size() > 1) {
+            throw new IllegalArgumentException("Unable to parse "+collect.size()+" @YamlUnitTestCase annotations");
+        }
+
+        Annotation annotation = collect.get(0);
+        if (annotation instanceof YamlUnitTestCase) {
+            YamlUnitTestCase yamlAnnotation = (YamlUnitTestCase) annotation;
+            return yamlAnnotation;
+        } else {
+            throw new IllegalArgumentException("Unable to cast "+annotation.getClass()+" to YamlUnitTestCase");
+        }
+    }
+
+    //TODO move into Utils class
+    private static <T> T yamlToJava(Path path, Class<Feature> clazz) {
+        Yaml yaml = new Yaml(new Constructor(clazz));
+        try {
+            InputStream io = path.toUri().toURL().openStream();
+            return yaml.load(io);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Unable to load file ["+path.toUri()+"]");
+        }
+    }
+
+    private List<FeatureRunner> getFeatureRunner(List<Path> paths) {
+        return paths.stream().map(p -> {
+            Feature feature = yamlToJava(p, Feature.class);
+            FeatureRunner featureRunner = new FeatureRunner(HttpClients.createDefault(), feature);
+            featureToName.put(featureRunner, p.toFile().getName());
+            return featureRunner;
+        }).collect(Collectors.toList());
+    }
+
+    private List<Path> getPaths(YamlUnitTestCase yamlAnnotation, Path path, PathMatcher pathMatcher) {
+        try {
+            return Files.walk(path)
+                    .filter(pathMatcher::matches)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            String filter = yamlAnnotation.features()[0];
+            throw new IllegalArgumentException("Unable to find files with in ["+BASE_URL.getPath()+"] with filter ["+ filter +"]");
+        }
     }
 }

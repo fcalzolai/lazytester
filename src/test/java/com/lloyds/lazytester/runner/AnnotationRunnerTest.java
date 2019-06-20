@@ -1,21 +1,17 @@
 package com.lloyds.lazytester.runner;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.assertTrue;
-
 @RunWith(AnnotationRunner.class)
+@YamlUnitTestCase(
+//        features = {".*runner.*\\.yaml"}
+        features = {".*/runner/.*yaml"}
+)
 public class AnnotationRunnerTest {
 
-    @Test
-    public void shouldAnswerWithTrue(){
-        assertTrue( true );
-    }
-
-    @Test
-    @YamlTestCase("yaml/runner/simple.yaml")
-    public void testGet() {
-
-    }
+    // "glob:**/yaml/**/*.yaml"
+    // "glob:**/*.yaml"
+    // "glob:**/runner/*.yaml"
+    // "regex:.*/runner/.*yaml"
+    // ".*/runner/.*yaml"
 }
