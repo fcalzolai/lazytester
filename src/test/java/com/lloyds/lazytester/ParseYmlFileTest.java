@@ -20,7 +20,7 @@ public class ParseYmlFileTest {
     private static final String SIMPLE = "yaml/model/simple.yaml";
     private static final String FEATURE = "yaml/model/feature.yaml";
     private static final String INCLUDE = "yaml/model/include.yaml";
-    private static final String INCLUDE_EXT = "yaml/model/featureExtended.yaml";
+    private static final String INCLUDE_EXT = "yaml/model/featureExt1.yaml";
 
     @Test
     public void steps() throws FileNotFoundException {

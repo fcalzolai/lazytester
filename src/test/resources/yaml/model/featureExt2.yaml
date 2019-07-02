@@ -1,0 +1,13 @@
+include:
+  - yaml/model/featureExt1.yaml
+
+scenarios:
+  - scenario:
+      name: EXTENDED As simple GET request response
+      loop: 100
+      <<: *getFeatureExt1
+
+  - scenario:
+      name: EXTENDED GET and POST scenario
+      loop: 150
+      <<: *getAndPostScenarioExt1

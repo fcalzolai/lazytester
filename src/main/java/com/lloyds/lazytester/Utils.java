@@ -7,12 +7,15 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.Vector;
 
 public class Utils {
 
@@ -27,14 +30,14 @@ public class Utils {
         }
     }
 
-    public static <T> T parse(URL url, Class<T> clazz) throws FileNotFoundException {
-        Yaml yaml = new Yaml(new Constructor(clazz));
-        return yaml.load(new FileReader(url.getPath()));
-    }
-
     public static <T> T parse(String path, Class<T> clazz) throws FileNotFoundException {
         URL url = Utils.class.getClassLoader().getResource(path);
         return parse(url, clazz);
+    }
+
+    public static <T> T parse(URL url, Class<T> clazz) throws FileNotFoundException {
+        Yaml yaml = new Yaml(new Constructor(clazz));
+        return yaml.load(new FileReader(url.getPath()));
     }
 
     public static <T> T parseStringAs(String toParse, Class<T> clazz) {
@@ -43,23 +46,28 @@ public class Utils {
         return yaml.load(sr);
     }
 
-    public static void testSequenceInputStream() {
-        SequenceInputStream sis = new SequenceInputStream(null);
+    public static SequenceInputStream createSequenceInputStream(LinkedList<URL> list) throws IOException {
+        Vector<InputStream> vis = new Vector<>();
+        for (URL url:  list) {
+            InputStream inputStream = url.openStream();
+            vis.add(inputStream);
+        }
+
+        return new SequenceInputStream(vis.elements());
     }
 
-
-    public static LinkedHashSet<URL> extractAllIncludes(URL url) {
-        LinkedHashSet<URL> paths = new LinkedHashSet<>();
+    //TODO Really bad implementation. Re0implement at the first occasion.
+    public static LinkedList<URL> extractAllIncludes(URL url) {
+        LinkedList<URL> paths = new LinkedList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(url.getPath()))) {
             String line = br.readLine();
             while (line != null) {
                 String trim = line.trim();
                 if (trim.startsWith(INCLUDE)) {
-                    LinkedHashSet<URL> subpaths = extractSubsequentInclude(br);
-                    paths.addAll(subpaths);
-                    LinkedHashSet<URL> collect = subpaths.stream()
+                    LinkedList<URL> subpaths = extractSubsequentInclude(br);
+                    LinkedList<URL> collect = subpaths.stream()
                             .map(Utils::extractAllIncludes)
-                            .collect(LinkedHashSet::new, LinkedHashSet::addAll, LinkedHashSet::addAll);
+                            .collect(LinkedList::new, LinkedList::addAll, LinkedList::addAll);
                     paths.addAll(collect);
                 }
                 line = br.readLine();
@@ -67,11 +75,13 @@ public class Utils {
         } catch (Exception ex) {
             throw new IllegalStateException(ex);
         }
+
+        paths.add(url);
         return paths;
     }
 
-    private static LinkedHashSet<URL> extractSubsequentInclude(BufferedReader br) throws IOException {
-        LinkedHashSet<URL> paths = new LinkedHashSet<>();
+    private static LinkedList<URL> extractSubsequentInclude(BufferedReader br) throws IOException {
+        LinkedList<URL> paths = new LinkedList<>();
         String include = extractInclude(br.readLine());
         while(include != null) {
             URL url = Utils.class.getClassLoader().getResource(include);

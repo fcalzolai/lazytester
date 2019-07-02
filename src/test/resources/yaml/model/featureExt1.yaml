@@ -2,12 +2,12 @@ include:
   - yaml/model/feature.yaml
 
 scenarios:
-  - scenario:
+  - scenario: &getFeatureExt1
       name: EXTENDED As simple GET request response
       loop: 10
       <<: *getFeature
 
-  - scenario:
+  - scenario: &getAndPostScenarioExt1
       name: EXTENDED GET and POST scenario
       loop: 15
       <<: *getAndPostScenario
