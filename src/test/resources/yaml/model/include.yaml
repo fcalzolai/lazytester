@@ -1,0 +1,9 @@
+include:
+  - yaml/model/simple.yaml
+
+scenarios:
+  - scenario:
+      name: As simple GET request response
+      loop: 2
+      steps:
+        - getGoogle

@@ -1,5 +1,6 @@
 package com.lloyds.lazytester.model;
 
+import com.lloyds.lazytester.Utils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -56,18 +57,18 @@ public class StepsTest {
 
     @Test
     public void stepsCreation() {
-        Utils.parse(STEPS_1, Steps.class);
+        com.lloyds.lazytester.Utils.parseStringAs(STEPS_1, Steps.class);
     }
 
     @Test
     public void stepsWithAnchorCreation() {
-        Steps steps = Utils.parse(STEPS_2, Steps.class);
+        Steps steps = com.lloyds.lazytester.Utils.parseStringAs(STEPS_2, Steps.class);
         Step google = steps.getSteps().get(0).getStep();
         Step getGoogle = steps.getSteps().get(1).getStep();
         Step postGoogle = steps.getSteps().get(2).getStep();
 
-        Assert.assertEquals(Utils.parse(GOOGLE, Step.class), google);
-        Assert.assertEquals(Utils.parse(GET_GOOGLE, Step.class), getGoogle);
-        Assert.assertEquals(Utils.parse(POST_GOOGLE, Step.class), postGoogle);
+        Assert.assertEquals(com.lloyds.lazytester.Utils.parseStringAs(GOOGLE, Step.class), google);
+        Assert.assertEquals(com.lloyds.lazytester.Utils.parseStringAs(GET_GOOGLE, Step.class), getGoogle);
+        Assert.assertEquals(Utils.parseStringAs(POST_GOOGLE, Step.class), postGoogle);
     }
 }

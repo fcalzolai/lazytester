@@ -1,5 +1,6 @@
 package com.lloyds.lazytester.model;
 
+import com.lloyds.lazytester.Utils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,7 +26,7 @@ public class ScenariosTest {
 
     @Test
     public void scenariosCreation() {
-        Scenarios scenarios = Utils.parse(SCENARIOS_1, Scenarios.class);
+        Scenarios scenarios = Utils.parseStringAs(SCENARIOS_1, Scenarios.class);
         Assert.assertNotNull(scenarios);
         List<ScenarioWrapper> scenarioWrappers = scenarios.getScenarios();
         Assert.assertEquals(2, scenarioWrappers.size());

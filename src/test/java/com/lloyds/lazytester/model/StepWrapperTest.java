@@ -1,5 +1,6 @@
 package com.lloyds.lazytester.model;
 
+import com.lloyds.lazytester.Utils;
 import org.junit.Test;
 
 public class StepWrapperTest {
@@ -22,9 +23,9 @@ public class StepWrapperTest {
 
     @Test
     public void stepCreation() {
-        Utils.parse(STEP_1, StepWrapper.class);
-        Utils.parse(STEP_2, StepWrapper.class);
-        Utils.parse(STEP_3, StepWrapper.class);
+        com.lloyds.lazytester.Utils.parseStringAs(STEP_1, StepWrapper.class);
+        com.lloyds.lazytester.Utils.parseStringAs(STEP_2, StepWrapper.class);
+        Utils.parseStringAs(STEP_3, StepWrapper.class);
     }
 
 }

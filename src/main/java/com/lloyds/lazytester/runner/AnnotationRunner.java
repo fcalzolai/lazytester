@@ -1,5 +1,6 @@
 package com.lloyds.lazytester.runner;
 
+import com.lloyds.lazytester.Utils;
 import com.lloyds.lazytester.model.Feature;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.runner.Description;
@@ -7,11 +8,8 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.nio.file.Files;
@@ -101,20 +99,9 @@ public class AnnotationRunner extends ParentRunner<FeatureRunner> {
         }
     }
 
-    //TODO move into Utils class
-    private static <T> T yamlToJava(Path path, Class<Feature> clazz) {
-        Yaml yaml = new Yaml(new Constructor(clazz));
-        try {
-            InputStream io = path.toUri().toURL().openStream();
-            return yaml.load(io);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Unable to load file ["+path.toUri()+"]");
-        }
-    }
-
     private List<FeatureRunner> getFeatureRunner(List<Path> paths) {
         return paths.stream().map(p -> {
-            Feature feature = yamlToJava(p, Feature.class);
+            Feature feature = Utils.parse(p, Feature.class);
             FeatureRunner featureRunner = new FeatureRunner(HttpClients.createDefault(), feature);
             featureToName.put(featureRunner, p.toFile().getName());
             return featureRunner;

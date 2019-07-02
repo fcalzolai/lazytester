@@ -1,9 +1,9 @@
 package com.lloyds.lazytester.report;
 
+import com.lloyds.lazytester.Utils;
 import com.lloyds.lazytester.runner.FeatureRunner;
 import com.lloyds.lazytester.model.Feature;
 import com.lloyds.lazytester.runner.FeatureResult;
-import com.lloyds.lazytester.model.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -68,7 +68,7 @@ public class TestReportCsv {
 
     private FeatureResult runFeature(String scenario) throws IOException {
         HttpClient httpClient = HttpClients.createDefault();
-        Feature feature = Utils.parse(scenario, Feature.class);
+        Feature feature = Utils.parseStringAs(scenario, Feature.class);
 
         FeatureRunner featureRunner = new FeatureRunner(httpClient, feature);
         featureRunner.runFeature();

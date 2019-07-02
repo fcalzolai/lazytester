@@ -1,5 +1,6 @@
 package com.lloyds.lazytester.model;
 
+import com.lloyds.lazytester.Utils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -40,7 +41,7 @@ public class FeatureTest {
 
     @Test
     public void featureCreation() {
-        Feature parse = Utils.parse(FEATURE_1, Feature.class);
+        Feature parse = Utils.parseStringAs(FEATURE_1, Feature.class);
         Assert.assertNotNull(parse);
 
         List<StepWrapper> steps = parse.getSteps();

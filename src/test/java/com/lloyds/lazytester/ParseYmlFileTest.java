@@ -3,7 +3,6 @@ package com.lloyds.lazytester;
 import com.lloyds.lazytester.model.Feature;
 import com.lloyds.lazytester.model.Step;
 import com.lloyds.lazytester.model.Steps;
-import com.lloyds.lazytester.model.Utils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,6 +19,8 @@ public class ParseYmlFileTest {
     private static final String ANCHOR = "yaml/model/anchor.yaml";
     private static final String SIMPLE = "yaml/model/simple.yaml";
     private static final String FEATURE = "yaml/model/feature.yaml";
+    private static final String INCLUDE = "yaml/model/include.yaml";
+    private static final String INCLUDE_EXT = "yaml/model/featureExtended.yaml";
 
     @Test
     public void steps() throws FileNotFoundException {
@@ -62,5 +63,21 @@ public class ParseYmlFileTest {
         Feature feature = Utils.parse(file, Feature.class);
         Assert.assertEquals(2, feature.getScenarios().size());
         Assert.assertEquals(3, feature.getSteps().size());
+    }
+
+    @Test
+    public void include() throws FileNotFoundException {
+        URL file = ParseYmlFileTest.class.getClassLoader().getResource(INCLUDE);
+        Feature feature = Utils.parse(file, Feature.class);
+        Assert.assertEquals(1, feature.getScenarios().size());
+        Assert.assertEquals(1, feature.getSteps().size());
+    }
+
+    @Test
+    public void includeExtended() throws FileNotFoundException {
+        URL file = ParseYmlFileTest.class.getClassLoader().getResource(INCLUDE_EXT);
+        Feature feature = Utils.parse(file, Feature.class);
+        Assert.assertEquals(1, feature.getScenarios().size());
+        Assert.assertEquals(1, feature.getSteps().size());
     }
 }

@@ -2,7 +2,6 @@ package com.lloyds.lazytester;
 
 import com.lloyds.lazytester.model.Feature;
 import com.lloyds.lazytester.runner.FeatureResult;
-import com.lloyds.lazytester.model.Utils;
 import com.lloyds.lazytester.runner.FeatureRunner;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -115,9 +114,9 @@ public class FeatureRunnerTest {
         Assert.assertEquals(2, results.columnKeySet().size());
     }
 
-    private FeatureResult runFeature(String feature4) throws IOException {
+    private FeatureResult runFeature(String featureDefinition) throws IOException {
         HttpClient httpClient = HttpClients.createDefault();
-        Feature feature = Utils.parse(feature4, Feature.class);
+        Feature feature = Utils.parseStringAs(featureDefinition, Feature.class);
 
         FeatureRunner featureRunner = new FeatureRunner(httpClient, feature);
         featureRunner.runFeature();

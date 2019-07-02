@@ -1,5 +1,6 @@
 package com.lloyds.lazytester.model;
 
+import com.lloyds.lazytester.Utils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ public class ScenarioWrapperTest {
 
     @Test
     public void scenarioWrapperCreation() {
-        ScenarioWrapper scenarioWrapper = Utils.parse(SCENARIO_1, ScenarioWrapper.class);
+        ScenarioWrapper scenarioWrapper = Utils.parseStringAs(SCENARIO_1, ScenarioWrapper.class);
         Assert.assertNotNull(scenarioWrapper);
         Scenario scenario = scenarioWrapper.getScenario();
         Assert.assertEquals("As simple GET request response", scenario.getName());

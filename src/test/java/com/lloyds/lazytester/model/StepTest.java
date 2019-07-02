@@ -1,5 +1,6 @@
 package com.lloyds.lazytester.model;
 
+import com.lloyds.lazytester.Utils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -57,14 +58,14 @@ public class StepTest {
 
     @Test
     public void stepCreation() {
-        Utils.parse(STEP_1, Step.class);
-        Utils.parse(STEP_2, Step.class);
-        Utils.parse(STEP_3, Step.class);
+        com.lloyds.lazytester.Utils.parseStringAs(STEP_1, Step.class);
+        com.lloyds.lazytester.Utils.parseStringAs(STEP_2, Step.class);
+        com.lloyds.lazytester.Utils.parseStringAs(STEP_3, Step.class);
     }
 
     @Test
     public void stepWithParamsCreation() throws UnsupportedEncodingException {
-        Step parse = Utils.parse(STEP_4, Step.class);
+        Step parse = com.lloyds.lazytester.Utils.parseStringAs(STEP_4, Step.class);
         String expectedUrl = "http://www.google.com?postId=1&id=2";
         Assert.assertEquals(expectedUrl, parse.getFullUrl());
         Assert.assertNotNull(parse.getHttpRequest());
@@ -75,7 +76,7 @@ public class StepTest {
 
     @Test
     public void stepWithHeadersCreation() {
-        Step parse = Utils.parse(STEP_5, Step.class);
+        Step parse = com.lloyds.lazytester.Utils.parseStringAs(STEP_5, Step.class);
         Assert.assertEquals(2, parse.getHeaders().size());
         Assert.assertEquals(0, parse.getParams().size());
         Assert.assertNull(parse.getAssertions());
@@ -83,7 +84,7 @@ public class StepTest {
 
     @Test
     public void stepWithHeadersAndParamsCreation() {
-        Step parse = Utils.parse(STEP_6, Step.class);
+        Step parse = Utils.parseStringAs(STEP_6, Step.class);
         Assert.assertNotNull(parse.getHeaders());
         Assert.assertEquals(2, parse.getParams().size());
         Assert.assertNotNull(parse.getAssertions());

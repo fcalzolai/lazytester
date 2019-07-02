@@ -7,15 +7,15 @@ steps:
         status: 200
 
   - step: &getGoogle
+      <<: *google
       name: getGoogle
       operation: GET
-      <<: *google
 
   - step: &postGoogle
+      <<: *google
       name: postGoogle
       operation: POST
       loop: 5
-      <<: *google
 
 scenarios:
   - scenario: &getFeature
