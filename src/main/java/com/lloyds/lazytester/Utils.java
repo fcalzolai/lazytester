@@ -13,7 +13,6 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Vector;
 
@@ -46,6 +45,11 @@ public class Utils {
         return yaml.load(sr);
     }
 
+    public static <T> T parse(LinkedList<URL> list, Class<T> clazz) throws IOException {
+        Yaml yaml = new Yaml(new Constructor(clazz));
+        return yaml.load(createSequenceInputStream(list));
+    }
+
     public static SequenceInputStream createSequenceInputStream(LinkedList<URL> list) throws IOException {
         Vector<InputStream> vis = new Vector<>();
         for (URL url:  list) {
@@ -56,7 +60,7 @@ public class Utils {
         return new SequenceInputStream(vis.elements());
     }
 
-    //TODO Really bad implementation. Re0implement at the first occasion.
+    //TODO Really bad implementation. Reimplement at the first occasion.
     public static LinkedList<URL> extractAllIncludes(URL url) {
         LinkedList<URL> paths = new LinkedList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(url.getPath()))) {

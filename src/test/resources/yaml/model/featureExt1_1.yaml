@@ -1,0 +1,19 @@
+#!include "yaml/model/feature.yaml"
+
+steps:
+  - step: &google
+      name: google
+
+  - step: &getGoogle
+      <<: *google
+      name: getGoogle
+
+scenarios:
+  - scenario: &getFeature
+      steps:
+        - getGoogle
+---
+scenarios:
+  - scenario: &getFeatureExt1
+      name: EXTENDED As simple GET request response
+#      <<: *getFeature
