@@ -13,8 +13,12 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -82,6 +86,50 @@ public class Utils {
 
         paths.add(url);
         return paths;
+    }
+
+    public static Map<String, String> extractRootValues(String feature) {
+        int includeIndex = indexOfNextLine(feature, Pattern.compile("[^ ]include"));
+        int stepsIndex = indexOfNextLine(feature, Pattern.compile("[^ ]steps"));
+        int scenariosIndex = indexOfNextLine(feature, Pattern.compile("[^ ]scenarios"));
+
+        String includes = subString(feature, includeIndex, stepsIndex, scenariosIndex);
+        String steps = subString(feature, stepsIndex, includeIndex, scenariosIndex);
+        String scenarios = subString(feature, scenariosIndex, includeIndex, stepsIndex);
+
+        HashMap<String, String> result = new HashMap<>();
+        result.put("include", includes);
+        result.put("steps", steps);
+        result.put("scenarios", scenarios);
+        return result;
+    }
+
+    private static String subString(String feature, int start, int end1, int end2) {
+        if (start == -1) {
+            return "";
+        }
+
+        int end = getMinGreaterThanZero(end1, end2, feature.length());
+        return feature.substring(start, end);
+    }
+
+    private static int getMinGreaterThanZero(int ... array) {
+        int smallest = array[array.length-1];
+        for(int i=0; i < array.length-1; i++) {
+            if(array[i] > 0 && array[i]<smallest) {
+                smallest = array[i];
+            }
+        }
+        return smallest;
+    }
+
+    private static int indexOfNextLine(String string, Pattern pattern) {
+        Matcher m = pattern.matcher(string);
+        if(!m.find()){
+            return -1;
+        } else {
+            return string.indexOf("\n", m.end()+1);
+        }
     }
 
     private static LinkedList<URL> extractSubsequentInclude(BufferedReader br) throws IOException {
