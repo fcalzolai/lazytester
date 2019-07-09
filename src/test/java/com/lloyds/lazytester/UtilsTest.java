@@ -16,6 +16,7 @@ import java.io.SequenceInputStream;
 import java.io.StringReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -97,17 +98,21 @@ public class UtilsTest {
 
     @Test
     public void parseSequenceInputStream_4() throws IOException {
-        URL url = UtilsTest.class.getClassLoader().getResource(INCLUDE_EXT_2);
-        LinkedList<URL> paths = Utils.extractAllIncludes(url);
+        URL baseUrl = UtilsTest.class.getClassLoader().getResource(INCLUDE_EXT_2);
+        LinkedList<URL> urls = Utils.extractAllIncludes(baseUrl);
 
-        for (URL path: paths) {
-
+        HashMap<String, String> result = new HashMap<>();
+        for (URL url: urls) {
+            String fileContent = Utils.readFile(url);
+            Map<String, String> rootValues = Utils.extractRootValues(fileContent);
+            rootValues.forEach((key, value) -> result.put(key, result.getOrDefault(key, "") + value));
         }
+        System.out.println(result);
     }
 
     @Test
     public void extractIncludeValues() {
-        String feature = "\n\ninclude:  \n" +
+        String feature = "include:  \n" +
                 "  - yaml/model/feature.yaml\n" +
                 "  - yaml/model/simple.yaml\n";
         Map<String, String> root = Utils.extractRootValues(feature);
@@ -118,7 +123,7 @@ public class UtilsTest {
 
     @Test
     public void extractStepsValues() {
-        String feature = "\n\n\nsteps:\n" +
+        String feature = "steps:\n" +
                 "  - step:\n" +
                 "      name: google\n" +
                 "      loop: 3\n" +
@@ -140,7 +145,7 @@ public class UtilsTest {
 
     @Test
     public void extractScenariosValues() {
-        String feature = "\n\nscenarios:\n" +
+        String feature = "scenarios:\n" +
                 "  - scenario:\n" +
                 "      name: As simple GET request response\n" +
                 "      loop: 2\n" +
@@ -189,7 +194,7 @@ public class UtilsTest {
                 "        - postGoogle";
         Map<String, String> root = Utils.extractRootValues(feature);
         Assert.assertTrue(root.get("include").length() == 0);
-        Assert.assertTrue(root.get("steps").length() == 0);
+        Assert.assertTrue(root.get("steps").length() > 0);
         Assert.assertTrue(root.get("scenarios").length() > 0);
     }
 }

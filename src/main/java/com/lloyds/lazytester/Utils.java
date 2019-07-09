@@ -12,7 +12,11 @@ import java.io.SequenceInputStream;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -88,10 +92,22 @@ public class Utils {
         return paths;
     }
 
+    ///////////////////////////////////////////////////////
+
+    public static String readFile(String path, Charset encoding) throws IOException {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
+    }
+
+    public static String readFile(URL url) throws IOException {
+        byte[] encoded = Files.readAllBytes(Paths.get(url.getPath()));
+        return new String(encoded, StandardCharsets.UTF_8);
+    }
+
     public static Map<String, String> extractRootValues(String feature) {
-        int includeIndex = indexOfNextLine(feature, Pattern.compile("[^ ]include"));
-        int stepsIndex = indexOfNextLine(feature, Pattern.compile("[^ ]steps"));
-        int scenariosIndex = indexOfNextLine(feature, Pattern.compile("[^ ]scenarios"));
+        int includeIndex = indexOfNextLine(feature, Pattern.compile("\ninclude|^include"));
+        int stepsIndex = indexOfNextLine(feature, Pattern.compile("\nsteps|^steps"));
+        int scenariosIndex = indexOfNextLine(feature, Pattern.compile("\nscenarios|^scenarios"));
 
         String includes = subString(feature, includeIndex, stepsIndex, scenariosIndex);
         String steps = subString(feature, stepsIndex, includeIndex, scenariosIndex);
@@ -109,18 +125,13 @@ public class Utils {
             return "";
         }
 
-        int end = getMinGreaterThanZero(end1, end2, feature.length());
+        int end = getMaxOrDefault(start, end1, end2, feature.length());
         return feature.substring(start, end);
     }
 
-    private static int getMinGreaterThanZero(int ... array) {
-        int smallest = array[array.length-1];
-        for(int i=0; i < array.length-1; i++) {
-            if(array[i] > 0 && array[i]<smallest) {
-                smallest = array[i];
-            }
-        }
-        return smallest;
+    private static int getMaxOrDefault(int start, int end1, int end2, int defaultVal) {
+        int max = Math.max(Math.max(end1, end2), start);
+        return max != start? max : defaultVal;
     }
 
     private static int indexOfNextLine(String string, Pattern pattern) {
