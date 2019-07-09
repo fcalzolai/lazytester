@@ -20,6 +20,7 @@ public class ParseYmlFileTest {
     private static final String ANCHOR = "yaml/model/anchor.yaml";
     private static final String SIMPLE = "yaml/model/simple.yaml";
     private static final String FEATURE = "yaml/model/feature.yaml";
+    private static final String MALFORMATTED = "yaml/model/malformattedFeature.yaml";
 
     @Test
     public void steps() throws FileNotFoundException {

@@ -10,6 +10,7 @@ import com.lloyds.lazytester.validator.ValidatedAssertions;
 import com.lloyds.lazytester.validator.ValidationException;
 import com.lloyds.lazytester.validator.Validator;
 import io.vavr.control.Validation;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -17,6 +18,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
@@ -86,7 +88,8 @@ public class FeatureRunner {
             HttpUriRequest httpRequest = step.getHttpRequest();
             return getValidatedAssertions(step, httpRequest);
         } catch (Exception e) {
-            return new ValidatedAssertions(Validation.invalid(io.vavr.collection.List.of("Error: "+ e.getMessage())));
+            String stackTrace = ExceptionUtils.getStackTrace(e);
+            return new ValidatedAssertions(Validation.invalid(io.vavr.collection.List.of("Error: "+ stackTrace)));
         }
     }
 

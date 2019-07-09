@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 @RunWith(AnnotationRunner.class)
 @YamlUnitTestCase(
 //        features = {".*runner.*\\.yaml"}
-        features = {".*/runner/*.yaml"}
+        features = {".*/runner/.*yaml"}
 )
 public class AnnotationRunnerTest {
 
