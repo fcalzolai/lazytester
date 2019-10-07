@@ -4,6 +4,7 @@ import com.lazytester.model.Feature;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.runner.Description;
 import org.junit.runner.notification.Failure;
+import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
@@ -58,6 +59,7 @@ public class AnnotationRunner extends ParentRunner<FeatureRunner> {
 
     @Override
     protected void runChild(FeatureRunner featureRunner, RunNotifier notifier) {
+        notifier.addListener(new RunListener());
         Description description = describeChild(featureRunner);
 
         notifier.fireTestStarted(description);
