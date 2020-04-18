@@ -1,0 +1,19 @@
+//TODO 1 Add inheritance between yaml files
+
+//TODO 2 Add method to handle test results:
+//  + handle all the results at the end
+//  + handle the results as soon as they are available: register a RunListener with RunNotifier to be notified of events
+//    that occur during a test run. For example in AnnotationRunner:
+        @Override
+        protected void runChild(FeatureRunner featureRunner, RunNotifier notifier) {
+            notifier.addListener(new RunListener());
+            ....
+        }
+//
+//    See also:
+//      - https://junit.org/junit4/javadoc/4.12/index.html?org/junit/runner/notification/RunListener.html
+//      - https://junit.org/junit4/javadoc/4.12/org/junit/runner/notification/RunNotifier.html
+
+//TODO 3 Finish to implement @YamlUnitTestCase annotation and test it
+
+//TODO 4 Ignore test method marked as @Ignore 
