@@ -3,14 +3,9 @@ package com.lazytester.event;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.SequenceInputStream;
-import java.io.StringReader;
+import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -23,6 +18,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class Utils {
 
@@ -55,7 +51,28 @@ public class Utils {
 
     public static <T> T parse(LinkedList<URL> list, Class<T> clazz) throws IOException {
         Yaml yaml = new Yaml(new Constructor(clazz));
-        return yaml.load(createSequenceInputStream(list));
+//        return yaml.load(createSequenceInputStream(list));
+
+        StringBuilder sb = new StringBuilder();
+        for (URL url: list) {
+            sb.append(readLineByLineJava(url)).append("\n");
+        }
+        String yaml1 = sb.toString();
+        return yaml.loadAll(yaml1);
+    }
+
+    private static String readLineByLineJava(URL filePath) throws IOException {
+        StringBuilder contentBuilder = new StringBuilder();
+        try {
+            try (Stream<String> stream = Files.lines( Paths.get(filePath.toURI()), StandardCharsets.UTF_8)) {
+                stream.forEach(s -> contentBuilder.append(s).append("\n"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (URISyntaxException e) {
+            throw new IOException(e);
+        }
+        return contentBuilder.toString();
     }
 
     public static SequenceInputStream createSequenceInputStream(LinkedList<URL> list) throws IOException {

@@ -1,0 +1,59 @@
+steps:
+  - step: &google
+      name: google
+      loop: 3
+      url: http://www.google.com
+      assertions:
+        status: 200
+
+  - step: &getGoogle
+      <<: *google
+      name: getGoogle
+      operation: GET
+
+  - step: &postGoogle
+      <<: *google
+      name: postGoogle
+      operation: POST
+      loop: 5
+
+scenarios:
+  - scenario: &getFeature
+      name: As simple GET request response
+      loop: 2
+      steps:
+        - getGoogle
+        - postGoogle
+
+  - scenario: &getAndPostScenario
+      name: GET and POST scenario
+      loop: 2
+      steps:
+        - getGoogle
+        - postGoogle
+#include:
+#  - yaml/model/feature.yaml
+---
+scenarios:
+  - scenario: &getFeatureExt1
+      name: EXTENDED As simple GET request response
+      loop: 10
+      <<: *getFeature
+
+  - scenario: &getAndPostScenarioExt1
+      name: EXTENDED GET and POST scenario
+      loop: 15
+      <<: *getAndPostScenario
+#include:
+#  - yaml/model/featureExt1.yaml
+---
+scenarios:
+  - scenario:
+      name: EXTENDED As simple GET request response
+      loop: 100
+      <<: *getFeatureExt1
+
+  - scenario:
+      name: EXTENDED GET and POST scenario
+      loop: 150
+      <<: *getAndPostScenarioExt1
