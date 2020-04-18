@@ -77,7 +77,6 @@ public class ParseYmlFileTest {
     }
 
     @Test
-    @Ignore
     public void includeExtended() throws FileNotFoundException {
         URL file = ParseYmlFileTest.class.getClassLoader().getResource(INCLUDE_EXT);
         ModelFeature modelFeature = Utils.parse(file, ModelFeature.class);

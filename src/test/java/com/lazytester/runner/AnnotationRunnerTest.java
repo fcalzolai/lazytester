@@ -1,6 +1,5 @@
 package com.lazytester.runner;
 
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 
 @YamlUnitTestCase(
@@ -16,7 +15,7 @@ import org.junit.runner.RunWith;
 //        features = {".*/runner/feature.yaml"}
         features = {".*/runner/.*yaml"}
 )
-@Ignore
+
 @RunWith(AnnotationRunner.class)
 public class AnnotationRunnerTest {
 
