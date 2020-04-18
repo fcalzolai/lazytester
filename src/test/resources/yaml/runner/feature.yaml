@@ -3,14 +3,14 @@ steps:
       name: post
       operation: POST
       url: http://jsonplaceholder.typicode.com/posts
-      loop: 3
-      body: "{\"title\": \"foo\",\"body\": \"bar\",\"userId\": 1,\"id\": 101}"
+      loop: 2
+      body: "{\"title\": \"foo\",\"body\": \"bar\",\"userId\": 1}"
       assertions:
         status: 201
 
 scenarios:
   - scenario:
       name: As simple POST request response
-      loop: 2
+      loop: 1
       steps:
         - post
