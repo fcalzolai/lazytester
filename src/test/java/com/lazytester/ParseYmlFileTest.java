@@ -5,6 +5,7 @@ import com.lazytester.model.Step;
 import com.lazytester.model.Steps;
 import com.lazytester.model.Utils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -76,6 +77,7 @@ public class ParseYmlFileTest {
     }
 
     @Test
+    @Ignore
     public void includeExtended() throws FileNotFoundException {
         URL file = ParseYmlFileTest.class.getClassLoader().getResource(INCLUDE_EXT);
         ModelFeature modelFeature = Utils.parse(file, ModelFeature.class);

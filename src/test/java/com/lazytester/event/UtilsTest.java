@@ -5,6 +5,7 @@ import com.lazytester.ParseYmlFileTest;
 import com.lazytester.model.ModelFeature;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -56,6 +57,7 @@ public class UtilsTest {
     }
 
     @Test
+    @Ignore
     public void parseSequenceInputStream() throws IOException {
         URL url = UtilsTest.class.getClassLoader().getResource(INCLUDE_EXT_2);
         LinkedList<URL> paths = Utils.extractAllIncludes(url);

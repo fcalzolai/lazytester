@@ -1,5 +1,6 @@
 package com.lazytester.runner;
 
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 
 // Feature examples using both glob and regex:
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 //        features = {".*runner.*\\.yaml"}
         features = {".*/runner/.*yaml"}
 )
+@Ignore
 @RunWith(AnnotationRunner.class)
 public class AnnotationRunnerTest {
 

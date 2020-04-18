@@ -1,8 +1,7 @@
 package com.lazytester.event;
 
 import com.google.common.collect.Lists;
-import com.lazytester.event.ParserEventHandler;
-import com.lloyds.lazytester.model.Feature;
+import com.lazytester.model.ModelFeature;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -31,7 +30,7 @@ public class ParserEventHandlerTest {
 
     @Test
     public void compose() {
-        Yaml yaml = new Yaml(new Constructor(Feature.class));
+        Yaml yaml = new Yaml(new Constructor(ModelFeature.class));
         Iterable<Event> compose = yaml.parse(new StringReader(STEPS_1));
         LinkedList<Event> list = Lists.newLinkedList(compose);
         System.out.println(list);
