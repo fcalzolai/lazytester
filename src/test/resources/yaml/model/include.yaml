@@ -1,4 +1,4 @@
-include:
+include: !include
   - yaml/model/simple.yaml
 
 scenarios:

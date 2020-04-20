@@ -1,0 +1,6 @@
+!include
+  - yaml/model/feature.yaml
+---
+scenarios:
+  - scenario: scenario1
+  - scenario: scenaroi2

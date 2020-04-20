@@ -1,13 +1,13 @@
-include:
-  - yaml/model/feature.yaml
+!include yaml/model/feature.yaml
 
-scenarios:
-  - scenario: &getFeatureExt1
-      name: EXTENDED As simple GET request response
-      loop: 10
-      <<: *getFeature
-
-  - scenario: &getAndPostScenarioExt1
-      name: EXTENDED GET and POST scenario
-      loop: 15
-      <<: *getAndPostScenario
+#---
+#scenarios:
+#  - scenario: &getFeatureExt1
+#      name: EXTENDED As simple GET request response
+#      loop: 10
+#      <<: *getFeature
+#
+#  - scenario: &getAndPostScenarioExt1
+#      name: EXTENDED GET and POST scenario
+#      loop: 15
+#      <<: *getAndPostScenario
