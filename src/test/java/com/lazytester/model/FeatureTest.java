@@ -1,60 +1,58 @@
 package com.lazytester.model;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class FeatureTest {
 
-    private static final String FEATURE_1 = "steps: \n" +
-            "   - step: &google \n" +
-            "       name: google\n" +
-            "       loop: 3\n" +
-            "       url: http://www.google.com\n" +
-            "   - step:\n" +
-            "       name: getGoogle\n" +
-            "       operation: GET\n" +
-            "       <<: *google\n" +
-            "   - step:\n" +
-            "       name: postGoogle\n" +
-            "       operation: POST\n" +
-            "       loop: 5\n" +
-            "       <<: *google\n" +
+    private static final String FEATURE_1 =
+            "steps: \n" +
+            "   - &google \n" +
+            "     name: google\n" +
+            "     loop: 3\n" +
+            "     url: http://www.google.com\n" +
+            "   - name: getGoogle\n" +
+            "     operation: GET\n" +
+            "     <<: *google\n" +
+            "   - name: postGoogle\n" +
+            "     operation: POST\n" +
+            "     loop: 5\n" +
+            "     <<: *google\n" +
             "\n" +
             "scenarios:\n" +
-            "   - scenario: \n" +
-            "       name: As simple GET request response\n" +
-            "       loop: 2\n" +
-            "       steps:\n" +
-            "           - getGoogle\n" +
-            "           - postGoogle\n" +
-            "   - scenario: \n" +
-            "       name: As simple POST request response\n" +
-            "       loop: 5\n" +
-            "       steps:\n" +
-            "           - getYahoo\n" +
-            "           - deleteYahoo\n" +
-            "           - postYahoo\n" +
+            "   - name: As simple GET request response\n" +
+            "     loop: 2\n" +
+            "     steps:\n" +
+            "         - getGoogle\n" +
+            "         - postGoogle\n" +
+            "   - name: As simple POST request response\n" +
+            "     loop: 5\n" +
+            "     steps:\n" +
+            "         - getYahoo\n" +
+            "         - deleteYahoo\n" +
+            "         - postYahoo\n" +
             "";
 
     @Test
     public void featureCreation() {
         Feature parse = Utils.parse(FEATURE_1, Feature.class);
-        Assert.assertNotNull(parse);
+        assertNotNull(parse);
 
-        List<StepWrapper> steps = parse.getSteps();
-        Assert.assertEquals(3, steps.size());
-        Assert.assertNull(steps.get(0).getStep().getOperation());
-        Assert.assertEquals(Operation.GET, steps.get(1).getStep().getOperation());
-        Assert.assertNotNull(steps.get(1).getStep().getUrl());
+        List<Step> steps = parse.getSteps();
+        assertEquals(3, steps.size());
+        assertNull(steps.get(0).getOperation());
+        assertEquals(Operation.GET, steps.get(1).getOperation());
+        assertNotNull(steps.get(1).getUrl());
 
-        Assert.assertEquals(Operation.POST, steps.get(2).getStep().getOperation());
-        Assert.assertNotNull(steps.get(2).getStep().getUrl());
+        assertEquals(Operation.POST, steps.get(2).getOperation());
+        assertNotNull(steps.get(2).getUrl());
 
-        List<ScenarioWrapper> scenarios = parse.getScenarios();
-        Assert.assertEquals(2, scenarios.size());
-        Assert.assertEquals(2, scenarios.get(0).getScenario().getSteps().size());
-        Assert.assertEquals(3, scenarios.get(1).getScenario().getSteps().size());
+        List<Scenario> scenarios = parse.getScenarios();
+        assertEquals(2, scenarios.size());
+        assertEquals(2, scenarios.get(0).getSteps().size());
+        assertEquals(3, scenarios.get(1).getSteps().size());
     }
 }

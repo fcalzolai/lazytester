@@ -1,7 +1,8 @@
 package com.lazytester.model;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ScenarioTest {
 
@@ -15,10 +16,10 @@ public class ScenarioTest {
     @Test
     public void scenarioCreation() {
         Scenario scenario = Utils.parse(SCENARIO_1, Scenario.class);
-        Assert.assertEquals("As simple GET request response", scenario.getName());
-        Assert.assertEquals((Integer) 2, scenario.getLoop());
-        Assert.assertEquals(true, scenario.getIgnoreStepFailures());
-        Assert.assertEquals(2, scenario.getSteps().size());
+        assertEquals("As simple GET request response", scenario.getName());
+        assertEquals((Integer) 2, scenario.getLoop());
+        assertEquals(true, scenario.getIgnoreStepFailures());
+        assertEquals(2, scenario.getSteps().size());
     }
 
 }

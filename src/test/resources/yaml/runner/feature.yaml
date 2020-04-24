@@ -1,16 +1,14 @@
 steps:
-  - step:
-      name: post
-      operation: POST
-      url: http://jsonplaceholder.typicode.com/posts
-      loop: 2
-      body: "{\"title\": \"foo\",\"body\": \"bar\",\"userId\": 1}"
-      assertions:
-        status: 201
+  - name: post
+    operation: POST
+    url: http://jsonplaceholder.typicode.com/posts
+    loop: 2
+    body: "{\"title\": \"foo\",\"body\": \"bar\",\"userId\": 1}"
+    assertions:
+      status: 201
 
 scenarios:
-  - scenario:
-      name: As simple POST request response
-      loop: 1
-      steps:
-        - post
+  - name: As simple POST request response
+    loop: 1
+    steps:
+      - post

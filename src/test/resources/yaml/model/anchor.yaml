@@ -1,11 +1,9 @@
 steps:
-  - step: &google
-      name: google
-      loop: 3
-      url: http://www.google.com
-
-  - step:
-      loop: 1
-      <<: *google
+  - &google
+    name: google
+    loop: 3
+    url: http://www.google.com
+  - loop: 1
+    <<: *google
 
 

@@ -1,14 +1,13 @@
 package com.lazytester.runner;
 
 import com.google.common.collect.Table;
-import com.lazytester.validator.Validator;
 import com.lazytester.model.Assertions;
 import com.lazytester.model.Feature;
 import com.lazytester.model.Scenario;
-import com.lazytester.model.ScenarioWrapper;
 import com.lazytester.model.Step;
 import com.lazytester.validator.ValidatedAssertions;
 import com.lazytester.validator.ValidationException;
+import com.lazytester.validator.Validator;
 import io.vavr.control.Validation;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.HttpEntity;
@@ -63,8 +62,7 @@ public class FeatureRunner {
 
     public void runFeature() throws IOException {
         long start = System.currentTimeMillis();
-        for (ScenarioWrapper scenarioWrapper : feature.getScenarios()){
-            Scenario scenario = scenarioWrapper.getScenario();
+        for (Scenario scenario : feature.getScenarios()){
             for (int i = 0; i < scenario.getLoop(); i++) {
                 List<Step> steps = feature.getSteps(scenario);
                 for (Step step : steps) {

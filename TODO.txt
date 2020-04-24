@@ -1,4 +1,6 @@
 //TODO 1 Add inheritance between yaml files
+    + It seems this is harder than expected: cfr. add-inheritance branch. Since sneal-yaml does not support it natively,
+      I tried to extend the library but it's not an easy task.
 
 //TODO 2 Add method to handle test results:
 //  + handle all the results at the end

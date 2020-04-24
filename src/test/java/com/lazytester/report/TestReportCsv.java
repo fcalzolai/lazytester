@@ -7,10 +7,9 @@ import com.lazytester.model.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,35 +17,36 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class TestReportCsv {
 
-    private static final String SCENARIO = "steps: \n" +
-            "   - step: \n" +
-            "       name: get\n" +
-            "       operation: GET \n" +
-            "       loop: 2\n" +
-            "       url: \"https://jsonplaceholder.typicode.com/todos/1\" \n" +
-            "       assertions: \n" +
-            "           status: 200\n" +
-            "           body: \n" +
-            "              contains: \"userId\"\n" +
-            "              xpath: $[?(@.userId==1)]\n" +
+    private static final String SCENARIO =
+            "steps: \n" +
+            "   - name: get\n" +
+            "     operation: GET \n" +
+            "     loop: 2\n" +
+            "     url: \"https://jsonplaceholder.typicode.com/todos/1\" \n" +
+            "     assertions: \n" +
+            "         status: 200\n" +
+            "         body: \n" +
+            "            contains: \"userId\"\n" +
+            "            xpath: $[?(@.userId==1)]\n" +
             "scenarios:\n" +
-            "   - scenario: \n" +
-            "       name: As simple GET request response\n" +
-            "       loop: 1\n" +
-            "       steps:\n" +
-            "           - get\n" +
+            "   - name: As simple GET request response\n" +
+            "     loop: 1\n" +
+            "     steps:\n" +
+            "         - get\n" +
             "";
 
     private File csvFile;
 
-    @Before
+    @BeforeEach
     public void before() throws IOException {
         csvFile = File.createTempFile("CsvReport", ".csv");
     }
 
-    @After
+    @AfterEach
     public void after(){
         csvFile.delete();
     }
@@ -63,7 +63,7 @@ public class TestReportCsv {
         String csvLines = readFile(csvpath, Charset.forName("UTF-8"));
         int rows = StringUtils.countMatches(csvLines, "\n");
         int actualRows = results.columnKeySet().size();
-        Assert.assertEquals(actualRows, rows);
+        assertEquals(actualRows, rows);
     }
 
     private FeatureResult runFeature(String scenario) throws IOException {

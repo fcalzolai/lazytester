@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 @Data
 public class Feature {
 
-    private List<StepWrapper> steps = new LinkedList<>();
-    private List<ScenarioWrapper> scenarios = new LinkedList<>();
+    private List<Step> steps = new LinkedList<>();
+    private List<Scenario> scenarios = new LinkedList<>();
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -24,7 +24,6 @@ public class Feature {
     private Map<String, Step> getStepsMap(){
         if(map == null){
             map = steps.stream()
-                    .map(StepWrapper::getStep)
                     .collect(Collectors.toMap(Step::getName, Function.identity()));
         }
         return map;

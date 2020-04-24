@@ -1,33 +1,30 @@
 steps:
-  - step: &google
-      name: google
-      loop: 3
-      url: http://www.google.com
-      assertions:
-        status: 200
-
-  - step: &getGoogle
-      name: getGoogle
-      operation: GET
-      <<: *google
-
-  - step: &postGoogle
-      name: postGoogle
-      operation: POST
-      loop: 5
-      <<: *google
+  - &google
+    name: google
+    loop: 3
+    url: http://www.google.com
+    assertions:
+      status: 200
+  - &getGoogle
+    name: getGoogle
+    operation: GET
+    <<: *google
+  - &postGoogle
+    name: postGoogle
+    operation: POST
+    loop: 5
+    <<: *google
 
 scenarios:
-  - scenario: &getFeature
-      name: As simple GET request response
-      loop: 2
-      steps:
-        - getGoogle
-        - postGoogle
-
-  - scenario: &getAndPostScenario
-      name: GET and POST scenario
-      loop: 2
-      steps:
-        - getGoogle
-        - postGoogle
+  - &getFeature
+    name: As simple GET request response
+    loop: 2
+    steps:
+      - getGoogle
+      - postGoogle
+  - &getAndPostScenario
+    name: GET and POST scenario
+    loop: 2
+    steps:
+      - getGoogle
+      - postGoogle

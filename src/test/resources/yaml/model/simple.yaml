@@ -1,6 +1,5 @@
 steps:
-  - step:
-      name: google
-      loop: 3
-      url: http://www.google.com
+  - name: google
+    loop: 3
+    url: http://www.google.com
 

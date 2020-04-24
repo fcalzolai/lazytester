@@ -1,16 +1,14 @@
 steps:
-  - step:
+  - name: post
 #      In this step the tag operation is missing
-      name: post
-      url: http://jsonplaceholder.typicode.com/posts
-      loop: 3
-      body: "{\"title\": \"foo\",\"body\": \"bar\",\"userId\": 1,\"id\": 101}"
-      assertions:
-        status: 201
+    url: http://jsonplaceholder.typicode.com/posts
+    loop: 3
+    body: "{\"title\": \"foo\",\"body\": \"bar\",\"userId\": 1,\"id\": 101}"
+    assertions:
+      status: 201
 
 scenarios:
-  - scenario:
-      name: As simple POST request response
-      loop: 2
-      steps:
-        - post
+  - name: As simple POST request response
+    loop: 2
+    steps:
+      - post

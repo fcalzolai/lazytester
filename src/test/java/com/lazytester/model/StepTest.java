@@ -1,9 +1,10 @@
 package com.lazytester.model;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StepTest {
 
@@ -66,26 +67,26 @@ public class StepTest {
     public void stepWithParamsCreation() throws UnsupportedEncodingException {
         Step parse = Utils.parse(STEP_4, Step.class);
         String expectedUrl = "http://www.google.com?postId=1&id=2";
-        Assert.assertEquals(expectedUrl, parse.getFullUrl());
-        Assert.assertNotNull(parse.getHttpRequest());
-        Assert.assertEquals(2, parse.getParams().size());
-        Assert.assertEquals(0, parse.getHeaders().size());
-        Assert.assertNull(parse.getAssertions());
+        assertEquals(expectedUrl, parse.getFullUrl());
+        assertNotNull(parse.getHttpRequest());
+        assertEquals(2, parse.getParams().size());
+        assertEquals(0, parse.getHeaders().size());
+        assertNull(parse.getAssertions());
     }
 
     @Test
     public void stepWithHeadersCreation() {
         Step parse = Utils.parse(STEP_5, Step.class);
-        Assert.assertEquals(2, parse.getHeaders().size());
-        Assert.assertEquals(0, parse.getParams().size());
-        Assert.assertNull(parse.getAssertions());
+        assertEquals(2, parse.getHeaders().size());
+        assertEquals(0, parse.getParams().size());
+        assertNull(parse.getAssertions());
     }
 
     @Test
     public void stepWithHeadersAndParamsCreation() {
         Step parse = Utils.parse(STEP_6, Step.class);
-        Assert.assertNotNull(parse.getHeaders());
-        Assert.assertEquals(2, parse.getParams().size());
-        Assert.assertNotNull(parse.getAssertions());
+        assertNotNull(parse.getHeaders());
+        assertEquals(2, parse.getParams().size());
+        assertNotNull(parse.getAssertions());
     }
 }

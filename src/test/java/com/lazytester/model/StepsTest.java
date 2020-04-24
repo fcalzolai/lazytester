@@ -1,25 +1,24 @@
 package com.lazytester.model;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StepsTest {
 
 
-    private static final String STEPS_1 = "steps: \n" +
-            "   - step:\n" +
-            "       name: google\n" +
-            "       loop: 3\n" +
-            "       url: http://www.google.com\n" +
-            "       operation: POST\n" +
-            "   - step:\n" +
-            "       name: google\n" +
-            "       loop: 3\n" +
-            "       url: http://www.google.com\n" +
-            "       operation: DELETE\n" +
-            "   - step:\n" +
-            "       name: google\n" +
-            "       url: http://www.google.com\n" +
+    private static final String STEPS_1 =
+            "steps: \n" +
+            "   - name: google\n" +
+            "     loop: 3\n" +
+            "     url: http://www.google.com\n" +
+            "     operation: POST\n" +
+            "   - name: google\n" +
+            "     loop: 3\n" +
+            "     url: http://www.google.com\n" +
+            "     operation: DELETE\n" +
+            "   - name: google\n" +
+            "     url: http://www.google.com\n" +
             "";
 
     private static final String GOOGLE = "name: google\n" +
@@ -39,19 +38,17 @@ public class StepsTest {
             "" ;
 
     private static final String STEPS_2 = "steps: \n" +
-            "   - step: &google \n" +
-            "       name: google\n" +
-            "       loop: 3\n" +
-            "       url: http://www.google.com\n" +
-            "   - step:\n" +
-            "       name: getGoogle\n" +
-            "       operation: GET\n" +
-            "       <<: *google\n" +
-            "   - step:\n" +
-            "       name: postGoogle\n" +
-            "       operation: POST\n" +
-            "       loop: 5\n" +
-            "       <<: *google\n" +
+            "   - &google \n" +
+            "     name: google\n" +
+            "     loop: 3\n" +
+            "     url: http://www.google.com\n" +
+            "   - name: getGoogle\n" +
+            "     operation: GET\n" +
+            "     <<: *google\n" +
+            "   - name: postGoogle\n" +
+            "     operation: POST\n" +
+            "     loop: 5\n" +
+            "     <<: *google\n" +
             "";
 
     @Test
@@ -62,12 +59,12 @@ public class StepsTest {
     @Test
     public void stepsWithAnchorCreation() {
         Steps steps = Utils.parse(STEPS_2, Steps.class);
-        Step google = steps.getSteps().get(0).getStep();
-        Step getGoogle = steps.getSteps().get(1).getStep();
-        Step postGoogle = steps.getSteps().get(2).getStep();
+        Step google = steps.getSteps().get(0);
+        Step getGoogle = steps.getSteps().get(1);
+        Step postGoogle = steps.getSteps().get(2);
 
-        Assert.assertEquals(Utils.parse(GOOGLE, Step.class), google);
-        Assert.assertEquals(Utils.parse(GET_GOOGLE, Step.class), getGoogle);
-        Assert.assertEquals(Utils.parse(POST_GOOGLE, Step.class), postGoogle);
+        assertEquals(Utils.parse(GOOGLE, Step.class), google);
+        assertEquals(Utils.parse(GET_GOOGLE, Step.class), getGoogle);
+        assertEquals(Utils.parse(POST_GOOGLE, Step.class), postGoogle);
     }
 }
