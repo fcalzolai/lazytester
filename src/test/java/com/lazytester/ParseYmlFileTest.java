@@ -2,7 +2,6 @@ package com.lazytester;
 
 import com.lazytester.model.Feature;
 import com.lazytester.model.Step;
-import com.lazytester.model.Steps;
 import com.lazytester.model.Utils;
 import org.junit.jupiter.api.Test;
 
@@ -27,9 +26,9 @@ public class ParseYmlFileTest {
     @Test
     public void steps() throws FileNotFoundException {
         URL file = ParseYmlFileTest.class.getClassLoader().getResource(STEPS);
-        Steps steps = Utils.parse(file, Steps.class);
-        assertEquals(3, steps.getSteps().size());
-        List<String> actual = steps.getSteps().stream()
+        Feature feature = Utils.parse(file, Feature.class);
+        assertEquals(3, feature.getSteps().size());
+        List<String> actual = feature.getSteps().stream()
                 .map(stepWrapper -> stepWrapper.getName())
                 .collect(Collectors.toList());
         assertThat(actual, containsInAnyOrder("google", "yahoo", "test"));
@@ -38,7 +37,7 @@ public class ParseYmlFileTest {
     @Test
     public void anchor() throws FileNotFoundException {
         URL file = ParseYmlFileTest.class.getClassLoader().getResource(ANCHOR);
-        Steps steps = Utils.parse(file, Steps.class);
+        Feature steps = Utils.parse(file, Feature.class);
         assertTrue(
                 steps.getSteps()
                         .stream()
@@ -51,9 +50,9 @@ public class ParseYmlFileTest {
     @Test
     public void simple() throws FileNotFoundException {
         URL file = ParseYmlFileTest.class.getClassLoader().getResource(SIMPLE);
-        Steps steps = Utils.parse(file, Steps.class);
-        assertEquals(1, steps.getSteps().size());
-        Step step = steps.getSteps().get(0);
+        Feature feature = Utils.parse(file, Feature.class);
+        assertEquals(1, feature.getSteps().size());
+        Step step = feature.getSteps().get(0);
         assertEquals("google", step.getName());
         assertEquals(3, step.getLoop().intValue());
         assertEquals("http://www.google.com", step.getUrl());

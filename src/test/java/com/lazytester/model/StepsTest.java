@@ -53,15 +53,15 @@ public class StepsTest {
 
     @Test
     public void stepsCreation() {
-        Utils.parse(STEPS_1, Steps.class);
+        Utils.parse(STEPS_1, Feature.class);
     }
 
     @Test
     public void stepsWithAnchorCreation() {
-        Steps steps = Utils.parse(STEPS_2, Steps.class);
-        Step google = steps.getSteps().get(0);
-        Step getGoogle = steps.getSteps().get(1);
-        Step postGoogle = steps.getSteps().get(2);
+        Feature feature = Utils.parse(STEPS_2, Feature.class);
+        Step google = feature.getSteps().get(0);
+        Step getGoogle = feature.getSteps().get(1);
+        Step postGoogle = feature.getSteps().get(2);
 
         assertEquals(Utils.parse(GOOGLE, Step.class), google);
         assertEquals(Utils.parse(GET_GOOGLE, Step.class), getGoogle);

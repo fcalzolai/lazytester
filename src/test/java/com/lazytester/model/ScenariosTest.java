@@ -26,9 +26,9 @@ public class ScenariosTest {
 
     @Test
     public void scenariosCreation() {
-        Scenarios scenarios = Utils.parse(SCENARIOS_1, Scenarios.class);
-        assertNotNull(scenarios);
-        List<Scenario> scenarioList = scenarios.getScenarios();
+        Feature feature = Utils.parse(SCENARIOS_1, Feature.class);
+        assertNotNull(feature);
+        List<Scenario> scenarioList = feature.getScenarios();
         assertEquals(2, scenarioList.size());
 
         Scenario scenario_0 = scenarioList.get(0);
